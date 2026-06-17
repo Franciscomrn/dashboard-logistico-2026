@@ -271,7 +271,7 @@ async function showEmpresa(emp){
   } else {
     setSt(data[emp].length+' registros','ok');
     document.getElementById('eUpd').textContent='Atualizado: '+new Date().toLocaleString('pt-BR');
-    updateCards();fillFilters(emp);document.getElementById('fM').value=gML(new Date());applyFilters();
+    updateCards();fillFilters(emp);document.getElementById('fM').value=gML(Math.round((new Date().getTime()/86400000)+25569));applyFilters();
   }
 }
 
@@ -281,7 +281,7 @@ async function reloadEmp(){
   data[currentEmp]=await fetchEmp(currentEmp);
   if(!data[currentEmp].length){setSt('â ï¸ Erro. Clique âï¸ para atualizar o link.','err');return;}
   document.getElementById('eUpd').textContent='Atualizado: '+new Date().toLocaleString('pt-BR');
-  updateCards();setSt(data[currentEmp].length+' registros','ok');fillFilters(currentEmp);document.getElementById('fM').value=gML(new Date());applyFilters();
+  updateCards();setSt(data[currentEmp].length+' registros','ok');fillFilters(currentEmp);document.getElementById('fM').value=gML(Math.round((new Date().getTime()/86400000)+25569));applyFilters();
 }
 
 function setSt(m,t){let e=document.getElementById('stArea');e.innerHTML='<span class="sd d'+t+'"></span>'+m;}
