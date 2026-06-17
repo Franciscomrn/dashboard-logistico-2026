@@ -102,7 +102,7 @@ tbody tr:hover td{background:#0d1527}
 </head>
 <body>
 <header class="site-header">
-  <h1><span>ð</span> Dashboard LogÃ­stico 2026</h1>
+  <h1><span></span> Dashboard LogÃ­stico 2026</h1>
   <div class="hinfo"><b id="hUpd">Carregando...</b><span id="hRec">0 registros</span></div>
 </header>
 
@@ -113,7 +113,7 @@ tbody tr:hover td{background:#0d1527}
   <p class="home-sub">Clique numa empresa para ver o dashboard detalhado</p>
   <div class="cards">
     <div class="card aupa" onclick="showEmpresa('AUPA')">
-      <div class="card-ico">ð¦</div>
+      <div class="card-ico"></div>
       <div class="card-nm">AUPA</div>
       <p class="card-desc">2A Transportes Â· LogÃ­stica<br>AÃ§Ãºcar, CalcÃ¡rio e outros</p>
       <div class="card-stats">
@@ -124,7 +124,7 @@ tbody tr:hover td{background:#0d1527}
       <div class="card-arrow">â</div>
     </div>
     <div class="card abs" onclick="showEmpresa('ABS')">
-      <div class="card-ico">ð©</div>
+      <div class="card-ico"></div>
       <div class="card-nm">ABS</div>
       <p class="card-desc">ABS Transportes Â· LogÃ­stica<br>AÃ§Ãºcar, CalcÃ¡rio e outros</p>
       <div class="card-stats">
@@ -141,12 +141,12 @@ tbody tr:hover td{background:#0d1527}
 <!-- CONFIG PANEL -->
 <button class="cfg-toggle" onclick="toggleCfg()" title="Configurar links">âï¸</button>
 <div class="cfg-panel" id="cfgPanel">
-  <h4>ð Links das Planilhas (Dropbox)</h4>
+  <h4> Links das Planilhas (Dropbox)</h4>
   <label>LOGISTICO 2026 AUPA</label>
   <input type="text" id="cfgAupa" placeholder="https://www.dropbox.com/...?dl=1">
   <label>LOGISTICA 2026 ABS</label>
   <input type="text" id="cfgAbs" placeholder="https://www.dropbox.com/...?dl=1">
-  <button class="cfg-btn" onclick="saveLinks()">ð¾ Salvar e Recarregar</button>
+  <button class="cfg-btn" onclick="saveLinks()"> Salvar e Recarregar</button>
   <p class="cfg-tip">No Dropbox: botÃ£o direito no ficheiro â Copiar link â cole aqui e mude <strong>dl=0</strong> para <strong>dl=1</strong></p>
 </div>
 
@@ -165,7 +165,7 @@ tbody tr:hover td{background:#0d1527}
     <div class="fg"><label>Pagador</label><select id="fPg" onchange="applyFilters()"><option value="">Todos</option></select></div>
     <div class="fg"><label>AÃ§Ãµes</label>
       <div style="display:flex;gap:7px">
-        <button class="btn btn-r" onclick="reloadEmp()">ð Atualizar</button>
+        <button class="btn btn-r" onclick="reloadEmp()"> Atualizar</button>
         <button class="btn btn-a" id="autoBtn" onclick="toggleAuto()">â±ï¸ Auto</button>
       </div>
     </div>
@@ -173,13 +173,13 @@ tbody tr:hover td{background:#0d1527}
   </div>
   <div class="krow" id="kRow"></div>
   <div class="cgrid">
-    <div class="cc"><h3>ð Faturamento por MÃªs</h3><canvas id="cMes"></canvas></div>
-    <div class="cc"><h3>ð¤ Top Motoristas</h3><canvas id="cMot"></canvas></div>
-    <div class="cc"><h3>ð¦ Tipo de Carga</h3><canvas id="cProd"></canvas></div>
-    <div class="cc"><h3>ð° Frete vs Faturamento</h3><canvas id="cComp"></canvas></div>
+    <div class="cc"><h3> Faturamento por MÃªs</h3><canvas id="cMes"></canvas></div>
+    <div class="cc"><h3> Top Motoristas</h3><canvas id="cMot"></canvas></div>
+    <div class="cc"><h3> Tipo de Carga</h3><canvas id="cProd"></canvas></div>
+    <div class="cc"><h3> Frete vs Faturamento</h3><canvas id="cComp"></canvas></div>
   </div>
   <div class="tsec">
-    <div class="ttop"><h3>ð Registros</h3><span id="tCnt"></span></div>
+    <div class="ttop"><h3> Registros</h3><span id="tCnt"></span></div>
     <table><thead><tr><th>Data</th><th>Motorista</th><th>Carga</th><th>CTE</th><th>Peso(t)</th><th>Frete</th><th>Faturamento</th><th>Pagador</th><th>PedÃ¡gio</th></tr></thead><tbody id="tBody"></tbody></table>
   </div>
 </div>
@@ -271,7 +271,7 @@ async function showEmpresa(emp){
   } else {
     setSt(data[emp].length+' registros','ok');
     document.getElementById('eUpd').textContent='Atualizado: '+new Date().toLocaleString('pt-BR');
-    updateCards();fillFilters(emp);applyFilters();
+    updateCards();fillFilters(emp);document.getElementById('fM').value=gML(new Date());applyFilters();
   }
 }
 
@@ -281,7 +281,7 @@ async function reloadEmp(){
   data[currentEmp]=await fetchEmp(currentEmp);
   if(!data[currentEmp].length){setSt('â ï¸ Erro. Clique âï¸ para atualizar o link.','err');return;}
   document.getElementById('eUpd').textContent='Atualizado: '+new Date().toLocaleString('pt-BR');
-  updateCards();setSt(data[currentEmp].length+' registros','ok');fillFilters(currentEmp);applyFilters();
+  updateCards();setSt(data[currentEmp].length+' registros','ok');fillFilters(currentEmp);document.getElementById('fM').value=gML(new Date());applyFilters();
 }
 
 function setSt(m,t){let e=document.getElementById('stArea');e.innerHTML='<span class="sd d'+t+'"></span>'+m;}
