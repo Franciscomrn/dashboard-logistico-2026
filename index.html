@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Logístico 2026 - AUPA & ABS</title>
+<script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Tahoma,sans-serif}
+body{background:#0f172a;color:#e2e8f0;min-height:100vh}
+header{background:linear-gradient(135deg,#1e3a5f,#0f2027);padding:18px 28px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #2563eb;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.5)}
+header h1{font-size:1.45rem;font-weight:700;color:#60a5fa}
+.hright{text-align:right;font-size:.78rem;color:#94a3b8}
+.hright span{display:block}
+.top-bar{background:#1e293b;padding:10px 28px;display:flex;gap:14px;flex-wrap:wrap;align-items:center;border-bottom:1px solid #334155}
+.top-bar select{background:#0f172a;color:#e2e8f0;border:1px solid #334155;border-radius:6px;padding:6px 10px;font-size:.82rem;cursor:pointer;min-width:125px}
+.top-bar select:focus{outline:none;border-color:#2563eb}
+.filter-grp label{font-size:.68rem;color:#64748b;text-transform:uppercase;display:block;margin-bottom:4px;letter-spacing:.04em}
+.btn{padding:8px 18px;border:none;border-radius:7px;cursor:pointer;font-weight:600;font-size:.82rem;transition:.15s}
+.btn-primary{background:#2563eb;color:#fff}.btn-primary:hover{background:#1d4ed8}
+.btn-auto{background:#065f46;color:#34d399}.btn-auto:hover{background:#047857}
+.btn-auto.active{background:#7f1d1d;color:#fca5a5}
+.status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}
+.dot-ok{background:#34d399}.dot-err{background:#f87171}.dot-load{background:#fbbf24;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:13px;padding:18px 28px}
+.kpi{background:#1e293b;border-radius:11px;padding:16px 18px;border:1px solid #334155;transition:.2s}
+.kpi:hover{border-color:#2563eb;transform:translateY(-1px)}
+.kpi-lbl{font-size:.67rem;color:#475569;text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px}
+.kpi-val{font-size:1.5rem;font-weight:800;line-height:1.1}
+.kpi-sub{font-size:.7rem;color:#475569;margin-top:4px}
+.cb{color:#60a5fa}.cg{color:#34d399}.cy{color:#fbbf24}.cp{color:#a78bfa}.cc{color:#22d3ee}.cr{color:#f87171}
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:0 28px 18px}
+.cc-card{background:#1e293b;border-radius:11px;padding:18px;border:1px solid #334155}
+.cc-card h3{font-size:.8rem;color:#64748b;margin-bottom:13px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+canvas{max-height:255px!important}
+.tbl-wrap{padding:0 28px 34px}
+.tbl-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+.tbl-header h3{font-size:.85rem;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.tbl-header span{font-size:.75rem;color:#475569}
+.tbl-wrap table{width:100%;border-collapse:collapse;font-size:.79rem}
+thead th{background:#0f172a;color:#475569;padding:9px 13px;text-align:left;border-bottom:2px solid #1e293b;font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+tbody td{padding:7px 13px;border-bottom:1px solid #1a2235;color:#cbd5e1;vertical-align:middle}
+tbody tr:hover td{background:#1e2840}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+.b-aupa{background:#1d4ed830;color:#93c5fd;border:1px solid #1d4ed8}
+.b-abs{background:#06594630;color:#6ee7b7;border:1px solid #059669}
+.b-prod{background:#4c1d9530;color:#c4b5fd;border:1px solid #6d28d9}
+@media(max-width:900px){.charts-grid{grid-template-columns:1fr}.kpi-grid{grid-template-columns:repeat(2,1fr)}.top-bar{overflow-x:auto}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🚛 Dashboard Logístico 2026</h1>
+  <div class="hright">
+    <span id="lastUpd">Aguardando...</span>
+    <span id="recCount" style="color:#334155">0 registros</span>
+  </div>
+</header>
+
+<div class="top-bar">
+  <div class="filter-grp"><label>Empresa</label><select id="fE" onchange="applyFilters()"><option value="">Todas</option></select></div>
+  <div class="filter-grp"><label>Mês</label><select id="fM" onchange="applyFilters()"><option value="">Todos</option></select></div>
+  <div class="filter-grp"><label>Motorista</label><select id="fMo" onchange="applyFilters()"><option value="">Todos</option></select></div>
+  <div class="filter-grp"><label>Tipo de Carga</label><select id="fP" onchange="applyFilters()"><option value="">Todos</option></select></div>
+  <div class="filter-grp"><label>Pagador</label><select id="fPg" onchange="applyFilters()"><option value="">Todos</option></select></div>
+  <div class="filter-grp"><label>Ações</label>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-primary" onclick="loadData()" title="Atualizar dados agora">🔄 Atualizar</button>
+      <button class="btn btn-auto" id="autoBtn" onclick="toggleAuto()">⏱️ Auto</button>
+    </div>
+  </div>
+  <span id="statusArea" style="font-size:.78rem;color:#94a3b8"></span>
+</div>
+
+<div class="kpi-grid" id="kpiGrid"></div>
+<div class="charts-grid" id="chartsGrid" style="display:none">
+  <div class="cc-card"><h3>📅 Faturamento por Mês</h3><canvas id="cMes"></canvas></div>
+  <div class="cc-card"><h3>👤 Top Motoristas</h3><canvas id="cMot"></canvas></div>
+  <div class="cc-card"><h3>📦 Tipo de Carga</h3><canvas id="cProd"></canvas></div>
+  <div class="cc-card"><h3>🏢 AUPA vs ABS</h3><canvas id="cEmp"></canvas></div>
+</div>
+<div class="tbl-wrap" id="tblWrap" style="display:none">
+  <div class="tbl-header"><h3>📋 Viagens</h3><span id="tblCount"></span></div>
+  <table><thead><tr><th>Empresa</th><th>Data</th><th>Motorista</th><th>Carga</th><th>CTE</th><th>Peso(t)</th><th>Frete</th><th>Faturamento</th><th>Pagador</th><th>Pedágio</th></tr></thead><tbody id="tBody"></tbody></table>
+</div>
+
+<script>
+const MESES=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+const COLORS=['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6','#06b6d4','#f97316','#84cc16','#ec4899','#14b8a6','#a78bfa','#fb923c'];
+// ===== LINKS DOS ARQUIVOS DROPBOX (dl=1 = download direto) =====
+const URL_AUPA = 'https://www.dropbox.com/scl/fi/k0sohs0mwjz6z9l2141c7/LOGISTICO-2026-AUPA.xlsx?rlkey=rpiw6q6lobyy6asofm8ytsykr&dl=1';
+const URL_ABS  = 'https://www.dropbox.com/scl/fi/gnwwx4722tmrnj3ztl2ik/LOGISTICA-2026-ABS.xlsx?rlkey=0wrkrqc5hpq19hj06jwa4o0xd&dl=1';
+// ==============================================================
+let allData=[],charts={},autoTimer=null;
+
+function fmtBRL(v){return'R$ '+Number(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function parseVal(v){
+  if(!v&&v!==0)return 0;if(typeof v==='number')return v;
+  return parseFloat(String(v).replace(/R\$\s*/g,'').replace(/\./g,'').replace(',','.'))||0;
+}
+function toDateStr(d){
+  if(!d)return'';
+  if(typeof d==='number'){let dt=new Date(Math.round((d-25569)*86400000));return(dt.getMonth()+1)+'/'+dt.getDate()+'/'+dt.getFullYear();}
+  return String(d);
+}
+function getMesNum(d){
+  if(!d)return 0;
+  if(typeof d==='number'){return new Date(Math.round((d-25569)*86400000)).getMonth()+1;}
+  let m=String(d).match(/^(\d{1,2})\//);return m?parseInt(m[1]):0;
+}
+function getMesLbl(d){let m=getMesNum(d);return m?MESES[m-1]+'/26':'';}
+
+function parseWB(wb,emp){
+  let rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:''});
+  if(!rows||rows.length<2)return[];
+  let h=rows[0].map(x=>String(x).trim().toUpperCase());
+  let i={dt:h.findIndex(x=>x.includes('DATA')),mo:h.findIndex(x=>x.includes('MOTORISTA')),pr:h.findIndex(x=>x.includes('PRODUTO')||x.includes('TIPO')),ct:h.findIndex(x=>x.includes('CTE')),ps:h.findIndex(x=>x.includes('PESO')),fr:h.findIndex(x=>x.includes('FRETE')),ft:h.findIndex(x=>x.includes('FATURAMENTO')),pg:h.findIndex(x=>x.includes('PAGADOR')),vl:h.findIndex(x=>x==='VALOR'),pd:h.findIndex(x=>x.includes('PEDAGIO')||x.includes('PEDÁGIO'))};
+  return rows.slice(1).filter(r=>{
+    let mot=i.mo>=0?String(r[i.mo]||'').trim():'';
+    return mot&&mot!=='0'&&mot!=='MOTORISTA'&&mot.length>1;
+  }).map(r=>({
+    emp,data:i.dt>=0?r[i.dt]:'',mes:getMesLbl(i.dt>=0?r[i.dt]:''),mesN:getMesNum(i.dt>=0?r[i.dt]:''),
+    mot:String(r[i.mo]||'').trim().toUpperCase(),
+    prod:i.pr>=0?String(r[i.pr]||'').trim().toUpperCase():'',
+    cte:i.ct>=0?String(r[i.ct]||'').trim():'',
+    peso:parseVal(i.ps>=0?r[i.ps]:0),
+    frete:parseVal(i.fr>=0?r[i.fr]:0),
+    fat:parseVal(i.ft>=0?r[i.ft]:i.vl>=0?r[i.vl]:0),
+    pag:i.pg>=0?String(r[i.pg]||'').trim().toUpperCase():'',
+    ped:parseVal(i.pd>=0?r[i.pd]:0)
+  }));
+}
+
+async function fetchFile(url,emp){
+  let dlUrl=url.replace('www.dropbox.com','dl.dropboxusercontent.com');
+  try{
+    let res=await fetch(dlUrl,{cache:'no-cache'});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    return parseWB(XLSX.read(await res.arrayBuffer(),{type:'array'}),emp);
+  }catch(e){
+    try{let res2=await fetch(url,{cache:'no-cache'});return parseWB(XLSX.read(await res2.arrayBuffer(),{type:'array'}),emp);}
+    catch(e2){console.error(emp,e2);setStatus('❌ Erro: '+emp,'err');return[];}
+  }
+}
+
+function setStatus(msg,t){
+  let el=document.getElementById('statusArea');
+  let dot=t==='ok'?'dot-ok':t==='err'?'dot-err':'dot-load';
+  el.innerHTML='<span class="status-dot '+dot+'"></span>'+msg;
+}
+
+async function loadData(){
+  setStatus('Carregando...','load');
+  allData=[];
+  await Promise.all([
+    fetchFile(URL_AUPA,'AUPA').then(d=>allData.push(...d)),
+    fetchFile(URL_ABS,'ABS').then(d=>allData.push(...d))
+  ]);
+  if(!allData.length){setStatus('Sem dados','err');return;}
+  setStatus(allData.length+' registros','ok');
+  let now=new Date().toLocaleString('pt-BR');
+  document.getElementById('lastUpd').textContent='Atualizado: '+now;
+  document.getElementById('recCount').textContent=allData.length+' registros';
+  fillFilters();applyFilters();
+  document.getElementById('chartsGrid').style.display='grid';
+  document.getElementById('tblWrap').style.display='block';
+}
+
+function fillFilters(){
+  let fill=(id,vals)=>{let s=document.getElementById(id),c=s.value;s.innerHTML='<option value="">Todos</option>';[...new Set(vals)].filter(Boolean).sort().forEach(v=>s.innerHTML+='<option value="'+v+'">'+v+'</option>');if(c)s.value=c;};
+  let selM=document.getElementById('fM'),cM=selM.value;
+  let meses=[...new Set(allData.map(r=>r.mes).filter(Boolean))].sort((a,b)=>MESES.indexOf(a.split('/')[0])-MESES.indexOf(b.split('/')[0]));
+  selM.innerHTML='<option value="">Todos</option>';meses.forEach(m=>selM.innerHTML+='<option value="'+m+'">'+m+'</option>');if(cM)selM.value=cM;
+  let selE=document.getElementById('fE'),cE=selE.value;
+  selE.innerHTML='<option value="">Todas</option>';[...new Set(allData.map(r=>r.emp))].sort().forEach(v=>selE.innerHTML+='<option value="'+v+'">'+v+'</option>');if(cE)selE.value=cE;
+  fill('fMo',allData.map(r=>r.mot));fill('fP',allData.map(r=>r.prod));fill('fPg',allData.map(r=>r.pag));
+}
+
+function filtered(){
+  let e=document.getElementById('fE').value,m=document.getElementById('fM').value,mo=document.getElementById('fMo').value,p=document.getElementById('fP').value,pg=document.getElementById('fPg').value;
+  return allData.filter(r=>(!e||r.emp===e)&&(!m||r.mes===m)&&(!mo||r.mot===mo)&&(!p||r.prod===p)&&(!pg||r.pag===pg));
+}
+
+function applyFilters(){let d=filtered();renderKPIs(d);renderCharts(d);renderTable(d.slice(0,1000));}
+
+function renderKPIs(d){
+  let fat=d.reduce((s,r)=>s+r.fat,0),fr=d.reduce((s,r)=>s+r.frete,0),ps=d.reduce((s,r)=>s+r.peso,0),pd=d.reduce((s,r)=>s+r.ped,0),n=d.length;
+  let na=d.filter(r=>r.emp==='AUPA').length,nb=d.filter(r=>r.emp==='ABS').length;
+  document.getElementById('kpiGrid').innerHTML=
+    K('Faturamento Bruto Total',fmtBRL(fat),n+' viagens','cb')+
+    K('Valor Frete Total',fmtBRL(fr),'Média: '+fmtBRL(n?fr/n:0),'cg')+
+    K('Peso Total (ton)',ps.toLocaleString('pt-BR',{maximumFractionDigits:1}),'Média: '+(ps/Math.max(1,n)).toFixed(2)+'t','cy')+
+    K('Viagens AUPA',na,'de '+n+' total','cp')+
+    K('Viagens ABS',nb,'de '+n+' total','cc')+
+    K('Total Pedágios',fmtBRL(pd),'','cr');
+}
+function K(l,v,s,c){return'<div class="kpi"><div class="kpi-lbl">'+l+'</div><div class="kpi-val '+c+'">'+v+'</div><div class="kpi-sub">'+s+'</div></div>';}
+
+function mk(id,type,labels,datasets,extra={}){
+  if(charts[id])charts[id].destroy();
+  charts[id]=new Chart(document.getElementById(id).getContext('2d'),{type,data:{labels,datasets},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{labels:{color:'#94a3b8',font:{size:10}}}},scales:type!=='doughnut'&&type!=='pie'?{x:{ticks:{color:'#64748b',font:{size:10}},grid:{color:'#1e3050'},...(extra.x||{})},y:{ticks:{color:'#64748b',font:{size:10},callback:v=>'R$'+Math.round(v/1000)+'k'},grid:{color:'#1e3050'},...(extra.y||{})}}:{},...extra.opts}});
+}
+
+function renderCharts(d){
+  let byM={},byMo={},byP={},byE={};
+  d.forEach(r=>{
+    if(r.mes){if(!byM[r.mes])byM[r.mes]=0;byM[r.mes]+=r.fat;}
+    if(r.mot){if(!byMo[r.mot])byMo[r.mot]=0;byMo[r.mot]+=r.fat;}
+    if(r.prod){if(!byP[r.prod])byP[r.prod]=0;byP[r.prod]+=r.fat;}
+    if(!byE[r.emp])byE[r.emp]={fat:0,fr:0};byE[r.emp].fat+=r.fat;byE[r.emp].fr+=r.frete;
+  });
+  let mK=Object.keys(byM).sort((a,b)=>MESES.indexOf(a.split('/')[0])-MESES.indexOf(b.split('/')[0]));
+  mk('cMes','bar',mK,[{label:'Faturamento (R$)',data:mK.map(k=>byM[k]),backgroundColor:'#3b82f6',borderRadius:4}]);
+  let moK=Object.keys(byMo).sort((a,b)=>byMo[b]-byMo[a]).slice(0,10);
+  mk('cMot','bar',moK,[{label:'Faturamento',data:moK.map(k=>byMo[k]),backgroundColor:COLORS,borderRadius:4}],{x:{},y:{}});
+  let pK=Object.keys(byP).sort((a,b)=>byP[b]-byP[a]);
+  mk('cProd','doughnut',pK,[{data:pK.map(k=>byP[k]),backgroundColor:COLORS,borderWidth:2}]);
+  let eK=Object.keys(byE);
+  mk('cEmp','bar',eK,[{label:'Faturamento',data:eK.map(k=>byE[k].fat),backgroundColor:'#3b82f6',borderRadius:4},{label:'Frete',data:eK.map(k=>byE[k].fr),backgroundColor:'#10b981',borderRadius:4}]);
+}
+
+function renderTable(d){
+  document.getElementById('tblCount').textContent='(mostrando '+d.length+' de '+filtered().length+' registros)';
+  document.getElementById('tBody').innerHTML=d.map(r=>'<tr><td><span class="badge '+(r.emp==='AUPA'?'b-aupa':'b-abs')+'">'+r.emp+'</span></td><td style="white-space:nowrap">'+toDateStr(r.data)+'</td><td><strong>'+r.mot+'</strong></td><td><span class="badge b-prod">'+(r.prod||'-')+'</span></td><td style="color:#475569">'+(r.cte||'-')+'</td><td>'+(r.peso>0?r.peso.toFixed(2):'-')+'</td><td style="color:#60a5fa">'+(r.frete>0?fmtBRL(r.frete):'-')+'</td><td><strong style="color:#34d399">'+(r.fat>0?fmtBRL(r.fat):'-')+'</strong></td><td style="color:#94a3b8">'+(r.pag||'-')+'</td><td style="color:#f87171">'+(r.ped>0?fmtBRL(r.ped):'-')+'</td></tr>').join('');
+}
+
+let autoOn=false;
+function toggleAuto(){
+  autoOn=!autoOn;let btn=document.getElementById('autoBtn');
+  if(autoOn){btn.textContent='⏹️ Parar Auto';btn.classList.add('active');autoTimer=setInterval(loadData,5*60*1000);}
+  else{btn.textContent='⏱️ Auto';btn.classList.remove('active');clearInterval(autoTimer);}
+}
+
+// Carregar dados automaticamente ao abrir
+loadData();
+</script>
+</body>
+</html>
