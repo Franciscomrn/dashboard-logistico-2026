@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Dashboard LogÃ­stico 2026</title>
+<title>Dashboard Logístico 2026</title>
 <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
@@ -102,7 +102,7 @@ tbody tr:hover td{background:#0d1527}
 </head>
 <body>
 <header class="site-header">
-  <h1><span></span> Dashboard LogÃ­stico 2026</h1>
+  <h1><span></span> Dashboard Logístico 2026</h1>
   <div class="hinfo"><b id="hUpd">Carregando...</b><span id="hRec">0 registros</span></div>
 </header>
 
@@ -115,31 +115,31 @@ tbody tr:hover td{background:#0d1527}
     <div class="card aupa" onclick="showEmpresa('AUPA')">
       <div class="card-ico"></div>
       <div class="card-nm">AUPA</div>
-      <p class="card-desc">2A Transportes Â· LogÃ­stica<br>AÃ§Ãºcar, CalcÃ¡rio e outros</p>
+      <p class="card-desc">2A Transportes · Logística<br>Açúcar, Calcário e outros</p>
       <div class="card-stats">
-        <div class="cs"><div class="csv" id="cs-aupa-f">â</div><div class="csl">Faturamento</div></div>
-        <div class="cs"><div class="csv" id="cs-aupa-v">â</div><div class="csl">Viagens</div></div>
-        <div class="cs"><div class="csv" id="cs-aupa-m">â</div><div class="csl">Motoristas</div></div>
+        <div class="cs"><div class="csv" id="cs-aupa-f">—</div><div class="csl">Faturamento</div></div>
+        <div class="cs"><div class="csv" id="cs-aupa-v">—</div><div class="csl">Viagens</div></div>
+        <div class="cs"><div class="csv" id="cs-aupa-m">—</div><div class="csl">Motoristas</div></div>
       </div>
-      <div class="card-arrow">â</div>
+      <div class="card-arrow">→</div>
     </div>
     <div class="card abs" onclick="showEmpresa('ABS')">
       <div class="card-ico"></div>
       <div class="card-nm">ABS</div>
-      <p class="card-desc">ABS Transportes Â· LogÃ­stica<br>AÃ§Ãºcar, CalcÃ¡rio e outros</p>
+      <p class="card-desc">ABS Transportes · Logística<br>Açúcar, Calcário e outros</p>
       <div class="card-stats">
-        <div class="cs"><div class="csv" id="cs-abs-f">â</div><div class="csl">Faturamento</div></div>
-        <div class="cs"><div class="csv" id="cs-abs-v">â</div><div class="csl">Viagens</div></div>
-        <div class="cs"><div class="csv" id="cs-abs-m">â</div><div class="csl">Motoristas</div></div>
+        <div class="cs"><div class="csv" id="cs-abs-f">—</div><div class="csl">Faturamento</div></div>
+        <div class="cs"><div class="csv" id="cs-abs-v">—</div><div class="csl">Viagens</div></div>
+        <div class="cs"><div class="csv" id="cs-abs-m">—</div><div class="csl">Motoristas</div></div>
       </div>
-      <div class="card-arrow">â</div>
+      <div class="card-arrow">→</div>
     </div>
   </div>
   <div class="loading-bar" id="ldBar"><div class="spin"></div>Carregando dados das planilhas...</div>
 </div>
 
 <!-- CONFIG PANEL -->
-<button class="cfg-toggle" onclick="toggleCfg()" title="Configurar links">âï¸</button>
+<button class="cfg-toggle" onclick="toggleCfg()" title="Configurar links">⚙️</button>
 <div class="cfg-panel" id="cfgPanel">
   <h4> Links das Planilhas (Dropbox)</h4>
   <label>LOGISTICO 2026 AUPA</label>
@@ -147,40 +147,40 @@ tbody tr:hover td{background:#0d1527}
   <label>LOGISTICA 2026 ABS</label>
   <input type="text" id="cfgAbs" placeholder="https://www.dropbox.com/...?dl=1">
   <button class="cfg-btn" onclick="saveLinks()"> Salvar e Recarregar</button>
-  <p class="cfg-tip">No Dropbox: botÃ£o direito no ficheiro â Copiar link â cole aqui e mude <strong>dl=0</strong> para <strong>dl=1</strong></p>
+  <p class="cfg-tip">No Dropbox: botão direito no ficheiro → Copiar link → cole aqui e mude <strong>dl=0</strong> para <strong>dl=1</strong></p>
 </div>
 
 <!-- EMPRESA -->
 <div id="empresaScreen">
   <div class="emp-bar">
-    <button class="back-btn" onclick="showHome()">â Voltar</button>
+    <button class="back-btn" onclick="showHome()">← Voltar</button>
     <span class="emp-badge" id="eBadge"></span>
     <span class="emp-nm" id="eNm"></span>
     <span class="emp-upd" id="eUpd"></span>
   </div>
   <div class="fbar">
-    <div class="fg"><label>MÃªs</label><select id="fM" onchange="applyFilters()"><option value="">Todos</option></select></div>
+    <div class="fg"><label>Mês</label><select id="fM" onchange="applyFilters()"><option value="">Todos</option></select></div>
     <div class="fg"><label>Motorista</label><select id="fMo" onchange="applyFilters()"><option value="">Todos</option></select></div>
     <div class="fg"><label>Tipo de Carga</label><select id="fP" onchange="applyFilters()"><option value="">Todos</option></select></div>
     <div class="fg"><label>Pagador</label><select id="fPg" onchange="applyFilters()"><option value="">Todos</option></select></div>
-    <div class="fg"><label>AÃ§Ãµes</label>
+    <div class="fg"><label>Ações</label>
       <div style="display:flex;gap:7px">
         <button class="btn btn-r" onclick="reloadEmp()"> Atualizar</button>
-        <button class="btn btn-a" id="autoBtn" onclick="toggleAuto()">â±ï¸ Auto</button>
+        <button class="btn btn-a" id="autoBtn" onclick="toggleAuto()">⏱️ Auto</button>
       </div>
     </div>
     <span id="stArea" style="font-size:.72rem;color:#64748b;align-self:center"></span>
   </div>
   <div class="krow" id="kRow"></div>
   <div class="cgrid">
-    <div class="cc"><h3> Faturamento por MÃªs</h3><canvas id="cMes"></canvas></div>
+    <div class="cc"><h3> Faturamento por Mês</h3><canvas id="cMes"></canvas></div>
     <div class="cc"><h3> Top Motoristas</h3><canvas id="cMot"></canvas></div>
     <div class="cc"><h3> Tipo de Carga</h3><canvas id="cProd"></canvas></div>
     <div class="cc"><h3> Frete vs Faturamento</h3><canvas id="cComp"></canvas></div>
   </div>
   <div class="tsec">
     <div class="ttop"><h3> Registros</h3><span id="tCnt"></span></div>
-    <table><thead><tr><th>Data</th><th>Motorista</th><th>Carga</th><th>CTE</th><th>Peso(t)</th><th>Frete</th><th>Faturamento</th><th>Pagador</th><th>PedÃ¡gio</th></tr></thead><tbody id="tBody"></tbody></table>
+    <table><thead><tr><th>Data</th><th>Motorista</th><th>Carga</th><th>CTE</th><th>Peso(t)</th><th>Frete</th><th>Faturamento</th><th>Pagador</th><th>Pedágio</th></tr></thead><tbody id="tBody"></tbody></table>
   </div>
 </div>
 
@@ -209,7 +209,7 @@ function parseWB(wb,emp){
   let rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames.find(n=>/contr.*log/i.test(n)||/log.*contr/i.test(n))||wb.SheetNames[0]],{header:1,defval:''});
   if(!rows||rows.length<2)return[];
   let hIdx=rows.findIndex(r=>r.some(x=>String(x).toUpperCase().includes('MOTORISTA')));if(hIdx<0)return[];let h=rows[hIdx].map(x=>String(x).trim().toUpperCase());
-  let i={dt:h.findIndex(x=>x.includes('DATA')),mo:h.findIndex(x=>x.includes('MOTORISTA')),pr:h.findIndex(x=>x.includes('PRODUTO')||x.includes('TIPO')||x.includes('TRANSP')||x.includes('CARGA')),ct:h.findIndex(x=>x.includes('CTE')),ps:h.findIndex(x=>x.includes('PESO')),fr:h.findIndex(x=>x.includes('FRETE')),ft:h.findIndex(x=>x.includes('FATURAMENTO')),pg:h.findIndex(x=>x.includes('PAGADOR')),vl:h.findIndex(x=>x==='VALOR'),pd:h.findIndex(x=>x.includes('PEDAGIO')||x.includes('PEDÃGIO'))};
+  let i={dt:h.findIndex(x=>x.includes('DATA')),mo:h.findIndex(x=>x.includes('MOTORISTA')),pr:h.findIndex(x=>x.includes('PRODUTO')||x.includes('TIPO')||x.includes('TRANSP')||x.includes('CARGA')),ct:h.findIndex(x=>x.includes('CTE')),ps:h.findIndex(x=>x.includes('PESO')),fr:h.findIndex(x=>x.includes('FRETE')),ft:h.findIndex(x=>x.includes('FATURAMENTO')),pg:h.findIndex(x=>x.includes('PAGADOR')),vl:h.findIndex(x=>x==='VALOR'),pd:h.findIndex(x=>x.includes('PEDAGIO')||x.includes('PEDÁGIO'))};
   return rows.slice(hIdx+1).filter(r=>{let mo=i.mo>=0?String(r[i.mo]||'').trim():'';return mo&&mo!=='0'&&mo!=='MOTORISTA'&&mo.length>1}).map(r=>({emp,data:i.dt>=0?r[i.dt]:'',mes:gML(i.dt>=0?r[i.dt]:''),mesN:gMN(i.dt>=0?r[i.dt]:''),mot:String(r[i.mo]||'').trim().toUpperCase(),prod:i.pr>=0?String(r[i.pr]||'').trim().toUpperCase():'',cte:i.ct>=0?String(r[i.ct]||'').trim():'',peso:pv(i.ps>=0?r[i.ps]:0),frete:pv(i.fr>=0?r[i.fr]:0),fat:pv(i.ft>=0?r[i.ft]:i.vl>=0?r[i.vl]:0),pag:i.pg>=0?String(r[i.pg]||'').trim().toUpperCase():'',ped:pv(i.pd>=0?r[i.pd]:0)}));
 }
 
@@ -222,7 +222,7 @@ async function fetchEmp(emp){
     try{let r=await fetch(u,{cache:'no-cache'});if(r.ok){let buf=await r.arrayBuffer();return parseWB(XLSX.read(buf,{type:'array'}),emp);}
     }catch(e){}
   }
-  console.warn(emp+': all fetch attempts failed. Open âï¸ and paste a fresh Dropbox link.');
+  console.warn(emp+': all fetch attempts failed. Open ⚙️ and paste a fresh Dropbox link.');
   return[];
 }
 
@@ -251,7 +251,7 @@ function showHome(){
   document.getElementById('homeScreen').style.display='flex';
   document.getElementById('empresaScreen').style.display='none';
   currentEmp=null;clearInterval(autoTimer);
-  document.getElementById('autoBtn').textContent='â±ï¸ Auto';
+  document.getElementById('autoBtn').textContent='⏱️ Auto';
   document.getElementById('autoBtn').classList.remove('on');
 }
 
@@ -262,12 +262,12 @@ async function showEmpresa(emp){
   let isA=emp==='AUPA';
   document.getElementById('eBadge').textContent=emp;
   document.getElementById('eBadge').className='emp-badge '+(isA?'aupa':'abs');
-  document.getElementById('eNm').textContent=isA?'AUPA â 2A Transportes':'ABS â ABS Transportes';
+  document.getElementById('eNm').textContent=isA?'AUPA — 2A Transportes':'ABS — ABS Transportes';
   document.getElementById('eNm').className='emp-nm '+(isA?'aupa':'abs');
   setSt('Carregando...','ld');
   if(!data[emp]||!data[emp].length){data[emp]=await fetchEmp(emp);}
   if(!data[emp].length){
-    setSt('â ï¸ NÃ£o foi possÃ­vel carregar. Clique âï¸ e insira o link do Dropbox.','err');
+    setSt('⚠️ Não foi possível carregar. Clique ⚙️ e insira o link do Dropbox.','err');
   } else {
     setSt(data[emp].length+' registros','ok');
     document.getElementById('eUpd').textContent='Atualizado: '+new Date().toLocaleString('pt-BR');
@@ -279,7 +279,7 @@ async function reloadEmp(){
   if(!currentEmp)return;
   setSt('Atualizando...','ld');
   data[currentEmp]=await fetchEmp(currentEmp);
-  if(!data[currentEmp].length){setSt('â ï¸ Erro. Clique âï¸ para atualizar o link.','err');return;}
+  if(!data[currentEmp].length){setSt('⚠️ Erro. Clique ⚙️ para atualizar o link.','err');return;}
   document.getElementById('eUpd').textContent='Atualizado: '+new Date().toLocaleString('pt-BR');
   updateCards();setSt(data[currentEmp].length+' registros','ok');fillFilters(currentEmp);document.getElementById('fM').value=gML(Math.round((new Date().getTime()/86400000)+25569));applyFilters();
 }
@@ -300,7 +300,7 @@ function applyFilters(){let d=gf();renderKPIs(d);renderCharts(d);renderTable(d.s
 function renderKPIs(d){
   let fat=d.reduce((s,r)=>s+r.fat,0),fr=d.reduce((s,r)=>s+r.frete,0),ps=d.reduce((s,r)=>s+r.peso,0),pd=d.reduce((s,r)=>s+r.ped,0),n=d.length;
   document.getElementById('kRow').innerHTML=
-    K('Faturamento Bruto',fmtBRL(fat),n+' viagens','cb')+K('Valor Frete',fmtBRL(fr),'MÃ©dia: '+fmtBRL(n?fr/n:0),'cg')+K('Peso (ton)',ps.toLocaleString('pt-BR',{maximumFractionDigits:1}),'MÃ©dia: '+(ps/Math.max(1,n)).toFixed(1)+'t','cy')+K('Motoristas',new Set(d.map(r=>r.mot)).size,'ativos','cp')+K('Tipos de Carga',new Set(d.map(r=>r.prod)).size,'','co')+K('PedÃ¡gios',fmtBRL(pd),'','cr');
+    K('Faturamento Bruto',fmtBRL(fat),n+' viagens','cb')+K('Valor Frete',fmtBRL(fr),'Média: '+fmtBRL(n?fr/n:0),'cg')+K('Peso (ton)',ps.toLocaleString('pt-BR',{maximumFractionDigits:1}),'Média: '+(ps/Math.max(1,n)).toFixed(1)+'t','cy')+K('Motoristas',new Set(d.map(r=>r.mot)).size,'ativos','cp')+K('Tipos de Carga',new Set(d.map(r=>r.prod)).size,'','co')+K('Pedágios',fmtBRL(pd),'','cr');
 }
 function K(l,v,s,c){return'<div class="k"><div class="kl">'+l+'</div><div class="kv '+c+'">'+v+'</div><div class="ks">'+s+'</div></div>';}
 
@@ -323,11 +323,11 @@ function renderCharts(d){
 
 function renderTable(d){
   document.getElementById('tCnt').textContent='('+d.length+' de '+gf().length+')';
-  document.getElementById('tBody').innerHTML=d.map(r=>'<tr><td style="white-space:nowrap;color:#475569">'+toDS(r.data)+'</td><td><strong>'+r.mot+'</strong></td><td><span class="bg bp">'+(r.prod||'â')+'</span></td><td style="color:#1e3050">'+(r.cte||'â')+'</td><td>'+(r.peso>0?r.peso.toFixed(2):'â')+'</td><td style="color:#60a5fa">'+(r.frete>0?fmtBRL(r.frete):'â')+'</td><td><strong style="color:#34d399">'+(r.fat>0?fmtBRL(r.fat):'â')+'</strong></td><td style="color:#475569">'+(r.pag||'â')+'</td><td style="color:#f87171">'+(r.ped>0?fmtBRL(r.ped):'â')+'</td></tr>').join('');
+  document.getElementById('tBody').innerHTML=d.map(r=>'<tr><td style="white-space:nowrap;color:#475569">'+toDS(r.data)+'</td><td><strong>'+r.mot+'</strong></td><td><span class="bg bp">'+(r.prod||'—')+'</span></td><td style="color:#1e3050">'+(r.cte||'—')+'</td><td>'+(r.peso>0?r.peso.toFixed(2):'—')+'</td><td style="color:#60a5fa">'+(r.frete>0?fmtBRL(r.frete):'—')+'</td><td><strong style="color:#34d399">'+(r.fat>0?fmtBRL(r.fat):'—')+'</strong></td><td style="color:#475569">'+(r.pag||'—')+'</td><td style="color:#f87171">'+(r.ped>0?fmtBRL(r.ped):'—')+'</td></tr>').join('');
 }
 
 let autoOn=false;
-function toggleAuto(){autoOn=!autoOn;let b=document.getElementById('autoBtn');if(autoOn){b.textContent='â¹ï¸ Parar';b.classList.add('on');autoTimer=setInterval(reloadEmp,5*60*1000);}else{b.textContent='â±ï¸ Auto';b.classList.remove('on');clearInterval(autoTimer);}}
+function toggleAuto(){autoOn=!autoOn;let b=document.getElementById('autoBtn');if(autoOn){b.textContent='⏹️ Parar';b.classList.add('on');autoTimer=setInterval(reloadEmp,5*60*1000);}else{b.textContent='⏱️ Auto';b.classList.remove('on');clearInterval(autoTimer);}}
 
 function toggleCfg(){document.getElementById('cfgPanel').classList.toggle('open');}
 function saveLinks(){
