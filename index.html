@@ -184,6 +184,16 @@
   </div>
 </div>
 
+
+<!-- MODAL APORTES E RETIRADAS -->
+<div class="modal-overlay hidden" id="aportesModal" onclick="if(event.target===this)closeAportes()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeAportes()">&#10005;</button>
+    <div class="modal-title">&#128202; Aportes &amp; Retiradas 2026 &#8212; S&#243;cios</div>
+    <div class="modal-sub">Resumo consolidado &#8212; AUPA e ABS Transportes</div>
+    <div id="apContent"><div class="ap-loading">&#9203; Carregando planilha...</div></div>
+  </div>
+</div>
 <script>
 const URLS={
   AUPA:localStorage.getItem('dbx_aupa')||'',
@@ -195,16 +205,6 @@ let charts={};
 let autoTimer=null;
 let autoOn=false;
 
-
-<!-- MODAL APORTES E RETIRADAS -->
-<div class="modal-overlay hidden" id="aportesModal" onclick="if(event.target===this)closeAportes()">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeAportes()">&#10005;</button>
-    <div class="modal-title">&#128202; Aportes &amp; Retiradas 2026 &#8212; S&#243;cios</div>
-    <div class="modal-sub">Resumo consolidado &#8212; AUPA e ABS Transportes</div>
-    <div id="apContent"><div class="ap-loading">&#9203; Carregando planilha...</div></div>
-  </div>
-</div>
 // ── APORTES & RETIRADAS ──────────────────────────────────
 var apCharts=[];
 function openAportes(){document.getElementById('aportesModal').classList.remove('hidden');loadAportes();}
