@@ -348,7 +348,7 @@ async function loadOne(emp){
     var ab=await r.arrayBuffer();
     var wb=XLSX.read(ab,{type:"array"});
     var bestSheet=wb.SheetNames.find(function(n){return /logis/i.test(n);})||wb.SheetNames[0];var ws=wb.Sheets[bestSheet];
-    DATA[emp]=XLSX.utils.sheet_to_json(ws,{defval:""});
+    var _r=XLSX.utils.sheet_to_json(ws,{defval:""});var _keys=_r[0]?Object.keys(_r[0]):[];var _allEmpty=_keys.every(function(k){return k.startsWith("__EMPTY");});DATA[emp]=_allEmpty?XLSX.utils.sheet_to_json(ws,{defval:"",range:2}):_r;
     var rows=DATA[emp];
     var keys=rows.length?Object.keys(rows[0]):[];
     var fatKey=keys.find(function(k){return /fat|valor|total|receita/i.test(k);});
