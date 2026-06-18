@@ -74,22 +74,26 @@
   .auto-bar{display:flex;align-items:center;gap:10px;font-size:.73rem;color:#475569}
   .auto-bar button{background:#0d1527;border:1px solid #1e3050;color:#94a3b8;padding:4px 12px;border-radius:20px;cursor:pointer;font-size:.7rem}
   .auto-bar button.on{background:#1d4ed820;border-color:#3b82f6;color:#60a5fa}
-  /* ── RASTREAMENTO ── */
-  #trackSection{width:100%;max-width:900px;margin-top:40px;padding:0 8px}
-  .track-title{font-size:.72rem;color:#3b82f6;text-transform:uppercase;letter-spacing:.12em;margin-bottom:16px;display:flex;align-items:center;gap:8px;font-weight:700}
-  .track-title::before{content:'';display:inline-block;width:3px;height:14px;background:#3b82f6;border-radius:2px}
-  .track-cards{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
-  .track-card{background:linear-gradient(145deg,#0d1b2e,#0d1527);border:1px solid #1e3050;border-radius:16px;padding:22px 18px;width:190px;cursor:pointer;transition:.25s;text-align:center;position:relative;overflow:hidden}
-  .track-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#1d4ed8,#3b82f6,#60a5fa);opacity:0;transition:.25s}
-  .track-card:hover{transform:translateY(-5px);border-color:#3b82f6;box-shadow:0 16px 48px rgba(59,130,246,.25)}
-  .track-card:hover::after{opacity:1}
-  .tc-ico{font-size:2.2rem;margin-bottom:10px;display:block}
-  .tc-nm{font-size:1.05rem;font-weight:800;color:#60a5fa;margin-bottom:3px;letter-spacing:.03em}
-  .tc-placa{font-size:.6rem;color:#334155;text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
-  .tc-btn{background:linear-gradient(135deg,#1d4ed8,#2563eb);border:none;color:#fff;padding:7px 16px;border-radius:20px;font-size:.7rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.15s}
-  .tc-btn:hover{background:linear-gradient(135deg,#2563eb,#3b82f6);transform:scale(1.05)}
-  .tc-ping{display:inline-block;width:7px;height:7px;border-radius:50%;background:#22c55e;animation:ping .9s ease-in-out infinite}
-  @keyframes ping{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.4)}}
+/* ── APORTES & RETIRADAS ── */
+.ap-toggle{position:fixed;bottom:70px;left:20px;background:#1e3a5f;border:1px solid #1d4ed8;border-radius:12px;padding:8px 14px;cursor:pointer;font-size:.78rem;font-weight:600;color:#93c5fd;display:flex;align-items:center;gap:6px;transition:.2s;z-index:300;white-space:nowrap;box-shadow:0 4px 15px rgba(29,78,216,.3)}
+.ap-toggle:hover{background:#1d4ed8;color:#fff;transform:translateY(-2px);box-shadow:0 6px 20px rgba(29,78,216,.5)}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:500;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.modal-overlay.hidden{display:none}
+.modal-box{background:#0d1527;border:1px solid #1e3050;border-radius:16px;padding:24px;width:min(940px,95vw);max-height:90vh;overflow-y:auto;position:relative}
+.modal-close{position:absolute;top:14px;right:16px;background:none;border:none;color:#94a3b8;font-size:1.4rem;cursor:pointer;line-height:1}
+.modal-close:hover{color:#fff}
+.modal-title{font-size:1.1rem;font-weight:700;color:#60a5fa;margin-bottom:4px}
+.modal-sub{font-size:.75rem;color:#475569;margin-bottom:20px}
+.ap-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:24px}
+.ap-kpi{background:#070c18;border:1px solid #1e3050;border-radius:10px;padding:14px 12px;text-align:center}
+.ap-kpi .val{font-size:1.2rem;font-weight:700}
+.ap-kpi .val.green{color:#34d399}.ap-kpi .val.red{color:#f87171}.ap-kpi .val.blue{color:#60a5fa}.ap-kpi .val.yellow{color:#fbbf24}
+.ap-kpi .lbl{font-size:.68rem;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-top:4px}
+.ap-charts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+@media(max-width:620px){.ap-charts{grid-template-columns:1fr}}
+.ap-chart-box{background:#070c18;border:1px solid #1e3050;border-radius:10px;padding:14px}
+.ap-chart-box h4{font-size:.76rem;color:#94a3b8;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em}
+.ap-loading{text-align:center;color:#475569;padding:40px;font-size:.88rem}
   </style>
 </head>
 <body>
@@ -128,43 +132,8 @@
     </div>
   </div>
   <div class="loading-bar" id="ldBar"><div class="spin"></div>Carregando dados das planilhas...</div>
-
-  <!-- RASTREAMENTO EM TEMPO REAL -->
-  <div id="trackSection">
-    <p class="track-title">Rastreamento em Tempo Real</p>
-    <div class="track-cards">
-
-      <div class="track-card" onclick="abrirRastreamento('SAVEIRO 1')">
-        <span class="tc-ico">🚐</span>
-        <div class="tc-nm">SAVEIRO</div>
-        <div class="tc-placa">QSS4B37</div>
-        <button class="tc-btn"><span class="tc-ping"></span> Ver no Mapa</button>
-      </div>
-
-      <div class="track-card" onclick="abrirRastreamento('VAN')">
-        <span class="tc-ico">🚌</span>
-        <div class="tc-nm">VAN</div>
-        <div class="tc-placa">FORMATO</div>
-        <button class="tc-btn"><span class="tc-ping"></span> Ver no Mapa</button>
-      </div>
-
-      <div class="track-card" onclick="abrirRastreamento('UNO')">
-        <span class="tc-ico">🚗</span>
-        <div class="tc-nm">UNO</div>
-        <div class="tc-placa">ENM7C89</div>
-        <button class="tc-btn"><span class="tc-ping"></span> Ver no Mapa</button>
-      </div>
-
-      <div class="track-card" onclick="abrirRastreamento('Opala')">
-        <span class="tc-ico">🚙</span>
-        <div class="tc-nm">OPALA</div>
-        <div class="tc-placa">OPALA</div>
-        <button class="tc-btn"><span class="tc-ping"></span> Ver no Mapa</button>
-      </div>
-
-    </div>
-  </div>
 </div>
+<button class="ap-toggle" onclick="openAportes()" title="Aportes e Retiradas 2026">&#128202; Aportes &amp; Retiradas 2026</button>
 
 <!-- CONFIG PANEL -->
 <button class="cfg-toggle" onclick="toggleCfg()" title="Configurar links">⚙</button>
@@ -174,6 +143,8 @@
   <input type="text" id="cfgAupa" placeholder="https://www.dropbox.com/...?dl=1">
   <label>LOGÍSTICA 2026 ABS</label>
   <input type="text" id="cfgAbs" placeholder="https://www.dropbox.com/...?dl=1">
+  <label>APORTE E RETIRADA 2026</label>
+  <input type="text" id="cfgAportes" placeholder="https://www.dropbox.com/...?dl=1">
   <div class="cfg-btns">
     <button class="cfg-save" onclick="saveLinks()">Salvar</button>
     <button class="cfg-cancel" onclick="toggleCfg()">Cancelar</button>
@@ -224,13 +195,55 @@ let charts={};
 let autoTimer=null;
 let autoOn=false;
 
-// ── RASTREAMENTO ──────────────────────────────────────────────────────────────
-function abrirRastreamento(veiculo){
-  const base='https://vitoria-acessorios.fulltrackapp.com/mapaGeral_v3/#/';
-  const url=base+'?search='+encodeURIComponent(veiculo);
-  window.open(url,'_blank','noopener');
-}
 
+<!-- MODAL APORTES E RETIRADAS -->
+<div class="modal-overlay hidden" id="aportesModal" onclick="if(event.target===this)closeAportes()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeAportes()">&#10005;</button>
+    <div class="modal-title">&#128202; Aportes &amp; Retiradas 2026 &#8212; S&#243;cios</div>
+    <div class="modal-sub">Resumo consolidado &#8212; AUPA e ABS Transportes</div>
+    <div id="apContent"><div class="ap-loading">&#9203; Carregando planilha...</div></div>
+  </div>
+</div>
+// ── APORTES & RETIRADAS ──────────────────────────────────
+var apCharts=[];
+function openAportes(){document.getElementById('aportesModal').classList.remove('hidden');loadAportes();}
+function closeAportes(){document.getElementById('aportesModal').classList.add('hidden');}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAportes();});
+async function loadAportes(){
+  var u=localStorage.getItem('dbAportes'),el=document.getElementById('apContent');
+  if(!u){el.innerHTML='<div class="ap-loading">&#9888; Configure o link da planilha <strong>APORTE E RETIRADA 2026</strong> no painel &#9881;</div>';return;}
+  el.innerHTML='<div class="ap-loading">&#9203; Carregando...</div>';
+  try{var r=await fetch(u);var buf=await r.arrayBuffer();var wb=XLSX.read(buf,{type:'array',cellDates:true});var ws=wb.Sheets[wb.SheetNames[0]];var rows=XLSX.utils.sheet_to_json(ws,{defval:''});renderAportes(rows);}
+  catch(e){el.innerHTML='<div class="ap-loading">&#10060; Erro: '+e.message+'</div>';}
+}
+function renderAportes(rows){
+  apCharts.forEach(function(c){if(c)c.destroy();});apCharts=[];
+  if(!rows||rows.length===0){document.getElementById('apContent').innerHTML='<div class="ap-loading">Nenhum dado encontrado.</div>';return;}
+  var sample=rows[0]||{},keys=Object.keys(sample);
+  var colData=keys.find(function(k){return /data|date|dt/i.test(k);})||keys[0];
+  var colValor=keys.find(function(k){return /valor|value|montante|amount/i.test(k);})||keys.find(function(k){return typeof sample[k]==='number';})||keys[1];
+  var colTipo=keys.find(function(k){return /tipo|type|operacao|oper|mov/i.test(k);})||'';
+  var colSocio=keys.find(function(k){return /socio|sócio|nome|name|part/i.test(k);})||'';
+  var meses=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+  var totA=0,totR=0,byMes={},bySocio={};
+  rows.forEach(function(row){
+    var raw=row[colValor];var val=parseFloat(String(raw).replace(/./g,'').replace(',','.'))||0;
+    var tipoStr=colTipo?String(row[colTipo]||'').toLowerCase():'';var isAp=tipoStr?tipoStr.includes('aport'):val>=0;var abs=Math.abs(val);
+    if(isAp)totA+=abs;else totR+=abs;
+    var mk='?';if(row[colData]){var d=row[colData] instanceof Date?row[colData]:new Date(row[colData]);if(!isNaN(d.getTime()))mk=meses[d.getMonth()]+'/'+String(d.getFullYear()).slice(2);}
+    if(!byMes[mk])byMes[mk]={a:0,r:0};if(isAp)byMes[mk].a+=abs;else byMes[mk].r+=abs;
+    if(colSocio&&row[colSocio]){var s=String(row[colSocio]).trim();if(!bySocio[s])bySocio[s]={a:0,r:0};if(isAp)bySocio[s].a+=abs;else bySocio[s].r+=abs;}
+  });
+  var saldo=totA-totR,fmtV=function(v){return 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});};
+  var ml=Object.keys(byMes),sk=Object.keys(bySocio),pc=['#60a5fa','#34d399','#fbbf24','#f87171','#a78bfa','#fb923c','#38bdf8','#4ade80'];
+  var co={responsive:true,maintainAspectRatio:true,plugins:{legend:{labels:{color:'#94a3b8',font:{size:11}}},tooltip:{callbacks:{label:function(ctx){return fmtV(ctx.raw);}}}},scales:{x:{ticks:{color:'#475569'},grid:{color:'#0d1f3c'}},y:{ticks:{color:'#475569',callback:function(v){return fmtV(v);}},grid:{color:'#0d1f3c'}}}};
+  document.getElementById('apContent').innerHTML='<div class="ap-kpis"><div class="ap-kpi"><div class="val green">'+fmtV(totA)+'</div><div class="lbl">Total Aportes</div></div><div class="ap-kpi"><div class="val red">'+fmtV(totR)+'</div><div class="lbl">Total Retiradas</div></div><div class="ap-kpi"><div class="val '+(saldo>=0?'blue':'red')+'">'+fmtV(saldo)+'</div><div class="lbl">Saldo Líquido</div></div><div class="ap-kpi"><div class="val yellow">'+rows.length+'</div><div class="lbl">Registros</div></div></div><div class="ap-charts"><div class="ap-chart-box"><h4>Aportes vs Retiradas por Mês</h4><canvas id="apCB"></canvas></div><div class="ap-chart-box"><h4>Por Sócio &#8212; Aportes</h4><canvas id="apCP"></canvas></div><div class="ap-chart-box"><h4>Evolução Acumulada</h4><canvas id="apCL"></canvas></div><div class="ap-chart-box"><h4>Por Sócio &#8212; Retiradas</h4><canvas id="apCR"></canvas></div></div>';
+  apCharts.push(new Chart(document.getElementById('apCB'),{type:'bar',data:{labels:ml,datasets:[{label:'Aportes',data:ml.map(function(m){return byMes[m].a;}),backgroundColor:'rgba(52,211,153,.7)',borderColor:'#34d399',borderWidth:1},{label:'Retiradas',data:ml.map(function(m){return byMes[m].r;}),backgroundColor:'rgba(248,113,113,.7)',borderColor:'#f87171',borderWidth:1}]},options:co}));
+  if(sk.length>0){apCharts.push(new Chart(document.getElementById('apCP'),{type:'doughnut',data:{labels:sk,datasets:[{data:sk.map(function(s){return bySocio[s].a;}),backgroundColor:pc,borderColor:'#0d1527',borderWidth:2}]},options:{responsive:true,plugins:{legend:{labels:{color:'#94a3b8',font:{size:11}}},tooltip:{callbacks:{label:function(ctx){return ctx.label+': '+fmtV(ctx.raw);}}}}}}));apCharts.push(new Chart(document.getElementById('apCR'),{type:'doughnut',data:{labels:sk,datasets:[{data:sk.map(function(s){return bySocio[s].r||0;}),backgroundColor:pc.map(function(c){return c+'bb';}),borderColor:'#0d1527',borderWidth:2}]},options:{responsive:true,plugins:{legend:{labels:{color:'#94a3b8',font:{size:11}}},tooltip:{callbacks:{label:function(ctx){return ctx.label+': '+fmtV(ctx.raw);}}}}}});}
+  var ca=0,cr=0,acA=[],acR=[];ml.forEach(function(m){ca+=byMes[m].a;cr+=byMes[m].r;acA.push(ca);acR.push(cr);});
+  apCharts.push(new Chart(document.getElementById('apCL'),{type:'line',data:{labels:ml,datasets:[{label:'Aportes Acum.',data:acA,borderColor:'#34d399',backgroundColor:'rgba(52,211,153,.1)',fill:true,tension:.3},{label:'Retiradas Acum.',data:acR,borderColor:'#f87171',backgroundColor:'rgba(248,113,113,.1)',fill:true,tension:.3}]},options:co}));
+}
 // ── NAVEGAÇÃO ─────────────────────────────────────────────────────────────────
 function showHome(){
   document.getElementById('homeScreen').style.display='flex';
@@ -350,12 +363,10 @@ function stopAuto(){clearInterval(autoTimer);autoTimer=null;autoOn=false;const b
 function toggleAuto(){autoOn=!autoOn;const b=document.getElementById('autoBtn');if(autoOn){b.textContent='⏸ Parar';b.classList.add('on');autoTimer=setInterval(()=>loadAll(),30000);}else{stopAuto();}}
 function toggleCfg(){document.getElementById('cfgPanel').classList.toggle('open');}
 function saveLinks(){
-  const a=document.getElementById('cfgAupa').value.trim();
-  const b=document.getElementById('cfgAbs').value.trim();
-  if(a){URLS.AUPA=a;localStorage.setItem('dbx_aupa',a);}
-  if(b){URLS.ABS=b;localStorage.setItem('dbx_abs',b);}
-  document.getElementById('cfgPanel').classList.remove('open');
-  data={AUPA:[],ABS:[]};loadAll();
+  localStorage.setItem('dbAupa',document.getElementById('cfgAupa').value.trim());
+  localStorage.setItem('dbAbs',document.getElementById('cfgAbs').value.trim());
+  var ap=document.getElementById('cfgAportes');if(ap)localStorage.setItem('dbAportes',ap.value.trim());
+  document.getElementById('cfgPanel').classList.remove('open');loadAll();
 }
 
 document.getElementById('cfgAupa').value=URLS.AUPA;
