@@ -95,7 +95,7 @@ tbody td{padding:6px 11px;border-bottom:1px solid #0a0f1a;color:#94a3b8}
 </head>
 <body>
 <header class="site-header">
-<h1><span>&#128667;</span> Dashboard Log&#237;stico 2026</h1>
+<h1><span>🚛</span> Dashboard Logístico 2026</h1>
 <div class="hinfo"><b id="hUpd">Carregando...</b><span id="hRec">0 registros</span></div>
 </header>
 <div id="homeScreen">
@@ -104,37 +104,37 @@ tbody td{padding:6px 11px;border-bottom:1px solid #0a0f1a;color:#94a3b8}
 <p class="home-sub">Clique numa empresa para ver o dashboard detalhado</p>
 <div class="cards">
 <div class="card aupa" onclick="showEmpresa('AUPA')">
-<div class="card-ico">&#128668;</div>
+<div class="card-ico">🚜</div>
 <div class="card-nm">AUPA</div>
-<p class="card-desc">2A Transportes &#183; Log&#237;stica<br>A&#231;&#250;car, Calc&#225;rio e outros</p>
+<p class="card-desc">2A Transportes · Logística<br>Açúcar, Calcário e outros</p>
 <div class="card-stats">
-<div class="cs"><div class="csv" id="cs-aupa-f">&#8212;</div><div class="csl">Faturamento</div></div>
-<div class="cs"><div class="csv" id="cs-aupa-v">&#8212;</div><div class="csl">Viagens</div></div>
-<div class="cs"><div class="csv" id="cs-aupa-m">&#8212;</div><div class="csl">Motoristas</div></div>
+<div class="cs"><div class="csv" id="cs-aupa-f">—</div><div class="csl">Faturamento</div></div>
+<div class="cs"><div class="csv" id="cs-aupa-v">—</div><div class="csl">Viagens</div></div>
+<div class="cs"><div class="csv" id="cs-aupa-m">—</div><div class="csl">Motoristas</div></div>
 </div>
-<div class="card-arrow">&#8250;</div>
+<div class="card-arrow">›</div>
 </div>
 <div class="card abs" onclick="showEmpresa('ABS')">
-<div class="card-ico">&#128652;</div>
+<div class="card-ico">🚌</div>
 <div class="card-nm">ABS</div>
-<p class="card-desc">ABS Transportes &#183; Log&#237;stica<br>A&#231;&#250;car, Calc&#225;rio e outros</p>
+<p class="card-desc">ABS Transportes · Logística<br>Açúcar, Calcário e outros</p>
 <div class="card-stats">
-<div class="cs"><div class="csv" id="cs-abs-f">&#8212;</div><div class="csl">Faturamento</div></div>
-<div class="cs"><div class="csv" id="cs-abs-v">&#8212;</div><div class="csl">Viagens</div></div>
-<div class="cs"><div class="csv" id="cs-abs-m">&#8212;</div><div class="csl">Motoristas</div></div>
+<div class="cs"><div class="csv" id="cs-abs-f">—</div><div class="csl">Faturamento</div></div>
+<div class="cs"><div class="csv" id="cs-abs-v">—</div><div class="csl">Viagens</div></div>
+<div class="cs"><div class="csv" id="cs-abs-m">—</div><div class="csl">Motoristas</div></div>
 </div>
-<div class="card-arrow">&#8250;</div>
+<div class="card-arrow">›</div>
 </div>
 </div>
 <div class="loading-bar" id="ldBar"><div class="spin"></div>Carregando dados...</div>
 </div>
-<button class="ap-btn" id="apBtn" onclick="openAportes()">&#128202; Aportes &amp; Retiradas 2026</button>
-<button class="cfg-toggle" onclick="toggleCfg()">&#9881;</button>
+<button class="ap-btn" onclick="openAportes()">📊 Aportes &amp; Retiradas 2026</button>
+<button class="cfg-toggle" onclick="toggleCfg()">⚙</button>
 <div class="cfg-panel" id="cfgPanel">
-<h4>&#128279; Links Dropbox</h4>
-<label>LOG&#205;STICA 2026 AUPA</label>
+<h4>🔗 Links Dropbox</h4>
+<label>LOGÍSTICA 2026 AUPA</label>
 <input type="text" id="cfgAupa" placeholder="https://www.dropbox.com/...?dl=1">
-<label>LOG&#205;STICA 2026 ABS</label>
+<label>LOGÍSTICA 2026 ABS</label>
 <input type="text" id="cfgAbs" placeholder="https://www.dropbox.com/...?dl=1">
 <label>APORTE E RETIRADA 2026</label>
 <input type="text" id="cfgAp" placeholder="https://www.dropbox.com/...?dl=1">
@@ -145,25 +145,25 @@ tbody td{padding:6px 11px;border-bottom:1px solid #0a0f1a;color:#94a3b8}
 </div>
 <div id="empresaScreen">
 <header class="site-header" style="position:sticky;top:0;z-index:10">
-<button class="back-btn" onclick="showHome()">&#8592; Voltar</button>
+<button class="back-btn" onclick="showHome()">← Voltar</button>
 <h1 id="empNome"></h1>
-<div class="auto-bar"><button id="autoBtn" onclick="toggleAuto()">&#9654; Auto</button></div>
-<div class="hinfo"><b id="hUpd2">&#8212;</b><span id="hRec2"></span></div>
+<div class="auto-bar"><button id="autoBtn" onclick="toggleAuto()">▶ Auto</button></div>
+<div class="hinfo"><b id="hUpd2">—</b><span id="hRec2"></span></div>
 </header>
 <div class="det-kpis">
-<div class="k"><div class="kl">Faturamento Total</div><div class="kv cb" id="kFat">&#8212;</div></div>
-<div class="k"><div class="kl">Viagens</div><div class="kv cg" id="kViag">&#8212;</div></div>
-<div class="k"><div class="kl">Motoristas</div><div class="kv cy" id="kMot">&#8212;</div></div>
-<div class="k"><div class="kl">Clientes</div><div class="kv cc" id="kCli">&#8212;</div></div>
+<div class="k"><div class="kl">Faturamento Total</div><div class="kv cb" id="kFat">—</div></div>
+<div class="k"><div class="kl">Viagens</div><div class="kv cg" id="kViag">—</div></div>
+<div class="k"><div class="kl">Motoristas</div><div class="kv cy" id="kMot">—</div></div>
+<div class="k"><div class="kl">Clientes</div><div class="kv cc" id="kCli">—</div></div>
 </div>
 <div class="det-kpis-3">
-<div class="k"><div class="kl">Ticket M&#233;dio</div><div class="kv cp" id="kTick">&#8212;</div></div>
-<div class="k"><div class="kl">M&#234;s Atual</div><div class="kv cc" id="kMes">&#8212;</div></div>
-<div class="k"><div class="kl">Pendentes</div><div class="kv cr" id="kPend">&#8212;</div></div>
+<div class="k"><div class="kl">Ticket Médio</div><div class="kv cp" id="kTick">—</div></div>
+<div class="k"><div class="kl">Mês Atual</div><div class="kv cc" id="kMes">—</div></div>
+<div class="k"><div class="kl">Pendentes</div><div class="kv cr" id="kPend">—</div></div>
 </div>
 <div class="cgrid">
-<div class="cc-box"><h3>Faturamento por M&#234;s</h3><canvas id="cFat"></canvas></div>
-<div class="cc-box"><h3>Viagens por M&#234;s</h3><canvas id="cViag"></canvas></div>
+<div class="cc-box"><h3>Faturamento por Mês</h3><canvas id="cFat"></canvas></div>
+<div class="cc-box"><h3>Viagens por Mês</h3><canvas id="cViag"></canvas></div>
 <div class="cc-box"><h3>Top Clientes</h3><canvas id="cCli"></canvas></div>
 <div class="cc-box"><h3>Produtos</h3><canvas id="cProd"></canvas></div>
 </div>
@@ -174,326 +174,314 @@ tbody td{padding:6px 11px;border-bottom:1px solid #0a0f1a;color:#94a3b8}
 </div>
 <div class="modal-ov hide" id="apModal" onclick="if(event.target===this)closeAportes()">
 <div class="modal-bx">
-<button class="modal-x" onclick="closeAportes()">&#10005;</button>
-<div class="modal-ttl">&#128202; Aportes &amp; Retiradas 2026 &#8212; S&#243;cios</div>
-<div class="modal-sub">Resumo consolidado &#8212; AUPA e ABS Transportes</div>
-<div id="apContent"><div class="ap-msg">&#9203; Carregando...</div></div>
+<button class="modal-x" onclick="closeAportes()">✕</button>
+<div class="modal-ttl">📊 Aportes &amp; Retiradas 2026 — Sócios</div>
+<div class="modal-sub">Resumo consolidado — AUPA e ABS Transportes</div>
+<div id="apContent"><div class="ap-msg">⏳ Carregando...</div></div>
 </div>
 </div>
 <script>
 (function(){
-var URLS = { AUPA: localStorage.getItem("dbxAupa")||"", ABS: localStorage.getItem("dbxAbs")||"" };
-var DATA = { AUPA: [], ABS: [] };
-var empresa = "";
-var charts = {};
-var autoTimer = null;
-var apCharts = [];
+var URLS={AUPA:localStorage.getItem("dbxAupa")||"",ABS:localStorage.getItem("dbxAbs")||""};
+var DATA={AUPA:[],ABS:[]};
+var empresa="";
+var charts={};
+var autoTimer=null;
+var apCharts=[];
 
 function fmt(v){
-  if(v===null||v===undefined||v==="")return "&#8212;";
-  var n = parseFloat(String(v).replace(/[^0-9.,-]/g,"").replace(",","."));
-  if(isNaN(n))return v;
+  if(v===null||v===undefined||v==="")return "—";
+  var n=parseFloat(String(v).replace(/[^0-9.,-]/g,"").replace(",","."));
+  if(isNaN(n))return String(v);
   return "R$"+n.toLocaleString("pt-BR",{minimumFractionDigits:2});
 }
 function fmtN(v){
-  var n = parseFloat(String(v).replace(/[^0-9.,-]/g,"").replace(",","."));
+  var n=parseFloat(String(v).replace(/[^0-9.,-]/g,"").replace(",","."));
   return isNaN(n)?0:n;
 }
 
-window.showHome = function(){
-  document.getElementById("homeScreen").style.display = "flex";
-  document.getElementById("empresaScreen").style.display = "none";
-  if(autoTimer){ clearInterval(autoTimer); autoTimer=null; }
-  var b = document.getElementById("autoBtn");
-  if(b){ b.textContent="&#9654; Auto"; b.classList.remove("on"); }
+window.showHome=function(){
+  document.getElementById("homeScreen").style.display="flex";
+  document.getElementById("empresaScreen").style.display="none";
+  if(autoTimer){clearInterval(autoTimer);autoTimer=null;}
+  var b=document.getElementById("autoBtn");
+  if(b){b.textContent="▶ Auto";b.classList.remove("on");}
 };
 
-window.showEmpresa = function(emp){
-  empresa = emp;
-  document.getElementById("homeScreen").style.display = "none";
-  document.getElementById("empresaScreen").style.display = "block";
-  document.getElementById("empNome").textContent = emp==="AUPA" ? "2A Transportes" : "ABS Transportes";
+window.showEmpresa=function(emp){
+  empresa=emp;
+  document.getElementById("homeScreen").style.display="none";
+  document.getElementById("empresaScreen").style.display="block";
+  document.getElementById("empNome").textContent=emp==="AUPA"?"2A Transportes":"ABS Transportes";
   renderDetalhe();
 };
 
-window.toggleAuto = function(){
-  var b = document.getElementById("autoBtn");
+window.toggleAuto=function(){
+  var b=document.getElementById("autoBtn");
   if(autoTimer){
-    clearInterval(autoTimer); autoTimer=null;
-    b.textContent="&#9654; Auto"; b.classList.remove("on");
-  } else {
-    b.textContent="&#9646;&#9646; Parar"; b.classList.add("on");
-    autoTimer = setInterval(loadAll, 30000);
+    clearInterval(autoTimer);autoTimer=null;
+    b.textContent="▶ Auto";b.classList.remove("on");
+  }else{
+    b.textContent="⏸ Parar";b.classList.add("on");
+    autoTimer=setInterval(loadAll,30000);
   }
 };
 
-window.toggleCfg = function(){
+window.toggleCfg=function(){
   document.getElementById("cfgPanel").classList.toggle("open");
 };
 
-window.saveLinks = function(){
-  localStorage.setItem("dbxAupa", document.getElementById("cfgAupa").value.trim());
-  localStorage.setItem("dbxAbs", document.getElementById("cfgAbs").value.trim());
-  localStorage.setItem("dbxAp", document.getElementById("cfgAp").value.trim());
-  URLS.AUPA = localStorage.getItem("dbxAupa");
-  URLS.ABS = localStorage.getItem("dbxAbs");
+window.saveLinks=function(){
+  localStorage.setItem("dbxAupa",document.getElementById("cfgAupa").value.trim());
+  localStorage.setItem("dbxAbs",document.getElementById("cfgAbs").value.trim());
+  localStorage.setItem("dbxAp",document.getElementById("cfgAp").value.trim());
+  URLS.AUPA=localStorage.getItem("dbxAupa");
+  URLS.ABS=localStorage.getItem("dbxAbs");
   document.getElementById("cfgPanel").classList.remove("open");
   loadAll();
 };
 
-window.openAportes = function(){
+window.openAportes=function(){
   document.getElementById("apModal").classList.remove("hide");
   loadAportes();
 };
 
-window.closeAportes = function(){
+window.closeAportes=function(){
   document.getElementById("apModal").classList.add("hide");
 };
 
-document.addEventListener("keydown", function(e){
-  if(e.key==="Escape") closeAportes();
+document.addEventListener("keydown",function(e){
+  if(e.key==="Escape")closeAportes();
 });
 
 function destroyCharts(){
-  Object.values(charts).forEach(function(c){ if(c)c.destroy(); });
-  charts = {};
+  Object.values(charts).forEach(function(c){if(c)c.destroy();});
+  charts={};
 }
 
-function mkChart(id, type, labels, datasets){
-  var ctx = document.getElementById(id);
+function mkChart(id,type,labels,datasets){
+  var ctx=document.getElementById(id);
   if(!ctx)return null;
-  var isRound = (type==="doughnut"||type==="pie");
-  return new Chart(ctx, {
-    type: type,
-    data: { labels: labels, datasets: datasets },
-    options: {
-      responsive: true,
-      plugins: { legend: { labels: { color: "#475569", font: { size: 10 } } } },
-      scales: isRound ? {} : {
-        x: { ticks: { color: "#334155", font: { size: 9 } }, grid: { color: "#0d1527" } },
-        y: { ticks: { color: "#334155", font: { size: 9 } }, grid: { color: "#0d1527" } }
+  var isRound=(type==="doughnut"||type==="pie");
+  return new Chart(ctx,{
+    type:type,
+    data:{labels:labels,datasets:datasets},
+    options:{
+      responsive:true,
+      plugins:{legend:{labels:{color:"#475569",font:{size:10}}}},
+      scales:isRound?{}:{
+        x:{ticks:{color:"#334155",font:{size:9}},grid:{color:"#0d1527"}},
+        y:{ticks:{color:"#334155",font:{size:9}},grid:{color:"#0d1527"}}
       }
     }
   });
 }
 function renderDetalhe(){
   destroyCharts();
-  var rows = DATA[empresa];
+  var rows=DATA[empresa];
   if(!rows||!rows.length){
-    document.getElementById("tBody").innerHTML = '<tr><td colspan="20" style="text-align:center;padding:24px;color:#334155">Sem dados &#8212; configure os links no bot&#227;o &#9881;</td></tr>';
-    document.getElementById("tHead").innerHTML = "";
-    document.getElementById("kFat").textContent="&#8212;";
-    document.getElementById("kViag").textContent="&#8212;";
-    document.getElementById("kMot").textContent="&#8212;";
-    document.getElementById("kCli").textContent="&#8212;";
-    document.getElementById("kTick").textContent="&#8212;";
-    document.getElementById("kPend").textContent="&#8212;";
+    document.getElementById("tBody").innerHTML='<tr><td colspan="20" style="text-align:center;padding:24px;color:#334155">Sem dados — configure os links no botão ⚙</td></tr>';
+    document.getElementById("tHead").innerHTML="";
+    ["kFat","kViag","kMot","kCli","kTick","kPend"].forEach(function(id){
+      document.getElementById(id).textContent="—";
+    });
     document.getElementById("kMes").textContent=new Date().toLocaleString("pt-BR",{month:"long",year:"numeric"});
     return;
   }
-  var keys = Object.keys(rows[0]);
-  var fatKey = keys.find(function(k){ return /fat|valor|total|receita/i.test(k); });
-  var viKey = keys.find(function(k){ return /viag|nf|nota|cte|carga/i.test(k); });
-  var motKey = keys.find(function(k){ return /motor|driver|condu/i.test(k); });
-  var cliKey = keys.find(function(k){ return /client|tomad|dest/i.test(k); });
-  var mesKey = keys.find(function(k){ return /mes|m&#234;s|month|data|emis/i.test(k); });
-  var fat = fatKey ? rows.reduce(function(s,r){ return s+fmtN(r[fatKey]); }, 0) : 0;
-  var viag = viKey ? new Set(rows.map(function(r){ return r[viKey]; })).size : rows.length;
-  var mot = motKey ? new Set(rows.map(function(r){ return r[motKey]; }).filter(Boolean)).size : 0;
-  var cli = cliKey ? new Set(rows.map(function(r){ return r[cliKey]; }).filter(Boolean)).size : 0;
-  document.getElementById("kFat").textContent = fmt(fat);
-  document.getElementById("kViag").textContent = viag;
-  document.getElementById("kMot").textContent = mot||"&#8212;";
-  document.getElementById("kCli").textContent = cli||"&#8212;";
-  document.getElementById("kTick").textContent = viag ? fmt(fat/viag) : "&#8212;";
-  document.getElementById("hRec2").textContent = rows.length+" registros";
-  document.getElementById("hUpd2").textContent = "Atualizado agora";
-  document.getElementById("kMes").textContent = new Date().toLocaleString("pt-BR",{month:"long",year:"numeric"});
-  document.getElementById("kPend").textContent = "&#8212;";
+  var keys=Object.keys(rows[0]);
+  var fatKey=keys.find(function(k){return /fat|valor|total|receita/i.test(k);});
+  var viKey=keys.find(function(k){return /viag|nf|nota|cte|carga/i.test(k);});
+  var motKey=keys.find(function(k){return /motor|driver|condu/i.test(k);});
+  var cliKey=keys.find(function(k){return /client|tomad|dest/i.test(k);});
+  var mesKey=keys.find(function(k){return /mes|month|data|emis/i.test(k);});
+  var fat=fatKey?rows.reduce(function(s,r){return s+fmtN(r[fatKey]);},0):0;
+  var viag=viKey?new Set(rows.map(function(r){return r[viKey];})).size:rows.length;
+  var mot=motKey?new Set(rows.map(function(r){return r[motKey];}).filter(Boolean)).size:0;
+  var cli=cliKey?new Set(rows.map(function(r){return r[cliKey];}).filter(Boolean)).size:0;
+  document.getElementById("kFat").textContent=fmt(fat);
+  document.getElementById("kViag").textContent=viag;
+  document.getElementById("kMot").textContent=mot||"—";
+  document.getElementById("kCli").textContent=cli||"—";
+  document.getElementById("kTick").textContent=viag?fmt(fat/viag):"—";
+  document.getElementById("hRec2").textContent=rows.length+" registros";
+  document.getElementById("hUpd2").textContent="Atualizado agora";
+  document.getElementById("kMes").textContent=new Date().toLocaleString("pt-BR",{month:"long",year:"numeric"});
+  document.getElementById("kPend").textContent="—";
   if(mesKey&&fatKey){
-    var bm = {};
-    rows.forEach(function(r){
-      var m = String(r[mesKey]).substring(0,7);
-      if(!bm[m])bm[m]=0;
-      bm[m]+=fmtN(r[fatKey]);
-    });
-    var ms = Object.keys(bm).sort().slice(-8);
-    charts.fat = mkChart("cFat","bar",ms,[{label:"Fat.",data:ms.map(function(m){return bm[m];}),backgroundColor:"#1d4ed860",borderColor:"#3b82f6",borderWidth:2}]);
+    var bm={};
+    rows.forEach(function(r){var m=String(r[mesKey]).substring(0,7);if(!bm[m])bm[m]=0;bm[m]+=fmtN(r[fatKey]);});
+    var ms=Object.keys(bm).sort().slice(-8);
+    charts.fat=mkChart("cFat","bar",ms,[{label:"Fat.",data:ms.map(function(m){return bm[m];}),backgroundColor:"#1d4ed860",borderColor:"#3b82f6",borderWidth:2}]);
   }
   if(mesKey){
-    var bmv = {};
-    rows.forEach(function(r){
-      var m = String(r[mesKey]).substring(0,7);
-      if(!bmv[m])bmv[m]=0;
-      bmv[m]++;
-    });
-    var msv = Object.keys(bmv).sort().slice(-8);
-    charts.viag = mkChart("cViag","line",msv,[{label:"Viagens",data:msv.map(function(m){return bmv[m];}),borderColor:"#10b981",backgroundColor:"#10b98120",tension:.4,fill:true}]);
+    var bmv={};
+    rows.forEach(function(r){var m=String(r[mesKey]).substring(0,7);if(!bmv[m])bmv[m]=0;bmv[m]++;});
+    var msv=Object.keys(bmv).sort().slice(-8);
+    charts.viag=mkChart("cViag","line",msv,[{label:"Viagens",data:msv.map(function(m){return bmv[m];}),borderColor:"#10b981",backgroundColor:"#10b98120",tension:.4,fill:true}]);
   }
   if(cliKey){
-    var bc = {};
-    rows.forEach(function(r){ var c=r[cliKey]||"?"; if(!bc[c])bc[c]=0; bc[c]++; });
-    var top = Object.entries(bc).sort(function(a,b){return b[1]-a[1];}).slice(0,6);
-    charts.cli = mkChart("cCli","doughnut",top.map(function(t){return String(t[0]).substring(0,15);}),
+    var bc={};
+    rows.forEach(function(r){var c=r[cliKey]||"?";if(!bc[c])bc[c]=0;bc[c]++;});
+    var top=Object.entries(bc).sort(function(a,b){return b[1]-a[1];}).slice(0,6);
+    charts.cli=mkChart("cCli","doughnut",top.map(function(t){return String(t[0]).substring(0,15);}),
       [{data:top.map(function(t){return t[1];}),backgroundColor:["#1d4ed8","#0891b2","#059669","#d97706","#7c3aed","#dc2626"]}]);
   }
-  var prodKey = keys.find(function(k){ return /prod|merca|tipo|item/i.test(k); });
+  var prodKey=keys.find(function(k){return /prod|merca|tipo|item/i.test(k);});
   if(prodKey){
-    var bp = {};
-    rows.forEach(function(r){ var p=r[prodKey]||"?"; if(!bp[p])bp[p]=0; bp[p]++; });
-    var tp = Object.entries(bp).sort(function(a,b){return b[1]-a[1];}).slice(0,5);
-    charts.prod = mkChart("cProd","bar",tp.map(function(t){return String(t[0]).substring(0,12);}),
+    var bp={};
+    rows.forEach(function(r){var p=r[prodKey]||"?";if(!bp[p])bp[p]=0;bp[p]++;});
+    var tp=Object.entries(bp).sort(function(a,b){return b[1]-a[1];}).slice(0,5);
+    charts.prod=mkChart("cProd","bar",tp.map(function(t){return String(t[0]).substring(0,12);}),
       [{label:"Qtd",data:tp.map(function(t){return t[1];}),backgroundColor:"#7c3aed80",borderColor:"#7c3aed",borderWidth:2}]);
   }
-  document.getElementById("tHead").innerHTML = keys.slice(0,8).map(function(k){return "<th>"+k+"</th>";}).join("");
-  document.getElementById("tCount").textContent = rows.length+" registros";
-  document.getElementById("tBody").innerHTML = rows.slice(0,100).map(function(r){
-    return "<tr>"+keys.slice(0,8).map(function(k){return "<td>"+(r[k]!==undefined?r[k]:"&#8212;")+"</td>";}).join("")+"</tr>";
+  document.getElementById("tHead").innerHTML=keys.slice(0,8).map(function(k){return "<th>"+k+"</th>";}).join("");
+  document.getElementById("tCount").textContent=rows.length+" registros";
+  document.getElementById("tBody").innerHTML=rows.slice(0,100).map(function(r){
+    return "<tr>"+keys.slice(0,8).map(function(k){return "<td>"+(r[k]!==undefined&&r[k]!==""?r[k]:"—")+"</td>";}).join("")+"</tr>";
   }).join("");
 }
 async function loadOne(emp){
-  var url = URLS[emp];
+  var url=URLS[emp];
   if(!url)return;
   try{
-    var r = await fetch(url);
-    var ab = await r.arrayBuffer();
-    var wb = XLSX.read(ab, {type:"array"});
-    var ws = wb.Sheets[wb.SheetNames[0]];
-    DATA[emp] = XLSX.utils.sheet_to_json(ws, {defval:""});
-    var rows = DATA[emp];
-    var keys = rows.length ? Object.keys(rows[0]) : [];
-    var fatKey = keys.find(function(k){ return /fat|valor|total|receita/i.test(k); });
-    var viKey = keys.find(function(k){ return /viag|nf|nota|cte|carga/i.test(k); });
-    var motKey = keys.find(function(k){ return /motor|driver|condu/i.test(k); });
-    var fat = fatKey ? rows.reduce(function(s,rw){ return s+fmtN(rw[fatKey]); }, 0) : 0;
-    var vi = viKey ? new Set(rows.map(function(rw){ return rw[viKey]; })).size : rows.length;
-    var mo = motKey ? new Set(rows.map(function(rw){ return rw[motKey]; }).filter(Boolean)).size : 0;
+    var r=await fetch(url);
+    var ab=await r.arrayBuffer();
+    var wb=XLSX.read(ab,{type:"array"});
+    var ws=wb.Sheets[wb.SheetNames[0]];
+    DATA[emp]=XLSX.utils.sheet_to_json(ws,{defval:""});
+    var rows=DATA[emp];
+    var keys=rows.length?Object.keys(rows[0]):[];
+    var fatKey=keys.find(function(k){return /fat|valor|total|receita/i.test(k);});
+    var viKey=keys.find(function(k){return /viag|nf|nota|cte|carga/i.test(k);});
+    var motKey=keys.find(function(k){return /motor|driver|condu/i.test(k);});
+    var fat=fatKey?rows.reduce(function(s,rw){return s+fmtN(rw[fatKey]);},0):0;
+    var vi=viKey?new Set(rows.map(function(rw){return rw[viKey];})).size:rows.length;
+    var mo=motKey?new Set(rows.map(function(rw){return rw[motKey];}).filter(Boolean)).size:0;
     if(emp==="AUPA"){
-      document.getElementById("cs-aupa-f").textContent = fat ? "R$"+Math.round(fat/1000)+"k" : "&#8212;";
-      document.getElementById("cs-aupa-v").textContent = vi||"&#8212;";
-      document.getElementById("cs-aupa-m").textContent = mo||"&#8212;";
-    } else {
-      document.getElementById("cs-abs-f").textContent = fat ? "R$"+Math.round(fat/1000)+"k" : "&#8212;";
-      document.getElementById("cs-abs-v").textContent = vi||"&#8212;";
-      document.getElementById("cs-abs-m").textContent = mo||"&#8212;";
+      document.getElementById("cs-aupa-f").textContent=fat?"R$"+Math.round(fat/1000)+"k":"—";
+      document.getElementById("cs-aupa-v").textContent=vi||"—";
+      document.getElementById("cs-aupa-m").textContent=mo||"—";
+    }else{
+      document.getElementById("cs-abs-f").textContent=fat?"R$"+Math.round(fat/1000)+"k":"—";
+      document.getElementById("cs-abs-v").textContent=vi||"—";
+      document.getElementById("cs-abs-m").textContent=mo||"—";
     }
-  } catch(e){ console.warn("Erro ao carregar",emp,e.message); }
+  }catch(e){console.warn("Erro ao carregar",emp,e.message);}
 }
 
 async function loadAll(){
-  document.getElementById("ldBar").style.display = "flex";
-  await Promise.all([loadOne("AUPA"), loadOne("ABS")]);
-  document.getElementById("ldBar").style.display = "none";
-  var now = new Date().toLocaleTimeString("pt-BR");
-  document.getElementById("hUpd").textContent = "Atualizado "+now;
-  var tot = DATA.AUPA.length + DATA.ABS.length;
-  document.getElementById("hRec").textContent = tot+" registros";
+  document.getElementById("ldBar").style.display="flex";
+  await Promise.all([loadOne("AUPA"),loadOne("ABS")]);
+  document.getElementById("ldBar").style.display="none";
+  var now=new Date().toLocaleTimeString("pt-BR");
+  document.getElementById("hUpd").textContent="Atualizado "+now;
+  var tot=DATA.AUPA.length+DATA.ABS.length;
+  document.getElementById("hRec").textContent=tot+" registros";
   if(empresa)renderDetalhe();
 }
 
 async function loadAportes(){
-  var u = localStorage.getItem("dbxAp");
-  var el = document.getElementById("apContent");
+  var u=localStorage.getItem("dbxAp");
+  var el=document.getElementById("apContent");
   if(!u){
-    el.innerHTML = '<div class="ap-msg">&#9888; Configure o link da planilha <strong>APORTE E RETIRADA 2026</strong> no bot&#227;o &#9881;</div>';
+    el.innerHTML='<div class="ap-msg">⚠️ Configure o link da planilha <strong>APORTE E RETIRADA 2026</strong> no botão ⚙️</div>';
     return;
   }
-  el.innerHTML = '<div class="ap-msg">&#9203; Carregando...</div>';
+  el.innerHTML='<div class="ap-msg">⏳ Carregando...</div>';
   try{
-    var r = await fetch(u);
-    var buf = await r.arrayBuffer();
-    var wb = XLSX.read(buf, {type:"array", cellDates:true});
-    var ws = wb.Sheets[wb.SheetNames[0]];
-    var rows = XLSX.utils.sheet_to_json(ws, {defval:""});
+    var r=await fetch(u);
+    var buf=await r.arrayBuffer();
+    var wb=XLSX.read(buf,{type:"array",cellDates:true});
+    var ws=wb.Sheets[wb.SheetNames[0]];
+    var rows=XLSX.utils.sheet_to_json(ws,{defval:""});
     renderAportes(rows);
-  } catch(e){
-    el.innerHTML = '<div class="ap-msg">&#10060; Erro: '+e.message+'</div>';
+  }catch(e){
+    el.innerHTML='<div class="ap-msg">❌ Erro: '+e.message+'</div>';
   }
 }
 
 function renderAportes(rows){
-  apCharts.forEach(function(c){ if(c)c.destroy(); });
-  apCharts = [];
+  apCharts.forEach(function(c){if(c)c.destroy();});
+  apCharts=[];
   if(!rows||rows.length===0){
-    document.getElementById("apContent").innerHTML = '<div class="ap-msg">Nenhum dado encontrado.</div>';
+    document.getElementById("apContent").innerHTML='<div class="ap-msg">Nenhum dado encontrado.</div>';
     return;
   }
-  var sample = rows[0];
-  var keys = Object.keys(sample);
-  var colData = keys.find(function(k){ return /data|date|dt/i.test(k); })||keys[0];
-  var colValor = keys.find(function(k){ return /valor|value|montante|amount/i.test(k); })||(keys.find(function(k){ return typeof sample[k]==="number"; }))||keys[1];
-  var colTipo = keys.find(function(k){ return /tipo|type|operacao|oper|mov/i.test(k); })||"";
-  var colSocio = keys.find(function(k){ return /socio|s&#243;cio|nome|name|part/i.test(k); })||"";
-  var meses = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
-  var totA=0, totR=0, byMes={}, bySocio={};
+  var sample=rows[0];
+  var keys=Object.keys(sample);
+  var colData=keys.find(function(k){return /data|date|dt/i.test(k);})||keys[0];
+  var colValor=keys.find(function(k){return /valor|value|montante|amount/i.test(k);})||(keys.find(function(k){return typeof sample[k]==="number";}))||keys[1];
+  var colTipo=keys.find(function(k){return /tipo|type|operacao|oper|mov/i.test(k);})||"";
+  var colSocio=keys.find(function(k){return /socio|nome|name|part/i.test(k);})||"";
+  var meses=["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+  var totA=0,totR=0,byMes={},bySocio={};
   rows.forEach(function(row){
-    var raw = row[colValor];
-    var val = parseFloat(String(raw).replace(/[^0-9.,-]/g,"").replace(",","."))||0;
-    var tipoStr = colTipo ? String(row[colTipo]||"").toLowerCase() : "";
-    var isAp = colTipo ? tipoStr.indexOf("aport")>=0 : val>=0;
-    var abs = Math.abs(val);
-    if(isAp)totA+=abs; else totR+=abs;
+    var raw=row[colValor];
+    var val=parseFloat(String(raw).replace(/[^0-9.,-]/g,"").replace(",","."))||0;
+    var tipoStr=colTipo?String(row[colTipo]||"").toLowerCase():"";
+    var isAp=colTipo?tipoStr.indexOf("aport")>=0:val>=0;
+    var absVal=Math.abs(val);
+    if(isAp)totA+=absVal;else totR+=absVal;
     var mk="?";
     if(row[colData]){
-      var d = row[colData] instanceof Date ? row[colData] : new Date(row[colData]);
-      if(!isNaN(d.getTime()))mk = meses[d.getMonth()]+"/"+String(d.getFullYear()).slice(2);
+      var d=row[colData] instanceof Date?row[colData]:new Date(row[colData]);
+      if(!isNaN(d.getTime()))mk=meses[d.getMonth()]+"/"+String(d.getFullYear()).slice(2);
     }
     if(!byMes[mk])byMes[mk]={a:0,r:0};
-    if(isAp)byMes[mk].a+=abs; else byMes[mk].r+=abs;
+    if(isAp)byMes[mk].a+=absVal;else byMes[mk].r+=absVal;
     if(colSocio&&row[colSocio]){
-      var s = String(row[colSocio]).trim();
+      var s=String(row[colSocio]).trim();
       if(!bySocio[s])bySocio[s]={a:0,r:0};
-      if(isAp)bySocio[s].a+=abs; else bySocio[s].r+=abs;
+      if(isAp)bySocio[s].a+=absVal;else bySocio[s].r+=absVal;
     }
   });
-  var saldo = totA-totR;
-  var fmtV = function(v){ return "R$ "+v.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2}); };
-  var ml = Object.keys(byMes);
-  var sk = Object.keys(bySocio);
-  var pc = ["#60a5fa","#34d399","#fbbf24","#f87171","#a78bfa","#fb923c","#38bdf8","#4ade80"];
-  var co = {
+  var saldo=totA-totR;
+  var fmtV=function(v){return "R$ "+v.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});};
+  var ml=Object.keys(byMes);
+  var sk=Object.keys(bySocio);
+  var pc=["#60a5fa","#34d399","#fbbf24","#f87171","#a78bfa","#fb923c","#38bdf8","#4ade80"];
+  var co={
     responsive:true,
-    plugins:{ legend:{labels:{color:"#94a3b8",font:{size:11}}}, tooltip:{callbacks:{label:function(ctx){return fmtV(ctx.raw);}}} },
-    scales:{ x:{ticks:{color:"#475569"},grid:{color:"#0d1f3c"}}, y:{ticks:{color:"#475569",callback:function(v){return fmtV(v);}},grid:{color:"#0d1f3c"}} }
+    plugins:{legend:{labels:{color:"#94a3b8",font:{size:11}}},tooltip:{callbacks:{label:function(ctx){return fmtV(ctx.raw);}}}},
+    scales:{x:{ticks:{color:"#475569"},grid:{color:"#0d1f3c"}},y:{ticks:{color:"#475569",callback:function(v){return fmtV(v);}},grid:{color:"#0d1f3c"}}}
   };
-  var html = '<div class="ap-kpis">';
-  html += '<div class="ap-kpi"><div class="val g">'+fmtV(totA)+'</div><div class="lbl">Total Aportes</div></div>';
-  html += '<div class="ap-kpi"><div class="val r">'+fmtV(totR)+'</div><div class="lbl">Total Retiradas</div></div>';
-  html += '<div class="ap-kpi"><div class="val '+( saldo>=0?"b":"r" )+'">'+fmtV(saldo)+'</div><div class="lbl">Saldo L&#237;quido</div></div>';
-  html += '<div class="ap-kpi"><div class="val y">'+rows.length+'</div><div class="lbl">Registros</div></div>';
-  html += '</div>';
-  html += '<div class="ap-charts">';
-  html += '<div class="ap-chart-bx"><h4>Aportes vs Retiradas por M&#234;s</h4><canvas id="apCB"></canvas></div>';
-  html += '<div class="ap-chart-bx"><h4>Por S&#243;cio &#8212; Aportes</h4><canvas id="apCP"></canvas></div>';
-  html += '<div class="ap-chart-bx"><h4>Evolu&#231;&#227;o Acumulada</h4><canvas id="apCL"></canvas></div>';
-  html += '<div class="ap-chart-bx"><h4>Por S&#243;cio &#8212; Retiradas</h4><canvas id="apCR"></canvas></div>';
-  html += '</div>';
-  document.getElementById("apContent").innerHTML = html;
-  apCharts.push(new Chart(document.getElementById("apCB"), {
+  var html='<div class="ap-kpis">';
+  html+='<div class="ap-kpi"><div class="val g">'+fmtV(totA)+'</div><div class="lbl">Total Aportes</div></div>';
+  html+='<div class="ap-kpi"><div class="val r">'+fmtV(totR)+'</div><div class="lbl">Total Retiradas</div></div>';
+  html+='<div class="ap-kpi"><div class="val '+(saldo>=0?"b":"r")+'">'+fmtV(saldo)+'</div><div class="lbl">Saldo Líquido</div></div>';
+  html+='<div class="ap-kpi"><div class="val y">'+rows.length+'</div><div class="lbl">Registros</div></div>';
+  html+='</div><div class="ap-charts">';
+  html+='<div class="ap-chart-bx"><h4>Aportes vs Retiradas por Mês</h4><canvas id="apCB"></canvas></div>';
+  html+='<div class="ap-chart-bx"><h4>Por Sócio — Aportes</h4><canvas id="apCP"></canvas></div>';
+  html+='<div class="ap-chart-bx"><h4>Evolução Acumulada</h4><canvas id="apCL"></canvas></div>';
+  html+='<div class="ap-chart-bx"><h4>Por Sócio — Retiradas</h4><canvas id="apCR"></canvas></div>';
+  html+='</div>';
+  document.getElementById("apContent").innerHTML=html;
+  apCharts.push(new Chart(document.getElementById("apCB"),{
     type:"bar",
-    data:{ labels:ml, datasets:[
+    data:{labels:ml,datasets:[
       {label:"Aportes",data:ml.map(function(m){return byMes[m].a;}),backgroundColor:"rgba(52,211,153,.7)",borderColor:"#34d399",borderWidth:1},
       {label:"Retiradas",data:ml.map(function(m){return byMes[m].r;}),backgroundColor:"rgba(248,113,113,.7)",borderColor:"#f87171",borderWidth:1}
     ]},
     options:co
   }));
   if(sk.length>0){
-    apCharts.push(new Chart(document.getElementById("apCP"), {
+    apCharts.push(new Chart(document.getElementById("apCP"),{
       type:"doughnut",
-      data:{ labels:sk, datasets:[{data:sk.map(function(s){return bySocio[s].a;}),backgroundColor:pc,borderColor:"#0d1527",borderWidth:2}] },
-      options:{ responsive:true, plugins:{ legend:{labels:{color:"#94a3b8",font:{size:11}}}, tooltip:{callbacks:{label:function(ctx){return ctx.label+": "+fmtV(ctx.raw);}}} } }
+      data:{labels:sk,datasets:[{data:sk.map(function(s){return bySocio[s].a;}),backgroundColor:pc,borderColor:"#0d1527",borderWidth:2}]},
+      options:{responsive:true,plugins:{legend:{labels:{color:"#94a3b8",font:{size:11}}},tooltip:{callbacks:{label:function(ctx){return ctx.label+": "+fmtV(ctx.raw);}}}}}
     }));
-    apCharts.push(new Chart(document.getElementById("apCR"), {
+    apCharts.push(new Chart(document.getElementById("apCR"),{
       type:"doughnut",
-      data:{ labels:sk, datasets:[{data:sk.map(function(s){return bySocio[s].r||0;}),backgroundColor:pc,borderColor:"#0d1527",borderWidth:2}] },
-      options:{ responsive:true, plugins:{ legend:{labels:{color:"#94a3b8",font:{size:11}}}, tooltip:{callbacks:{label:function(ctx){return ctx.label+": "+fmtV(ctx.raw);}}} } }
+      data:{labels:sk,datasets:[{data:sk.map(function(s){return bySocio[s].r||0;}),backgroundColor:pc,borderColor:"#0d1527",borderWidth:2}]},
+      options:{responsive:true,plugins:{legend:{labels:{color:"#94a3b8",font:{size:11}}},tooltip:{callbacks:{label:function(ctx){return ctx.label+": "+fmtV(ctx.raw);}}}}}
     }));
   }
-  var ca=0, cr2=0, acA=[], acR=[];
-  ml.forEach(function(m){ ca+=byMes[m].a; cr2+=byMes[m].r; acA.push(ca); acR.push(cr2); });
-  apCharts.push(new Chart(document.getElementById("apCL"), {
+  var ca=0,cr2=0,acA=[],acR=[];
+  ml.forEach(function(m){ca+=byMes[m].a;cr2+=byMes[m].r;acA.push(ca);acR.push(cr2);});
+  apCharts.push(new Chart(document.getElementById("apCL"),{
     type:"line",
-    data:{ labels:ml, datasets:[
+    data:{labels:ml,datasets:[
       {label:"Aportes Acum.",data:acA,borderColor:"#34d399",backgroundColor:"rgba(52,211,153,.1)",fill:true,tension:.3},
       {label:"Retiradas Acum.",data:acR,borderColor:"#f87171",backgroundColor:"rgba(248,113,113,.1)",fill:true,tension:.3}
     ]},
@@ -501,10 +489,9 @@ function renderAportes(rows){
   }));
 }
 
-document.getElementById("cfgAupa").value = URLS.AUPA;
-document.getElementById("cfgAbs").value = URLS.ABS;
-var savedAp = localStorage.getItem("dbxAp")||"";
-document.getElementById("cfgAp").value = savedAp;
+document.getElementById("cfgAupa").value=URLS.AUPA;
+document.getElementById("cfgAbs").value=URLS.ABS;
+document.getElementById("cfgAp").value=localStorage.getItem("dbxAp")||"";
 loadAll();
 })();
 </script>
