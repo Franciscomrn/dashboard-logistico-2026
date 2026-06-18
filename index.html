@@ -497,7 +497,7 @@ async function loadDiesel(){
           var v=typeof r["REAIS"]==="number"?r["REAIS"]:parseFloat(String(r["REAIS"]).replace(/[^0-9.-]/g,""));
           if(!isNaN(v)&&v>0&&v<5000000){results.aupa.reais+=v;results.aupa.count++;}
           var l=typeof r["LITROS"]==="number"?r["LITROS"]:parseFloat(String(r["LITROS"]).replace(/[^0-9.-]/g,""));
-          if(!isNaN(l)&&l>0)results.aupa.litros+=l;
+          if(!isNaN(l)&&l>0&&l<5000)results.aupa.litros+=l;
         });
       }
     }
@@ -512,7 +512,7 @@ async function loadDiesel(){
           var v=typeof r["REAIS"]==="number"?r["REAIS"]:parseFloat(String(r["REAIS"]).replace(/[^0-9.-]/g,""));
           if(!isNaN(v)&&v>0&&v<5000000){results.abs.reais+=v;results.abs.count++;}
           var l=typeof r["LITROS"]==="number"?r["LITROS"]:parseFloat(String(r["LITROS"]).replace(/[^0-9.-]/g,""));
-          if(!isNaN(l)&&l>0)results.abs.litros+=l;
+          if(!isNaN(l)&&l>0&&l<5000)results.abs.litros+=l;
         });
       }
     }
