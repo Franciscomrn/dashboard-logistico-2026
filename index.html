@@ -95,7 +95,7 @@ tbody td{padding:6px 11px;border-bottom:1px solid #0a0f1a;color:#94a3b8}
 </head>
 <body>
 <header class="site-header">
-<h1><span>ð</span> Dashboard Logístico 2026</h1>
+<h1><span>&#x1F69B;</span> Dashboard Logístico 2026</h1>
 <div class="hinfo"><b id="hUpd">Carregando...</b><span id="hRec">0 registros</span></div>
 </header>
 <div id="homeScreen">
@@ -104,34 +104,34 @@ tbody td{padding:6px 11px;border-bottom:1px solid #0a0f1a;color:#94a3b8}
 <p class="home-sub">Clique numa empresa para ver o dashboard detalhado</p>
 <div class="cards">
 <div class="card aupa" onclick="showEmpresa('AUPA')">
-<div class="card-ico">ð</div>
+<div class="card-ico">&#x1F69C;</div>
 <div class="card-nm">AUPA</div>
-<p class="card-desc">2A Transportes Â· Logística<br>Açúcar, Calcário e outros</p>
+<p class="card-desc">2A Transportes · Logística<br>Açúcar, Calcário e outros</p>
 <div class="card-stats">
-<div class="cs"><div class="csv" id="cs-aupa-f">â</div><div class="csl">Faturamento</div></div>
-<div class="cs"><div class="csv" id="cs-aupa-v">â</div><div class="csl">Viagens</div></div>
-<div class="cs"><div class="csv" id="cs-aupa-m">â</div><div class="csl">Motoristas</div></div>
+<div class="cs"><div class="csv" id="cs-aupa-f">—</div><div class="csl">Faturamento</div></div>
+<div class="cs"><div class="csv" id="cs-aupa-v">—</div><div class="csl">Viagens</div></div>
+<div class="cs"><div class="csv" id="cs-aupa-m">—</div><div class="csl">Motoristas</div></div>
 </div>
-<div class="card-arrow">âº</div>
+<div class="card-arrow">›</div>
 </div>
 <div class="card abs" onclick="showEmpresa('ABS')">
-<div class="card-ico">ð</div>
+<div class="card-ico">&#x1F68C;</div>
 <div class="card-nm">ABS</div>
-<p class="card-desc">ABS Transportes Â· Logística<br>Açúcar, Calcário e outros</p>
+<p class="card-desc">ABS Transportes · Logística<br>Açúcar, Calcário e outros</p>
 <div class="card-stats">
-<div class="cs"><div class="csv" id="cs-abs-f">â</div><div class="csl">Faturamento</div></div>
-<div class="cs"><div class="csv" id="cs-abs-v">â</div><div class="csl">Viagens</div></div>
-<div class="cs"><div class="csv" id="cs-abs-m">â</div><div class="csl">Motoristas</div></div>
+<div class="cs"><div class="csv" id="cs-abs-f">—</div><div class="csl">Faturamento</div></div>
+<div class="cs"><div class="csv" id="cs-abs-v">—</div><div class="csl">Viagens</div></div>
+<div class="cs"><div class="csv" id="cs-abs-m">—</div><div class="csl">Motoristas</div></div>
 </div>
-<div class="card-arrow">âº</div>
+<div class="card-arrow">›</div>
 </div>
 </div>
 <div class="loading-bar" id="ldBar"><div class="spin"></div>Carregando dados...</div>
 </div>
-<button class="ap-btn" onclick="openAportes()">ð Aportes &amp; Retiradas 2026</button>
-<button class="cfg-toggle" onclick="toggleCfg()">â</button>
+<button class="ap-btn" onclick="openAportes()">&#x1F4CA; Aportes &amp; Retiradas 2026</button>
+<button class="cfg-toggle" onclick="toggleCfg()">⚙</button>
 <div class="cfg-panel" id="cfgPanel">
-<h4>ð Links Dropbox</h4>
+<h4>&#x1F517; Links Dropbox</h4>
 <label>LOGÍSTICA 2026 AUPA</label>
 <input type="text" id="cfgAupa" placeholder="https://www.dropbox.com/...?dl=1">
 <label>LOGÍSTICA 2026 ABS</label>
@@ -145,21 +145,21 @@ tbody td{padding:6px 11px;border-bottom:1px solid #0a0f1a;color:#94a3b8}
 </div>
 <div id="empresaScreen">
 <header class="site-header" style="position:sticky;top:0;z-index:10">
-<button class="back-btn" onclick="showHome()">â Voltar</button>
+<button class="back-btn" onclick="showHome()">← Voltar</button>
 <h1 id="empNome"></h1>
-<div class="auto-bar"><button id="autoBtn" onclick="toggleAuto()">â¶ Auto</button></div>
-<div class="hinfo"><b id="hUpd2">â</b><span id="hRec2"></span></div>
+<div class="auto-bar"><button id="autoBtn" onclick="toggleAuto()">▶ Auto</button></div>
+<div class="hinfo"><b id="hUpd2">—</b><span id="hRec2"></span></div>
 </header>
 <div class="det-kpis">
-<div class="k"><div class="kl">Faturamento Total</div><div class="kv cb" id="kFat">â</div></div>
-<div class="k"><div class="kl">Viagens</div><div class="kv cg" id="kViag">â</div></div>
-<div class="k"><div class="kl">Motoristas</div><div class="kv cy" id="kMot">â</div></div>
-<div class="k"><div class="kl">Clientes</div><div class="kv cc" id="kCli">â</div></div>
+<div class="k"><div class="kl">Faturamento Total</div><div class="kv cb" id="kFat">—</div></div>
+<div class="k"><div class="kl">Viagens</div><div class="kv cg" id="kViag">—</div></div>
+<div class="k"><div class="kl">Motoristas</div><div class="kv cy" id="kMot">—</div></div>
+<div class="k"><div class="kl">Clientes</div><div class="kv cc" id="kCli">—</div></div>
 </div>
 <div class="det-kpis-3">
-<div class="k"><div class="kl">Ticket Médio</div><div class="kv cp" id="kTick">â</div></div>
-<div class="k"><div class="kl">Mês Atual</div><div class="kv cc" id="kMes">â</div></div>
-<div class="k"><div class="kl">Pendentes</div><div class="kv cr" id="kPend">â</div></div>
+<div class="k"><div class="kl">Ticket Médio</div><div class="kv cp" id="kTick">—</div></div>
+<div class="k"><div class="kl">Mês Atual</div><div class="kv cc" id="kMes">—</div></div>
+<div class="k"><div class="kl">Pendentes</div><div class="kv cr" id="kPend">—</div></div>
 </div>
 <div class="cgrid">
 <div class="cc-box"><h3>Faturamento por Mês</h3><canvas id="cFat"></canvas></div>
@@ -174,10 +174,10 @@ tbody td{padding:6px 11px;border-bottom:1px solid #0a0f1a;color:#94a3b8}
 </div>
 <div class="modal-ov hide" id="apModal" onclick="if(event.target===this)closeAportes()">
 <div class="modal-bx">
-<button class="modal-x" onclick="closeAportes()">â</button>
-<div class="modal-ttl">ð Aportes &amp; Retiradas 2026 â Sócios</div>
-<div class="modal-sub">Resumo consolidado â AUPA e ABS Transportes</div>
-<div id="apContent"><div class="ap-msg">â³ Carregando...</div></div>
+<button class="modal-x" onclick="closeAportes()">✕</button>
+<div class="modal-ttl">&#x1F4CA; Aportes &amp; Retiradas 2026 — Sócios</div>
+<div class="modal-sub">Resumo consolidado — AUPA e ABS Transportes</div>
+<div id="apContent"><div class="ap-msg">⏳ Carregando...</div></div>
 </div>
 </div>
 <script>
@@ -190,7 +190,7 @@ var autoTimer=null;
 var apCharts=[];
 
 function fmt(v){
-  if(v===null||v===undefined||v==="")return "â";
+  if(v===null||v===undefined||v==="")return "—";
   var n=parseFloat(String(v).replace(/[^0-9.,-]/g,"").replace(",","."));
   if(isNaN(n))return String(v);
   return "R$"+n.toLocaleString("pt-BR",{minimumFractionDigits:2});
@@ -205,7 +205,7 @@ window.showHome=function(){
   document.getElementById("empresaScreen").style.display="none";
   if(autoTimer){clearInterval(autoTimer);autoTimer=null;}
   var b=document.getElementById("autoBtn");
-  if(b){b.textContent="â¶ Auto";b.classList.remove("on");}
+  if(b){b.textContent="▶ Auto";b.classList.remove("on");}
 };
 
 window.showEmpresa=function(emp){
@@ -220,9 +220,9 @@ window.toggleAuto=function(){
   var b=document.getElementById("autoBtn");
   if(autoTimer){
     clearInterval(autoTimer);autoTimer=null;
-    b.textContent="â¶ Auto";b.classList.remove("on");
+    b.textContent="▶ Auto";b.classList.remove("on");
   }else{
-    b.textContent="â¸ Parar";b.classList.add("on");
+    b.textContent="⏸ Parar";b.classList.add("on");
     autoTimer=setInterval(loadAll,30000);
   }
 };
@@ -280,10 +280,10 @@ function renderDetalhe(){
   destroyCharts();
   var rows=DATA[empresa];
   if(!rows||!rows.length){
-    document.getElementById("tBody").innerHTML='<tr><td colspan="20" style="text-align:center;padding:24px;color:#334155">Sem dados â configure os links no botão â</td></tr>';
+    document.getElementById("tBody").innerHTML='<tr><td colspan="20" style="text-align:center;padding:24px;color:#334155">Sem dados — configure os links no botão ⚙</td></tr>';
     document.getElementById("tHead").innerHTML="";
     ["kFat","kViag","kMot","kCli","kTick","kPend"].forEach(function(id){
-      document.getElementById(id).textContent="â";
+      document.getElementById(id).textContent="—";
     });
     document.getElementById("kMes").textContent=new Date().toLocaleString("pt-BR",{month:"long",year:"numeric"});
     return;
@@ -300,13 +300,13 @@ function renderDetalhe(){
   var cli=cliKey?new Set(rows.map(function(r){return r[cliKey];}).filter(Boolean)).size:0;
   document.getElementById("kFat").textContent=fmt(fat);
   document.getElementById("kViag").textContent=viag;
-  document.getElementById("kMot").textContent=mot||"â";
-  document.getElementById("kCli").textContent=cli||"â";
-  document.getElementById("kTick").textContent=viag?fmt(fat/viag):"â";
+  document.getElementById("kMot").textContent=mot||"—";
+  document.getElementById("kCli").textContent=cli||"—";
+  document.getElementById("kTick").textContent=viag?fmt(fat/viag):"—";
   document.getElementById("hRec2").textContent=rows.length+" registros";
   document.getElementById("hUpd2").textContent="Atualizado agora";
   document.getElementById("kMes").textContent=new Date().toLocaleString("pt-BR",{month:"long",year:"numeric"});
-  document.getElementById("kPend").textContent="â";
+  document.getElementById("kPend").textContent="—";
   if(mesKey&&fatKey){
     var bm={};
     rows.forEach(function(r){var m=String(r[mesKey]).substring(0,7);if(!bm[m])bm[m]=0;bm[m]+=fmtN(r[fatKey]);});
@@ -337,7 +337,7 @@ function renderDetalhe(){
   document.getElementById("tHead").innerHTML=keys.slice(0,8).map(function(k){return "<th>"+k+"</th>";}).join("");
   document.getElementById("tCount").textContent=rows.length+" registros";
   document.getElementById("tBody").innerHTML=rows.slice(0,100).map(function(r){
-    return "<tr>"+keys.slice(0,8).map(function(k){return "<td>"+(r[k]!==undefined&&r[k]!==""?r[k]:"â")+"</td>";}).join("")+"</tr>";
+    return "<tr>"+keys.slice(0,8).map(function(k){return "<td>"+(r[k]!==undefined&&r[k]!==""?r[k]:"—")+"</td>";}).join("")+"</tr>";
   }).join("");
 }
 async function loadOne(emp){
@@ -347,7 +347,7 @@ async function loadOne(emp){
     url=url.replace("www.dropbox.com","dl.dropboxusercontent.com");var r=await fetch(url);
     var ab=await r.arrayBuffer();
     var wb=XLSX.read(ab,{type:"array"});
-    var bestSheet=wb.SheetNames.find(function(n){return /logis|logístico/i.test(n);})||wb.SheetNames[0];var ws=wb.Sheets[bestSheet];
+    var bestSheet=wb.SheetNames.find(function(n){return /logis/i.test(n);})||wb.SheetNames[0];var ws=wb.Sheets[bestSheet];
     DATA[emp]=XLSX.utils.sheet_to_json(ws,{defval:""});
     var rows=DATA[emp];
     var keys=rows.length?Object.keys(rows[0]):[];
@@ -358,13 +358,13 @@ async function loadOne(emp){
     var vi=viKey?new Set(rows.map(function(rw){return rw[viKey];})).size:rows.length;
     var mo=motKey?new Set(rows.map(function(rw){return rw[motKey];}).filter(Boolean)).size:0;
     if(emp==="AUPA"){
-      document.getElementById("cs-aupa-f").textContent=fat?"R$"+Math.round(fat/1000)+"k":"â";
-      document.getElementById("cs-aupa-v").textContent=vi||"â";
-      document.getElementById("cs-aupa-m").textContent=mo||"â";
+      document.getElementById("cs-aupa-f").textContent=fat?"R$"+Math.round(fat/1000)+"k":"—";
+      document.getElementById("cs-aupa-v").textContent=vi||"—";
+      document.getElementById("cs-aupa-m").textContent=mo||"—";
     }else{
-      document.getElementById("cs-abs-f").textContent=fat?"R$"+Math.round(fat/1000)+"k":"â";
-      document.getElementById("cs-abs-v").textContent=vi||"â";
-      document.getElementById("cs-abs-m").textContent=mo||"â";
+      document.getElementById("cs-abs-f").textContent=fat?"R$"+Math.round(fat/1000)+"k":"—";
+      document.getElementById("cs-abs-v").textContent=vi||"—";
+      document.getElementById("cs-abs-m").textContent=mo||"—";
     }
   }catch(e){console.warn("Erro ao carregar",emp,e.message);}
 }
@@ -384,10 +384,10 @@ async function loadAportes(){
   var u=localStorage.getItem("dbxAp");
   var el=document.getElementById("apContent");
   if(!u){
-    el.innerHTML='<div class="ap-msg">â ï¸ Configure o link da planilha <strong>APORTE E RETIRADA 2026</strong> no botão âï¸</div>';
+    el.innerHTML='<div class="ap-msg">⚠️ Configure o link da planilha <strong>APORTE E RETIRADA 2026</strong> no botão ⚙️</div>';
     return;
   }
-  el.innerHTML='<div class="ap-msg">â³ Carregando...</div>';
+  el.innerHTML='<div class="ap-msg">⏳ Carregando...</div>';
   try{
     var r=await fetch(u);
     var buf=await r.arrayBuffer();
@@ -396,7 +396,7 @@ async function loadAportes(){
     var rows=XLSX.utils.sheet_to_json(ws,{defval:""});
     renderAportes(rows);
   }catch(e){
-    el.innerHTML='<div class="ap-msg">â Erro: '+e.message+'</div>';
+    el.innerHTML='<div class="ap-msg">❌ Erro: '+e.message+'</div>';
   }
 }
 
@@ -452,9 +452,9 @@ function renderAportes(rows){
   html+='<div class="ap-kpi"><div class="val y">'+rows.length+'</div><div class="lbl">Registros</div></div>';
   html+='</div><div class="ap-charts">';
   html+='<div class="ap-chart-bx"><h4>Aportes vs Retiradas por Mês</h4><canvas id="apCB"></canvas></div>';
-  html+='<div class="ap-chart-bx"><h4>Por Sócio â Aportes</h4><canvas id="apCP"></canvas></div>';
+  html+='<div class="ap-chart-bx"><h4>Por Sócio — Aportes</h4><canvas id="apCP"></canvas></div>';
   html+='<div class="ap-chart-bx"><h4>Evolução Acumulada</h4><canvas id="apCL"></canvas></div>';
-  html+='<div class="ap-chart-bx"><h4>Por Sócio â Retiradas</h4><canvas id="apCR"></canvas></div>';
+  html+='<div class="ap-chart-bx"><h4>Por Sócio — Retiradas</h4><canvas id="apCR"></canvas></div>';
   html+='</div>';
   document.getElementById("apContent").innerHTML=html;
   apCharts.push(new Chart(document.getElementById("apCB"),{
