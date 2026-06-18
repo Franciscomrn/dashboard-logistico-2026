@@ -546,31 +546,45 @@ async function loadAportesSummary(){
   var u=URLS.AP;
   if(!u)return;
   try{
+    u=u.replace("www.dropbox.com","dl.dropboxusercontent.com");
     var r=await fetch(u);
     var ab=await r.arrayBuffer();
     var wb=XLSX.read(ab,{type:"array"});
-    var ws=wb.Sheets[wb.SheetNames[0]];
-    var _r=XLSX.utils.sheet_to_json(ws,{defval:""});
-    var _keys=_r[0]?Object.keys(_r[0]):[];
-    var _allEmpty=_keys.every(function(k){return k.startsWith("__EMPTY");});
-    var rows=_allEmpty?XLSX.utils.sheet_to_json(ws,{defval:"",range:2}):_r;
-
-    var colA=Object.keys(rows[0]||{}).find(function(k){return /aport/i.test(k);});
-    var colR=Object.keys(rows[0]||{}).find(function(k){return /retir/i.test(k);});
+    // Try to find a sheet with RESUMO or use loadAportes data via re-reading
+    var wsName=wb.SheetNames.find(function(n){return /resumo/i.test(n);})||wb.SheetNames[wb.SheetNames.length-1];
+    var ws=wb.Sheets[wsName];
+    var raw=XLSX.utils.sheet_to_json(ws,{header:1,defval:""});
     var totalA=0,totalR=0;
-    rows.forEach(function(row){
-      var a=typeof row[colA]==="number"?row[colA]:parseFloat(String(row[colA]||"").replace(/[^0-9.-]/g,""));
-      if(!isNaN(a)&&a>0)totalA+=a;
-      var rr=typeof row[colR]==="number"?row[colR]:parseFloat(String(row[colR]||"").replace(/[^0-9.-]/g,""));
-      if(!isNaN(rr)&&rr>0)totalR+=rr;
+    raw.forEach(function(row){
+      // Look for rows with numeric values in col 1 (AUPA) and col 4 (ABS)
+      var v1=typeof row[1]==="number"?row[1]:parseFloat(String(row[1]||"").replace(/[^0-9.-]/g,""));
+      var v4=typeof row[4]==="number"?row[4]:parseFloat(String(row[4]||"").replace(/[^0-9.-]/g,""));
+      var label=String(row[0]||"").toUpperCase();
+      if(/devido|total aporte/i.test(label)){
+        if(!isNaN(v1)&&v1>0)totalA+=v1;
+        if(!isNaN(v4)&&v4>0)totalA+=v4;
+      }
+      if(/retira/i.test(label)){
+        if(!isNaN(v1)&&v1>0)totalR+=v1;
+        if(!isNaN(v4)&&v4>0)totalR+=v4;
+      }
     });
-
+    // If no DEVIDO found, sum all positive cols
+    if(totalA===0){
+      raw.forEach(function(row){
+        var v1=typeof row[1]==="number"?row[1]:parseFloat(String(row[1]||"").replace(/[^0-9.-]/g,""));
+        var v4=typeof row[4]==="number"?row[4]:parseFloat(String(row[4]||"").replace(/[^0-9.-]/g,""));
+        if(!isNaN(v1)&&v1>0)totalA+=v1;
+        if(!isNaN(v4)&&v4>0)totalA+=v4;
+      });
+    }
     var elA=document.getElementById("cs-ap-a"),elR=document.getElementById("cs-ap-r"),elS=document.getElementById("cs-ap-s");
     if(elA)elA.textContent=fmtK(totalA);
     if(elR)elR.textContent=fmtK(totalR);
     if(elS)elS.textContent=fmtK(totalA-totalR);
   }catch(e){}
 }
+
 
 
 async function loadAportes(){
