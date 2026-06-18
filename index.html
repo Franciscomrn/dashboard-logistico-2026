@@ -182,7 +182,7 @@ tbody td{padding:6px 11px;border-bottom:1px solid #0a0f1a;color:#94a3b8}
 </div>
 <script>
 (function(){
-var URLS={AUPA:localStorage.getItem("dbxAupa")||"",ABS:localStorage.getItem("dbxAbs")||""};
+var URLS={AUPA:localStorage.getItem("dbxAupa")||"https://dl.dropboxusercontent.com/scl/fi/k0sohs0mwjz6z9l2141c7/LOGISTICO-2026-AUPA.xlsx?rlkey=mxqn0itczv7scf6kgsmqt3y4w&dl=1",ABS:localStorage.getItem("dbxAbs")||"https://dl.dropboxusercontent.com/scl/fi/gnwwx4722tmrnj3ztl2ik/LOGISTICA-2026-ABS.xlsx?rlkey=0aavwu14hh8ly182vjylnsdy8&dl=1"};
 var DATA={AUPA:[],ABS:[]};
 var empresa="";
 var charts={};
@@ -344,7 +344,7 @@ async function loadOne(emp){
   var url=URLS[emp];
   if(!url)return;
   try{
-    url=url.replace("www.dropbox.com","dl.dropboxusercontent.com");var r=await fetch(url);
+    url=url.replace("www.dropbox.com","dl.dropboxusercontent.com");url=url.replace("www.dropbox.com","dl.dropboxusercontent.com");var r=await fetch(url);
     var ab=await r.arrayBuffer();
     var wb=XLSX.read(ab,{type:"array"});
     var bestSheet=wb.SheetNames.find(function(n){return /logis/i.test(n);})||wb.SheetNames[0];var ws=wb.Sheets[bestSheet];
@@ -392,7 +392,7 @@ async function loadAportes(){
     var r=await fetch(u);
     var buf=await r.arrayBuffer();
     var wb=XLSX.read(buf,{type:"array",cellDates:true});
-    var ws=wb.Sheets[wb.SheetNames[0]];
+    var bestSheet=wb.SheetNames.find(function(n){return /logis/i.test(n);})||wb.SheetNames[0];var ws=wb.Sheets[bestSheet];
     var rows=XLSX.utils.sheet_to_json(ws,{defval:""});
     renderAportes(rows);
   }catch(e){
@@ -491,7 +491,7 @@ function renderAportes(rows){
 
 document.getElementById("cfgAupa").value=URLS.AUPA;
 document.getElementById("cfgAbs").value=URLS.ABS;
-document.getElementById("cfgAp").value=localStorage.getItem("dbxAp")||"";
+document.getElementById("cfgAp").value=localStorage.getItem("dbxAp")||"https://dl.dropboxusercontent.com/scl/fi/m82w5f3ois2c6frvg1olr/APORTE-E-RETIRADA-2026.xlsx?rlkey=265b8xscatoekp8xj0p7oouzf&dl=1";
 loadAll();
 })();
 </script>
