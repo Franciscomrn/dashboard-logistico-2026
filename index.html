@@ -136,11 +136,11 @@ tbody td{padding:6px 11px;border-bottom:1px solid #0a0f1a;color:#94a3b8}
 <div class="card aportes" onclick="openAportes()">
 <div class="card-ico">&#x1F4CA;</div>
 <div class="card-nm">Aportes</div>
-<p class="card-desc">Aportes & Retiradas<br>AUPA · ABS · Sócios</p>
+<p class="card-desc">Total por transportadora<br>Dinheiro + Diesel</p>
 <div class="card-stats">
-<div class="cs"><div class="csv" id="cs-ap-a">—</div><div class="csl">Aportes</div></div>
-<div class="cs"><div class="csv" id="cs-ap-r">—</div><div class="csl">Retiradas</div></div>
-<div class="cs"><div class="csv" id="cs-ap-s">—</div><div class="csl">Saldo</div></div>
+<div class="cs"><div class="csv" id="cs-ap-a">—</div><div class="csl">AUPA</div></div>
+<div class="cs"><div class="csv" id="cs-ap-r">—</div><div class="csl">ABS</div></div>
+<div class="cs"><div class="csv" id="cs-ap-s">—</div><div class="csl">Total</div></div>
 </div>
 <div class="card-arrow">›</div>
 </div>
@@ -399,25 +399,53 @@ async function loadOne(emp){
   var url=URLS[emp];
   if(!url)return;
   try{
-    url=url.replace("www.dropbox.com","dl.dropboxusercontent.com");url=url.replace("www.dropbox.com","dl.dropboxusercontent.com");var r=await fetch(url);
+    url=url.replace("www.dropbox.com","dl.dropboxusercontent.com");
+    var r=await fetch(url);
     var ab=await r.arrayBuffer();
     var wb=XLSX.read(ab,{type:"array"});
-    var bestSheet=wb.SheetNames.find(function(n){return /logis/i.test(n);})||wb.SheetNames[0];var ws=wb.Sheets[bestSheet];
-    var _r=XLSX.utils.sheet_to_json(ws,{defval:""});var _keys=_r[0]?Object.keys(_r[0]):[];var _allEmpty=_keys.every(function(k){return k.startsWith("__EMPTY");});DATA[emp]=_allEmpty?XLSX.utils.sheet_to_json(ws,{defval:"",range:2}):_r;
-    var rows=DATA[emp];
-    var keys=rows.length?Object.keys(rows[0]):[];
-    var fatKey=keys.find(function(k){return /fat|valor|total|receita/i.test(k);});
-    var viKey=keys.find(function(k){return /viag|nf|nota|cte|carga/i.test(k);});
+    var bestSheet=wb.SheetNames.find(function(n){return /logis/i.test(n);})||wb.SheetNames[0];
+    var ws=wb.Sheets[bestSheet];
+    // Detect header row offset
+    var _r=XLSX.utils.sheet_to_json(ws,{defval:""});
+    var _keys=_r[0]?Object.keys(_r[0]):[];
+    var _allEmpty=_keys.every(function(k){return k.startsWith("__EMPTY");});
+    DATA[emp]=_allEmpty?XLSX.utils.sheet_to_json(ws,{defval:"",range:2}):_r;
+    var allRows=DATA[emp];
+    var keys=allRows.length?Object.keys(allRows[0]):[];
+    // Find key columns - prioritize exact "Faturamento"/"FATURAMENTO" over "VALOR FRETE"
+    var fatKey=keys.find(function(k){return /^faturamento$/i.test(k);})
+               ||keys.find(function(k){return /^faturamento/i.test(k);})
+               ||keys.find(function(k){return /fat/i.test(k);})
+               ||keys.find(function(k){return /total|receita/i.test(k);});
+    var dateKey=keys.find(function(k){return /^data|^date|^dat.viag/i.test(k);});
     var motKey=keys.find(function(k){return /motor|driver|condu/i.test(k);});
+    // Filter by current month
+    var now=new Date();
+    var curYear=now.getFullYear(), curMon=now.getMonth(); // 0-indexed
+    // Excel serial for current month boundaries
+    var monStart=Math.floor((new Date(curYear,curMon,1)-new Date(1900,0,0))/86400000)+1;
+    var monEnd=Math.floor((new Date(curYear,curMon+1,0)-new Date(1900,0,0))/86400000)+1;
+    var rows=allRows.filter(function(rw){
+      if(!dateKey)return true;
+      var dv=rw[dateKey];
+      if(typeof dv==="number"&&dv>40000)return dv>=monStart&&dv<=monEnd;
+      if(typeof dv==="string"&&dv){
+        // Try parse string dates
+        var d=new Date(dv);
+        if(!isNaN(d))return d.getFullYear()===curYear&&d.getMonth()===curMon;
+      }
+      return false;
+    });
+    if(rows.length===0)rows=allRows; // fallback: if filter removes all, show all
     var fat=fatKey?rows.reduce(function(s,rw){return s+fmtN(rw[fatKey]);},0):0;
-    var vi=viKey?new Set(rows.map(function(rw){return rw[viKey];})).size:rows.length;
+    var vi=rows.length;
     var mo=motKey?new Set(rows.map(function(rw){return rw[motKey];}).filter(Boolean)).size:0;
     if(emp==="AUPA"){
-      document.getElementById("cs-aupa-f").textContent=fat?"R$"+Math.round(fat/1000)+"k":"—";
+      document.getElementById("cs-aupa-f").textContent=fmtK(fat)||"—";
       document.getElementById("cs-aupa-v").textContent=vi||"—";
       document.getElementById("cs-aupa-m").textContent=mo||"—";
     }else{
-      document.getElementById("cs-abs-f").textContent=fat?"R$"+Math.round(fat/1000)+"k":"—";
+      document.getElementById("cs-abs-f").textContent=fmtK(fat)||"—";
       document.getElementById("cs-abs-v").textContent=vi||"—";
       document.getElementById("cs-abs-m").textContent=mo||"—";
     }
@@ -543,49 +571,34 @@ async function loadDiesel(){
 
 
 async function loadAportesSummary(){
-  var u=URLS.AP;
-  if(!u)return;
   try{
-    u=u.replace("www.dropbox.com","dl.dropboxusercontent.com");
+    var u=URLS.AP;
+    if(!u)return;
     var r=await fetch(u);
-    var ab=await r.arrayBuffer();
-    var wb=XLSX.read(ab,{type:"array"});
-    // Try to find a sheet with RESUMO or use loadAportes data via re-reading
-    var wsName=wb.SheetNames.find(function(n){return /resumo/i.test(n);})||wb.SheetNames[wb.SheetNames.length-1];
-    var ws=wb.Sheets[wsName];
-    var raw=XLSX.utils.sheet_to_json(ws,{header:1,defval:""});
-    var totalA=0,totalR=0;
-    raw.forEach(function(row){
-      // Look for rows with numeric values in col 1 (AUPA) and col 4 (ABS)
-      var v1=typeof row[1]==="number"?row[1]:parseFloat(String(row[1]||"").replace(/[^0-9.-]/g,""));
-      var v4=typeof row[4]==="number"?row[4]:parseFloat(String(row[4]||"").replace(/[^0-9.-]/g,""));
-      var label=String(row[0]||"").toUpperCase();
-      if(/devido|total aporte/i.test(label)){
-        if(!isNaN(v1)&&v1>0)totalA+=v1;
-        if(!isNaN(v4)&&v4>0)totalA+=v4;
-      }
-      if(/retira/i.test(label)){
-        if(!isNaN(v1)&&v1>0)totalR+=v1;
-        if(!isNaN(v4)&&v4>0)totalR+=v4;
-      }
-    });
-    // If no DEVIDO found, sum all positive cols
-    if(totalA===0){
-      raw.forEach(function(row){
-        var v1=typeof row[1]==="number"?row[1]:parseFloat(String(row[1]||"").replace(/[^0-9.-]/g,""));
-        var v4=typeof row[4]==="number"?row[4]:parseFloat(String(row[4]||"").replace(/[^0-9.-]/g,""));
-        if(!isNaN(v1)&&v1>0)totalA+=v1;
-        if(!isNaN(v4)&&v4>0)totalA+=v4;
-      });
+    var buf=await r.arrayBuffer();
+    var wb=XLSX.read(buf,{type:"array"});
+    var wsR=wb.Sheets["RESUMO DE APORTE E RETIRADA"];
+    if(!wsR){
+      // fallback: try to find sheet by name pattern
+      var sn=wb.SheetNames.find(function(n){return /resumo/i.test(n);});
+      wsR=sn?wb.Sheets[sn]:null;
     }
+    if(!wsR)return;
+    var raw=XLSX.utils.sheet_to_json(wsR,{header:1,defval:"",raw:true});
+    // Row 4 (index 4): DEVIDO AUPA dinheiro=col[1], DEVIDO ABS dinheiro=col[4], DEVIDO AUPA diesel=col[9], DEVIDO ABS diesel=col[12]
+    var row4=raw[4]||[];
+    var aupaD=typeof row4[1]==="number"?row4[1]:0;  // AUPA dinheiro
+    var absD=typeof row4[4]==="number"?row4[4]:0;   // ABS dinheiro
+    var aupaF=typeof row4[9]==="number"?row4[9]:0;  // AUPA diesel
+    var absF=typeof row4[12]==="number"?row4[12]:0; // ABS diesel
+    var aupaTotal=aupaD+aupaF;
+    var absTotal=absD+absF;
     var elA=document.getElementById("cs-ap-a"),elR=document.getElementById("cs-ap-r"),elS=document.getElementById("cs-ap-s");
-    if(elA)elA.textContent=fmtK(totalA);
-    if(elR)elR.textContent=fmtK(totalR);
-    if(elS)elS.textContent=fmtK(totalA-totalR);
-  }catch(e){}
+    if(elA)elA.textContent=fmtK(aupaTotal);
+    if(elR)elR.textContent=fmtK(absTotal);
+    if(elS)elS.textContent=fmtK(aupaTotal+absTotal);
+  }catch(e){console.warn("loadAportesSummary error:",e.message);}
 }
-
-
 
 async function loadAportes(){
   var u=localStorage.getItem("dbxAp");
