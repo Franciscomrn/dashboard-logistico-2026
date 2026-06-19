@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Dashboard LogÃÂ­stico 2026</title>
+<title>Dashboard Log&#xED;stico 2026</title>
 <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
@@ -115,7 +115,7 @@ tbody td{padding:6px 11px;border-bottom:1px solid #0a0f1a;color:#94a3b8}
 </head>
 <body>
 <header class="site-header">
-<h1><span>&#x1F69B;</span> Dashboard LogÃÂ­stico 2026</h1>
+<h1><span>&#x1F69B;</span> Dashboard Log&#xED;stico 2026</h1>
 <div class="hinfo"><b id="hUpd">Carregando...</b><span id="hRec">0 registros</span></div>
 </header>
 <div id="homeScreen">
@@ -126,24 +126,24 @@ tbody td{padding:6px 11px;border-bottom:1px solid #0a0f1a;color:#94a3b8}
 <div class="card aupa" onclick="showEmpresa('AUPA')">
 <div class="card-ico">&#x1F69C;</div>
 <div class="card-nm">AUPA</div>
-<p class="card-desc">2A Transportes ÃÂ· LogÃÂ­stica<br>AÃÂ§ÃÂºcar, CalcÃÂ¡rio e outros</p>
+<p class="card-desc">2A Transportes &#xB7; Log&#xED;stica<br>A&#xE7;&#xFA;car, Calc&#xE1;rio e outros</p>
 <div class="card-stats">
-<div class="cs"><div class="csv" id="cs-aupa-f">Ã¢ÂÂ</div><div class="csl">Faturamento</div></div>
-<div class="cs"><div class="csv" id="cs-aupa-v">Ã¢ÂÂ</div><div class="csl">Viagens</div></div>
-<div class="cs"><div class="csv" id="cs-aupa-m">Ã¢ÂÂ</div><div class="csl">Motoristas</div></div>
+<div class="cs"><div class="csv" id="cs-aupa-f">&#x2014;</div><div class="csl">Faturamento</div></div>
+<div class="cs"><div class="csv" id="cs-aupa-v">&#x2014;</div><div class="csl">Viagens</div></div>
+<div class="cs"><div class="csv" id="cs-aupa-m">&#x2014;</div><div class="csl">Motoristas</div></div>
 </div>
-<div class="card-arrow">Ã¢ÂÂº</div>
+<div class="card-arrow">&#x203A;</div>
 </div>
 <div class="card abs" onclick="showEmpresa('ABS')">
 <div class="card-ico">&#x1F68C;</div>
 <div class="card-nm">ABS</div>
-<p class="card-desc">ABS Transportes ÃÂ· LogÃÂ­stica<br>AÃÂ§ÃÂºcar, CalcÃÂ¡rio e outros</p>
+<p class="card-desc">ABS Transportes &#xB7; Log&#xED;stica<br>A&#xE7;&#xFA;car, Calc&#xE1;rio e outros</p>
 <div class="card-stats">
-<div class="cs"><div class="csv" id="cs-abs-f">Ã¢ÂÂ</div><div class="csl">Faturamento</div></div>
-<div class="cs"><div class="csv" id="cs-abs-v">Ã¢ÂÂ</div><div class="csl">Viagens</div></div>
-<div class="cs"><div class="csv" id="cs-abs-m">Ã¢ÂÂ</div><div class="csl">Motoristas</div></div>
+<div class="cs"><div class="csv" id="cs-abs-f">&#x2014;</div><div class="csl">Faturamento</div></div>
+<div class="cs"><div class="csv" id="cs-abs-v">&#x2014;</div><div class="csl">Viagens</div></div>
+<div class="cs"><div class="csv" id="cs-abs-m">&#x2014;</div><div class="csl">Motoristas</div></div>
 </div>
-<div class="card-arrow">Ã¢ÂÂº</div>
+<div class="card-arrow">&#x203A;</div>
 </div>
 <div class="card aportes" onclick="openAportes()">
 <div class="card-ico">&#x1F4B0;</div>
@@ -161,12 +161,12 @@ tbody td{padding:6px 11px;border-bottom:1px solid #0a0f1a;color:#94a3b8}
 
 <div class="loading-bar" id="ldBar"><div class="spin"></div>Carregando dados...</div>
 </div>
-<button class="cfg-toggle" onclick="toggleCfg()">Ã¢ÂÂ</button>
+<button class="cfg-toggle" onclick="toggleCfg()">&#x2699;</button>
 <div class="cfg-panel" id="cfgPanel">
 <h4>&#x1F517; Links Dropbox</h4>
-<label>LOGÃÂSTICA 2026 AUPA</label>
+<label>LOG&#xCD;STICA 2026 AUPA</label>
 <input type="text" id="cfgAupa" placeholder="https://www.dropbox.com/...?dl=1">
-<label>LOGÃÂSTICA 2026 ABS</label>
+<label>LOG&#xCD;STICA 2026 ABS</label>
 <input type="text" id="cfgAbs" placeholder="https://www.dropbox.com/...?dl=1">
 <label>APORTE E RETIRADA 2026</label>
 <input type="text" id="cfgAp" placeholder="https://www.dropbox.com/...?dl=1">
@@ -177,25 +177,25 @@ tbody td{padding:6px 11px;border-bottom:1px solid #0a0f1a;color:#94a3b8}
 </div>
 <div id="empresaScreen">
 <header class="site-header" style="position:sticky;top:0;z-index:10">
-<button class="back-btn" onclick="showHome()">Ã¢ÂÂ Voltar</button>
+<button class="back-btn" onclick="showHome()">&#x2190; Voltar</button>
 <h1 id="empNome"></h1>
-<div class="auto-bar"><button id="autoBtn" onclick="toggleAuto()">Ã¢ÂÂ¶ Auto</button></div>
-<div class="hinfo"><b id="hUpd2">Ã¢ÂÂ</b><span id="hRec2"></span></div>
+<div class="auto-bar"><button id="autoBtn" onclick="toggleAuto()">&#x25B6; Auto</button></div>
+<div class="hinfo"><b id="hUpd2">&#x2014;</b><span id="hRec2"></span></div>
 </header>
 <div class="det-kpis">
-<div class="k"><div class="kl">Faturamento Total</div><div class="kv cb" id="kFat">Ã¢ÂÂ</div></div>
-<div class="k"><div class="kl">Viagens</div><div class="kv cg" id="kViag">Ã¢ÂÂ</div></div>
-<div class="k"><div class="kl">Motoristas</div><div class="kv cy" id="kMot">Ã¢ÂÂ</div></div>
-<div class="k"><div class="kl">Clientes</div><div class="kv cc" id="kCli">Ã¢ÂÂ</div></div>
+<div class="k"><div class="kl">Faturamento Total</div><div class="kv cb" id="kFat">&#x2014;</div></div>
+<div class="k"><div class="kl">Viagens</div><div class="kv cg" id="kViag">&#x2014;</div></div>
+<div class="k"><div class="kl">Motoristas</div><div class="kv cy" id="kMot">&#x2014;</div></div>
+<div class="k"><div class="kl">Clientes</div><div class="kv cc" id="kCli">&#x2014;</div></div>
 </div>
 <div class="det-kpis-3">
-<div class="k"><div class="kl">Ticket MÃÂ©dio</div><div class="kv cp" id="kTick">Ã¢ÂÂ</div></div>
-<div class="k"><div class="kl">MÃÂªs Atual</div><div class="kv cc" id="kMes">Ã¢ÂÂ</div></div>
-<div class="k"><div class="kl">Pendentes</div><div class="kv cr" id="kPend">Ã¢ÂÂ</div></div>
+<div class="k"><div class="kl">Ticket M&#xE9;dio</div><div class="kv cp" id="kTick">&#x2014;</div></div>
+<div class="k"><div class="kl">M&#xEA;s Atual</div><div class="kv cc" id="kMes">&#x2014;</div></div>
+<div class="k"><div class="kl">Pendentes</div><div class="kv cr" id="kPend">&#x2014;</div></div>
 </div>
 <div class="cgrid">
-<div class="cc-box"><h3>Faturamento por MÃÂªs</h3><canvas id="cFat"></canvas></div>
-<div class="cc-box"><h3>Viagens por MÃÂªs</h3><canvas id="cViag"></canvas></div>
+<div class="cc-box"><h3>Faturamento por M&#xEA;s</h3><canvas id="cFat"></canvas></div>
+<div class="cc-box"><h3>Viagens por M&#xEA;s</h3><canvas id="cViag"></canvas></div>
 <div class="cc-box"><h3>Top Clientes</h3><canvas id="cCli"></canvas></div>
 <div class="cc-box"><h3>Produtos</h3><canvas id="cProd"></canvas></div>
 </div>
@@ -206,17 +206,17 @@ tbody td{padding:6px 11px;border-bottom:1px solid #0a0f1a;color:#94a3b8}
 </div>
 <div class="modal-ov hide" id="apModal" onclick="if(event.target===this)closeAportes()">
 <div class="modal-bx">
-<button class="modal-x" onclick="closeAportes()">Ã¢ÂÂ</button>
-<div class="modal-ttl">&#x1F4CA; Aportes &amp; Retiradas 2026 Ã¢ÂÂ SÃÂ³cios</div>
-<div class="modal-sub">Resumo consolidado Ã¢ÂÂ AUPA e ABS Transportes</div>
-<div id="apContent"><div class="ap-msg">Ã¢ÂÂ³ Carregando...</div></div>
+<button class="modal-x" onclick="closeAportes()">&#x2715;</button>
+<div class="modal-ttl">&#x1F4CA; Aportes &amp; Retiradas 2026 &#x2014; S&#xF3;cios</div>
+<div class="modal-sub">Resumo consolidado &#x2014; AUPA e ABS Transportes</div>
+<div id="apContent"><div class="ap-msg">&#x23F3; Carregando...</div></div>
 </div>
 </div>
 <div class="modal-ov hide" id="diModal" onclick="if(event.target===this)closeDiesel()">
 <div class="modal-bx">
 <button class="modal-x" onclick="closeDiesel()">&#x2715;</button>
 <div class="modal-ttl">&#x26FD; Consumo de Diesel 2026</div>
-<div class="modal-sub">CombustÃÂ­vel Ã¢ÂÂ AUPA e ABS Transportes</div>
+<div class="modal-sub">Combust&#xED;vel &#x2014; AUPA e ABS Transportes</div>
 <div id="diContent"><div class="ap-msg">&#x23F3; Carregando...</div></div>
 </div>
 </div>
@@ -232,7 +232,7 @@ var autoTimer=null;
 var apCharts=[];
 
 function fmt(v){
-  if(v===null||v===undefined||v==="")return "Ã¢ÂÂ";
+  if(v===null||v===undefined||v==="")return "&#x2014;";
   var n=parseFloat(String(v).replace(/[^0-9.,-]/g,"").replace(",","."));
   if(isNaN(n))return String(v);
   return "R$"+n.toLocaleString("pt-BR",{minimumFractionDigits:2});
@@ -244,7 +244,7 @@ function fmtN(v){
 
 function fmtK(v){
   var n=parseFloat(String(v).replace(/[^0-9.,-]/g,"").replace(",","."));
-  if(isNaN(n))return "Ã¢ÂÂ";
+  if(isNaN(n))return "&#x2014;";
   if(n>=1000000)return "R$"+(n/1000000).toFixed(1)+"M";
   if(n>=1000)return "R$"+(n/1000).toFixed(0)+"k";
   return "R$"+n.toFixed(0);
@@ -255,7 +255,7 @@ window.showHome=function(){
   document.getElementById("empresaScreen").style.display="none";
   if(autoTimer){clearInterval(autoTimer);autoTimer=null;}
   var b=document.getElementById("autoBtn");
-  if(b){b.textContent="Ã¢ÂÂ¶ Auto";b.classList.remove("on");}
+  if(b){b.textContent="&#x25B6; Auto";b.classList.remove("on");}
 };
 
 window.showEmpresa=function(emp){
@@ -270,9 +270,9 @@ window.toggleAuto=function(){
   var b=document.getElementById("autoBtn");
   if(autoTimer){
     clearInterval(autoTimer);autoTimer=null;
-    b.textContent="Ã¢ÂÂ¶ Auto";b.classList.remove("on");
+    b.textContent="&#x25B6; Auto";b.classList.remove("on");
   }else{
-    b.textContent="Ã¢ÂÂ¸ Parar";b.classList.add("on");
+    b.textContent="&#x23F8; Parar";b.classList.add("on");
     autoTimer=setInterval(loadAll,30000);
   }
 };
@@ -340,10 +340,10 @@ function renderDetalhe(){
   destroyCharts();
   var rows=DATA[empresa];
   if(!rows||!rows.length){
-    document.getElementById("tBody").innerHTML='<tr><td colspan="20" style="text-align:center;padding:24px;color:#334155">Sem dados Ã¢ÂÂ configure os links no botÃÂ£o Ã¢ÂÂ</td></tr>';
+    document.getElementById("tBody").innerHTML='<tr><td colspan="20" style="text-align:center;padding:24px;color:#334155">Sem dados &#x2014; configure os links no bot&#xE3;o &#x2699;</td></tr>';
     document.getElementById("tHead").innerHTML="";
     ["kFat","kViag","kMot","kCli","kTick","kPend"].forEach(function(id){
-      document.getElementById(id).textContent="Ã¢ÂÂ";
+      document.getElementById(id).textContent="&#x2014;";
     });
     document.getElementById("kMes").textContent=new Date().toLocaleString("pt-BR",{month:"long",year:"numeric"});
     return;
@@ -360,13 +360,13 @@ function renderDetalhe(){
   var cli=cliKey?new Set(rows.map(function(r){return r[cliKey];}).filter(Boolean)).size:0;
   document.getElementById("kFat").textContent=fmt(fat);
   document.getElementById("kViag").textContent=viag;
-  document.getElementById("kMot").textContent=mot||"Ã¢ÂÂ";
-  document.getElementById("kCli").textContent=cli||"Ã¢ÂÂ";
-  document.getElementById("kTick").textContent=viag?fmt(fat/viag):"Ã¢ÂÂ";
+  document.getElementById("kMot").textContent=mot||"&#x2014;";
+  document.getElementById("kCli").textContent=cli||"&#x2014;";
+  document.getElementById("kTick").textContent=viag?fmt(fat/viag):"&#x2014;";
   document.getElementById("hRec2").textContent=rows.length+" registros";
   document.getElementById("hUpd2").textContent="Atualizado agora";
   document.getElementById("kMes").textContent=new Date().toLocaleString("pt-BR",{month:"long",year:"numeric"});
-  document.getElementById("kPend").textContent="Ã¢ÂÂ";
+  document.getElementById("kPend").textContent="&#x2014;";
   if(mesKey&&fatKey){
     var bm={};
     rows.forEach(function(r){var m=String(r[mesKey]).substring(0,7);if(!bm[m])bm[m]=0;bm[m]+=fmtN(r[fatKey]);});
@@ -397,7 +397,7 @@ function renderDetalhe(){
   document.getElementById("tHead").innerHTML=keys.slice(0,8).map(function(k){return "<th>"+k+"</th>";}).join("");
   document.getElementById("tCount").textContent=rows.length+" registros";
   document.getElementById("tBody").innerHTML=rows.slice(0,100).map(function(r){
-    return "<tr>"+keys.slice(0,8).map(function(k){return "<td>"+(r[k]!==undefined&&r[k]!==""?r[k]:"Ã¢ÂÂ")+"</td>";}).join("")+"</tr>";
+    return "<tr>"+keys.slice(0,8).map(function(k){return "<td>"+(r[k]!==undefined&&r[k]!==""?r[k]:"&#x2014;")+"</td>";}).join("")+"</tr>";
   }).join("");
 }
 async function loadOne(emp){
@@ -448,13 +448,13 @@ async function loadOne(emp){
     var vi=rows.length;
     var mo=motKey?new Set(rows.map(function(rw){return rw[motKey];}).filter(Boolean)).size:0;
     if(emp==="AUPA"){
-      document.getElementById("cs-aupa-f").textContent=fmtK(fat)||"Ã¢ÂÂ";
-      document.getElementById("cs-aupa-v").textContent=vi||"Ã¢ÂÂ";
-      document.getElementById("cs-aupa-m").textContent=mo||"Ã¢ÂÂ";
+      document.getElementById("cs-aupa-f").textContent=fmtK(fat)||"&#x2014;";
+      document.getElementById("cs-aupa-v").textContent=vi||"&#x2014;";
+      document.getElementById("cs-aupa-m").textContent=mo||"&#x2014;";
     }else{
-      document.getElementById("cs-abs-f").textContent=fmtK(fat)||"Ã¢ÂÂ";
-      document.getElementById("cs-abs-v").textContent=vi||"Ã¢ÂÂ";
-      document.getElementById("cs-abs-m").textContent=mo||"Ã¢ÂÂ";
+      document.getElementById("cs-abs-f").textContent=fmtK(fat)||"&#x2014;";
+      document.getElementById("cs-abs-v").textContent=vi||"&#x2014;";
+      document.getElementById("cs-abs-m").textContent=mo||"&#x2014;";
     }
   }catch(e){console.warn("Erro ao carregar",emp,e.message);}
 }
@@ -625,10 +625,10 @@ async function loadAportes(){
   var u=localStorage.getItem("dbxAp");
   var el=document.getElementById("apContent");
   if(!u){
-    el.innerHTML='<div class="ap-msg">Ã¢ÂÂ Ã¯Â¸Â Configure o link da planilha <strong>APORTE E RETIRADA 2026</strong> no botÃÂ£o Ã¢ÂÂÃ¯Â¸Â</div>';
+    el.innerHTML='<div class="ap-msg">&#x26A0;&#xFE0F; Configure o link da planilha <strong>APORTE E RETIRADA 2026</strong> no bot&#xE3;o &#x2699;&#xFE0F;</div>';
     return;
   }
-  el.innerHTML='<div class="ap-msg">Ã¢ÂÂ³ Carregando...</div>';
+  el.innerHTML='<div class="ap-msg">&#x23F3; Carregando...</div>';
   try{
     var r=await fetch(u);
     var buf=await r.arrayBuffer();
@@ -637,7 +637,7 @@ async function loadAportes(){
     var rows=XLSX.utils.sheet_to_json(ws,{defval:""});
     renderAportes(rows);
   }catch(e){
-    el.innerHTML='<div class="ap-msg">Ã¢ÂÂ Erro: '+e.message+'</div>';
+    el.innerHTML='<div class="ap-msg">&#x274C; Erro: '+e.message+'</div>';
   }
 }
 
@@ -689,13 +689,13 @@ function renderAportes(rows){
   var html='<div class="ap-kpis">';
   html+='<div class="ap-kpi"><div class="val g">'+fmtV(totA)+'</div><div class="lbl">Total Aportes</div></div>';
   html+='<div class="ap-kpi"><div class="val r">'+fmtV(totR)+'</div><div class="lbl">Total Retiradas</div></div>';
-  html+='<div class="ap-kpi"><div class="val '+(saldo>=0?"b":"r")+'">'+fmtV(saldo)+'</div><div class="lbl">Saldo LÃÂ­quido</div></div>';
+  html+='<div class="ap-kpi"><div class="val '+(saldo>=0?"b":"r")+'">'+fmtV(saldo)+'</div><div class="lbl">Saldo L&#xED;quido</div></div>';
   html+='<div class="ap-kpi"><div class="val y">'+rows.length+'</div><div class="lbl">Registros</div></div>';
   html+='</div><div class="ap-charts">';
-  html+='<div class="ap-chart-bx"><h4>Aportes vs Retiradas por MÃÂªs</h4><canvas id="apCB"></canvas></div>';
-  html+='<div class="ap-chart-bx"><h4>Por SÃÂ³cio Ã¢ÂÂ Aportes</h4><canvas id="apCP"></canvas></div>';
-  html+='<div class="ap-chart-bx"><h4>EvoluÃÂ§ÃÂ£o Acumulada</h4><canvas id="apCL"></canvas></div>';
-  html+='<div class="ap-chart-bx"><h4>Por SÃÂ³cio Ã¢ÂÂ Retiradas</h4><canvas id="apCR"></canvas></div>';
+  html+='<div class="ap-chart-bx"><h4>Aportes vs Retiradas por M&#xEA;s</h4><canvas id="apCB"></canvas></div>';
+  html+='<div class="ap-chart-bx"><h4>Por S&#xF3;cio &#x2014; Aportes</h4><canvas id="apCP"></canvas></div>';
+  html+='<div class="ap-chart-bx"><h4>Evolu&#xE7;&#xE3;o Acumulada</h4><canvas id="apCL"></canvas></div>';
+  html+='<div class="ap-chart-bx"><h4>Por S&#xF3;cio &#x2014; Retiradas</h4><canvas id="apCR"></canvas></div>';
   html+='</div>';
   document.getElementById("apContent").innerHTML=html;
   apCharts.push(new Chart(document.getElementById("apCB"),{
