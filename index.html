@@ -111,6 +111,19 @@ tbody td{padding:6px 11px;border-bottom:1px solid #0a0f1a;color:#94a3b8}
 .ap-pair .csv{font-size:0.78rem;font-weight:700;flex:1;text-align:center;}
 .ap-pos{color:#2196F3!important;}
 .ap-neg{color:#e53935!important;}
+
+.ap-resumo{padding:4px 0;}
+.ap-section{margin-bottom:18px;}
+.ap-section h3{font-size:1rem;font-weight:700;color:var(--accent);margin-bottom:8px;}
+.ap-table{width:100%;border-collapse:collapse;font-size:0.85rem;}
+.ap-table th{text-align:left;padding:5px 8px;border-bottom:1px solid var(--border);color:var(--text2);font-weight:600;font-size:0.78rem;}
+.ap-table td{padding:5px 8px;border-bottom:1px solid rgba(255,255,255,0.05);}
+.ap-table tr.tot td{font-weight:700;border-top:2px solid var(--border);background:rgba(255,255,255,0.03);}
+.ap-table .val{font-weight:600;}
+.ap-table .val.g{color:#2196F3;}
+.ap-table .val.r{color:#e53935;}
+.ap-table td:not(:first-child){text-align:right;}
+.ap-table .obs{text-align:left;font-size:0.75rem;color:var(--text2);}
 </style>
 </head>
 <body>
@@ -621,6 +634,7 @@ async function loadAportesSummary(){
   }catch(e){console.warn("Erro aportes",e.message);}
 }
 
+
 async function loadAportes(){
   var u=localStorage.getItem("dbxAp");
   var el=document.getElementById("apContent");
@@ -632,103 +646,71 @@ async function loadAportes(){
   try{
     var r=await fetch(u);
     var buf=await r.arrayBuffer();
-    var wb=XLSX.read(buf,{type:"array",cellDates:true});
-    var bestSheet=wb.SheetNames.find(function(n){return /logis/i.test(n);})||wb.SheetNames[0];var ws=wb.Sheets[bestSheet];
-    var rows=XLSX.utils.sheet_to_json(ws,{defval:""});
-    renderAportes(rows);
+    var wb=XLSX.read(buf,{type:"array"});
+    var resumoSheet=wb.SheetNames.find(function(n){return /resumo/i.test(n);});
+    if(!resumoSheet){el.innerHTML='<div class="ap-msg">&#x274C; Aba RESUMO n&#xE3;o encontrada.</div>';return;}
+    var ws=wb.Sheets[resumoSheet];
+    var raw=XLSX.utils.sheet_to_json(ws,{header:1,defval:null});
+    renderAportes(raw);
   }catch(e){
     el.innerHTML='<div class="ap-msg">&#x274C; Erro: '+e.message+'</div>';
   }
 }
 
-function renderAportes(rows){
-  apCharts.forEach(function(c){if(c)c.destroy();});
-  apCharts=[];
-  if(!rows||rows.length===0){
-    document.getElementById("apContent").innerHTML='<div class="ap-msg">Nenhum dado encontrado.</div>';
-    return;
+function renderAportes(raw){
+  apCharts.forEach(function(c){if(c)c.destroy();});apCharts=[];
+  var el=document.getElementById("apContent");
+  if(!raw||raw.length===0){el.innerHTML='<div class="ap-msg">Nenhum dado encontrado.</div>';return;}
+  function n(v){var x=typeof v==="number"?v:parseFloat(String(v||"").replace(/[^0-9.-]/g,""));return isNaN(x)?0:x;}
+  function fv(v){return "R$ "+Math.abs(v).toLocaleString("pt-BR",{minimumFractionDigits:2});}
+  function cls(v){return v>0?"val g":v<0?"val r":"val";}
+  var r4=raw[4]||[];var r18=raw[18]||[];var r20=raw[20]||[];
+  var aupaDev=n(r4[1]);var absDev=n(r4[4]);var aupaXDev=n(r4[9]);var absXDev=n(r4[12]);
+  var aupaSaldo=n(r18[1]);var absSaldo=n(r18[4]);var aupaXSaldo=n(r20[9]);var absXSaldo=n(r20[12]);
+  var aupaRet=aupaDev-aupaSaldo;var absRet=absDev-absSaldo;
+  var aupaXRet=aupaXDev-aupaXSaldo;var absXRet=absXDev-absXSaldo;
+  // Build retiradas list from rows 6-17
+  var retRows=[];
+  for(var i=6;i<=17;i++){
+    var row=raw[i]||[];
+    var lbl=String(row[0]||"");
+    var va=n(row[1]);var vb=n(row[4]);var vxa=n(row[9]);var vxb=n(row[12]);
+    var obs=String(row[5]||row[13]||"");
+    if(va||vb||vxa||vxb) retRows.push({lbl:lbl,va:va,vb:vb,vxa:vxa,vxb:vxb,obs:obs});
   }
-  var sample=rows[0];
-  var keys=Object.keys(sample);
-  var colData=keys.find(function(k){return /data|date|dt/i.test(k);})||keys[0];
-  var colValor=keys.find(function(k){return /valor|value|montante|amount/i.test(k);})||(keys.find(function(k){return typeof sample[k]==="number";}))||keys[1];
-  var colTipo=keys.find(function(k){return /tipo|type|operacao|oper|mov/i.test(k);})||"";
-  var colSocio=keys.find(function(k){return /socio|nome|name|part/i.test(k);})||"";
-  var meses=["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
-  var totA=0,totR=0,byMes={},bySocio={};
-  rows.forEach(function(row){
-    var raw=row[colValor];
-    var val=parseFloat(String(raw).replace(/[^0-9.,-]/g,"").replace(",","."))||0;
-    var tipoStr=colTipo?String(row[colTipo]||"").toLowerCase():"";
-    var isAp=colTipo?tipoStr.indexOf("aport")>=0:val>=0;
-    var absVal=Math.abs(val);
-    if(isAp)totA+=absVal;else totR+=absVal;
-    var mk="?";
-    if(row[colData]){
-      var d=row[colData] instanceof Date?row[colData]:new Date(row[colData]);
-      if(!isNaN(d.getTime()))mk=meses[d.getMonth()]+"/"+String(d.getFullYear()).slice(2);
-    }
-    if(!byMes[mk])byMes[mk]={a:0,r:0};
-    if(isAp)byMes[mk].a+=absVal;else byMes[mk].r+=absVal;
-    if(colSocio&&row[colSocio]){
-      var s=String(row[colSocio]).trim();
-      if(!bySocio[s])bySocio[s]={a:0,r:0};
-      if(isAp)bySocio[s].a+=absVal;else bySocio[s].r+=absVal;
-    }
-  });
-  var saldo=totA-totR;
-  var fmtV=function(v){return "R$ "+v.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});};
-  var ml=Object.keys(byMes);
-  var sk=Object.keys(bySocio);
-  var pc=["#60a5fa","#34d399","#fbbf24","#f87171","#a78bfa","#fb923c","#38bdf8","#4ade80"];
-  var co={
-    responsive:true,
-    plugins:{legend:{labels:{color:"#94a3b8",font:{size:11}}},tooltip:{callbacks:{label:function(ctx){return fmtV(ctx.raw);}}}},
-    scales:{x:{ticks:{color:"#475569"},grid:{color:"#0d1f3c"}},y:{ticks:{color:"#475569",callback:function(v){return fmtV(v);}},grid:{color:"#0d1f3c"}}}
-  };
-  var html='<div class="ap-kpis">';
-  html+='<div class="ap-kpi"><div class="val g">'+fmtV(totA)+'</div><div class="lbl">Total Aportes</div></div>';
-  html+='<div class="ap-kpi"><div class="val r">'+fmtV(totR)+'</div><div class="lbl">Total Retiradas</div></div>';
-  html+='<div class="ap-kpi"><div class="val '+(saldo>=0?"b":"r")+'">'+fmtV(saldo)+'</div><div class="lbl">Saldo L&#xED;quido</div></div>';
-  html+='<div class="ap-kpi"><div class="val y">'+rows.length+'</div><div class="lbl">Registros</div></div>';
-  html+='</div><div class="ap-charts">';
-  html+='<div class="ap-chart-bx"><h4>Aportes vs Retiradas por M&#xEA;s</h4><canvas id="apCB"></canvas></div>';
-  html+='<div class="ap-chart-bx"><h4>Por S&#xF3;cio &#x2014; Aportes</h4><canvas id="apCP"></canvas></div>';
-  html+='<div class="ap-chart-bx"><h4>Evolu&#xE7;&#xE3;o Acumulada</h4><canvas id="apCL"></canvas></div>';
-  html+='<div class="ap-chart-bx"><h4>Por S&#xF3;cio &#x2014; Retiradas</h4><canvas id="apCR"></canvas></div>';
+  var retHtml="";
+  if(retRows.length){
+    retHtml+='<table class="ap-table"><thead><tr><th>Per&#xED;odo</th><th>AUPA Dinh</th><th>ABS Dinh</th><th>AUPA Diesel</th><th>ABS Diesel</th><th>Obs</th></tr></thead><tbody>';
+    retRows.forEach(function(rr){
+      retHtml+='<tr>';
+      retHtml+='<td>'+rr.lbl+'</td>';
+      retHtml+='<td class="'+(rr.va?"val r":"")+'">'+( rr.va?fv(rr.va):"&#x2014;")+'</td>';
+      retHtml+='<td class="'+(rr.vb?"val r":"")+'">'+( rr.vb?fv(rr.vb):"&#x2014;")+'</td>';
+      retHtml+='<td class="'+(rr.vxa?"val r":"")+'">'+( rr.vxa?fv(rr.vxa):"&#x2014;")+'</td>';
+      retHtml+='<td class="'+(rr.vxb?"val r":"")+'">'+( rr.vxb?fv(rr.vxb):"&#x2014;")+'</td>';
+      retHtml+='<td class="obs">'+rr.obs+'</td>';
+      retHtml+='</tr>';
+    });
+    retHtml+='</tbody></table>';
+  }
+  var html='<div class="ap-resumo">';
+  html+='<div class="ap-section"><h3>&#x1F4B5; Dinheiro</h3>';
+  html+='<table class="ap-table"><thead><tr><th></th><th>Aportado</th><th>Retirado</th><th>Saldo</th></tr></thead><tbody>';
+  html+='<tr><td>AUPA</td><td class="val g">'+fv(aupaDev)+'</td><td class="'+(aupaRet?"val r":"")+'">'+fv(aupaRet)+'</td><td class="'+cls(aupaSaldo)+'">'+fv(aupaSaldo)+'</td></tr>';
+  html+='<tr><td>ABS</td><td class="val g">'+fv(absDev)+'</td><td class="'+(absRet?"val r":"")+'">'+fv(absRet)+'</td><td class="'+cls(absSaldo)+'">'+fv(absSaldo)+'</td></tr>';
+  html+='<tr class="tot"><td>Total</td><td class="val g">'+fv(aupaDev+absDev)+'</td><td class="'+(aupaRet+absRet?"val r":"")+'">'+fv(aupaRet+absRet)+'</td><td class="'+cls(aupaSaldo+absSaldo)+'">'+fv(aupaSaldo+absSaldo)+'</td></tr>';
+  html+='</tbody></table></div>';
+  html+='<div class="ap-section"><h3>&#x26FD; Diesel</h3>';
+  html+='<table class="ap-table"><thead><tr><th></th><th>Aportado</th><th>Retirado</th><th>Saldo</th></tr></thead><tbody>';
+  html+='<tr><td>AUPA</td><td class="val g">'+fv(aupaXDev)+'</td><td class="'+(aupaXRet?"val r":"")+'">'+fv(aupaXRet)+'</td><td class="'+cls(aupaXSaldo)+'">'+fv(aupaXSaldo)+'</td></tr>';
+  html+='<tr><td>ABS</td><td class="val g">'+fv(absXDev)+'</td><td class="'+(absXRet?"val r":"")+'">'+fv(absXRet)+'</td><td class="'+cls(absXSaldo)+'">'+fv(absXSaldo)+'</td></tr>';
+  html+='<tr class="tot"><td>Total</td><td class="val g">'+fv(aupaXDev+absXDev)+'</td><td class="'+(aupaXRet+absXRet?"val r":"")+'">'+fv(aupaXRet+absXRet)+'</td><td class="'+cls(aupaXSaldo+absXSaldo)+'">'+fv(aupaXSaldo+absXSaldo)+'</td></tr>';
+  html+='</tbody></table></div>';
+  if(retHtml){html+='<div class="ap-section"><h3>&#x1F4CB; Hist&#xF3;rico de Retiradas</h3>'+retHtml+'</div>';}
   html+='</div>';
-  document.getElementById("apContent").innerHTML=html;
-  apCharts.push(new Chart(document.getElementById("apCB"),{
-    type:"bar",
-    data:{labels:ml,datasets:[
-      {label:"Aportes",data:ml.map(function(m){return byMes[m].a;}),backgroundColor:"rgba(52,211,153,.7)",borderColor:"#34d399",borderWidth:1},
-      {label:"Retiradas",data:ml.map(function(m){return byMes[m].r;}),backgroundColor:"rgba(248,113,113,.7)",borderColor:"#f87171",borderWidth:1}
-    ]},
-    options:co
-  }));
-  if(sk.length>0){
-    apCharts.push(new Chart(document.getElementById("apCP"),{
-      type:"doughnut",
-      data:{labels:sk,datasets:[{data:sk.map(function(s){return bySocio[s].a;}),backgroundColor:pc,borderColor:"#0d1527",borderWidth:2}]},
-      options:{responsive:true,plugins:{legend:{labels:{color:"#94a3b8",font:{size:11}}},tooltip:{callbacks:{label:function(ctx){return ctx.label+": "+fmtV(ctx.raw);}}}}}
-    }));
-    apCharts.push(new Chart(document.getElementById("apCR"),{
-      type:"doughnut",
-      data:{labels:sk,datasets:[{data:sk.map(function(s){return bySocio[s].r||0;}),backgroundColor:pc,borderColor:"#0d1527",borderWidth:2}]},
-      options:{responsive:true,plugins:{legend:{labels:{color:"#94a3b8",font:{size:11}}},tooltip:{callbacks:{label:function(ctx){return ctx.label+": "+fmtV(ctx.raw);}}}}}
-    }));
-  }
-  var ca=0,cr2=0,acA=[],acR=[];
-  ml.forEach(function(m){ca+=byMes[m].a;cr2+=byMes[m].r;acA.push(ca);acR.push(cr2);});
-  apCharts.push(new Chart(document.getElementById("apCL"),{
-    type:"line",
-    data:{labels:ml,datasets:[
-      {label:"Aportes Acum.",data:acA,borderColor:"#34d399",backgroundColor:"rgba(52,211,153,.1)",fill:true,tension:.3},
-      {label:"Retiradas Acum.",data:acR,borderColor:"#f87171",backgroundColor:"rgba(248,113,113,.1)",fill:true,tension:.3}
-    ]},
-    options:co
-  }));
+  el.innerHTML=html;
 }
+
 
 document.getElementById("cfgAupa").value=URLS.AUPA;
 document.getElementById("cfgAbs").value=URLS.ABS;
