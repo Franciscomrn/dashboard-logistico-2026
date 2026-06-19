@@ -115,14 +115,21 @@ tbody td{padding:6px 11px;border-bottom:1px solid #0a0f1a;color:#94a3b8}
 .ap-resumo{padding:4px 0;}
 .ap-section{margin-bottom:18px;}
 .ap-section h3{font-size:1rem;font-weight:700;color:var(--accent);margin-bottom:8px;}
-.ap-table{width:100%;border-collapse:collapse;font-size:0.85rem;table-layout:fixed;}
-.ap-table th{padding:6px 10px;border-bottom:2px solid var(--border);color:var(--text2);font-weight:700;font-size:0.78rem;text-transform:uppercase;letter-spacing:.04em;}
+.ap-table{width:100%;border-collapse:collapse;font-size:0.85rem;}
+.ap-table th{text-align:left;padding:5px 8px;border-bottom:1px solid var(--border);color:var(--text2);font-weight:600;font-size:0.78rem;}
+.ap-table td{padding:5px 8px;border-bottom:1px solid rgba(255,255,255,0.05);}
+.ap-table tr.tot td{font-weight:700;border-top:2px solid var(--border);background:rgba(255,255,255,0.03);}
+.ap-table .val{font-weight:600;}
+.ap-table .val.g{color:#2196F3;}
+.ap-table .val.r{color:#e53935;}
+.ap-table td:not(:first-child){text-align:right;}
+.ap-table .obs{text-align:left;font-size:0.75rem;color:var(--text2);}
+
+.ap-table{table-layout:fixed;}
 .ap-table th:first-child{text-align:left;width:18%;}
 .ap-table th:not(:first-child){text-align:right;width:27%;}
-.ap-table td{padding:5px 10px;border-bottom:1px solid rgba(255,255,255,0.05);vertical-align:middle;}
-.ap-table td:first-child{text-align:left;font-weight:500;color:var(--text2);}
-.ap-table td:not(:first-child){text-align:right;font-weight:600;}
-.ap-table tr.tot td{font-weight:700;border-top:2px solid var(--border);background:rgba(255,255,255,0.04);}
+.ap-table td:first-child{text-align:left;}
+.ap-table td:not(:first-child){text-align:right;}
 .ap-table .c-red{color:#e53935;}
 .ap-table .c-blue{color:#2196F3;}
 .ap-table .c-dim{color:var(--text2);opacity:0.6;}
@@ -133,7 +140,119 @@ tbody td{padding:6px 11px;border-bottom:1px solid #0a0f1a;color:#94a3b8}
 .ap-hist td{padding:4px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.8rem;}
 .ap-hist td:first-child{text-align:left;color:var(--text2);}
 .ap-hist td:not(:first-child){text-align:right;}
-.ap-hist td.obs-td{text-align:left;font-size:0.73rem;color:var(--text2);opacity:0.75;};
+.ap-hist td.obs-td{text-align:left;font-size:0.73rem;color:var(--text2);opacity:0.75;}
+</style>
+</head>
+<body>
+<header class="site-header">
+<h1><span>&#x1F69B;</span> Dashboard Log&#xED;stico 2026</h1>
+<div class="hinfo"><b id="hUpd">Carregando...</b><span id="hRec">0 registros</span></div>
+</header>
+<div id="homeScreen">
+<p class="home-eyebrow">Painel Geral 2026</p>
+<h2 class="home-title">AS Transportadoras</h2>
+<p class="home-sub">Clique num card para ver o dashboard detalhado</p>
+<div class="cards">
+<div class="card aupa" onclick="showEmpresa('AUPA')">
+<div class="card-ico">&#x1F69C;</div>
+<div class="card-nm">AUPA</div>
+<p class="card-desc">2A Transportes &#xB7; Log&#xED;stica<br>A&#xE7;&#xFA;car, Calc&#xE1;rio e outros</p>
+<div class="card-stats">
+<div class="cs"><div class="csv" id="cs-aupa-f">&#x2014;</div><div class="csl">Faturamento</div></div>
+<div class="cs"><div class="csv" id="cs-aupa-v">&#x2014;</div><div class="csl">Viagens</div></div>
+<div class="cs"><div class="csv" id="cs-aupa-m">&#x2014;</div><div class="csl">Motoristas</div></div>
+</div>
+<div class="card-arrow">&#x203A;</div>
+</div>
+<div class="card abs" onclick="showEmpresa('ABS')">
+<div class="card-ico">&#x1F68C;</div>
+<div class="card-nm">ABS</div>
+<p class="card-desc">ABS Transportes &#xB7; Log&#xED;stica<br>A&#xE7;&#xFA;car, Calc&#xE1;rio e outros</p>
+<div class="card-stats">
+<div class="cs"><div class="csv" id="cs-abs-f">&#x2014;</div><div class="csl">Faturamento</div></div>
+<div class="cs"><div class="csv" id="cs-abs-v">&#x2014;</div><div class="csl">Viagens</div></div>
+<div class="cs"><div class="csv" id="cs-abs-m">&#x2014;</div><div class="csl">Motoristas</div></div>
+</div>
+<div class="card-arrow">&#x203A;</div>
+</div>
+<div class="card aportes" onclick="openAportes()">
+<div class="card-ico">&#x1F4B0;</div>
+<div class="card-nm">Aportes</div>
+<p class="card-desc">Dinheiro + Diesel<br>AUPA &#xB7; ABS</p>
+<div class="card-stats aporte-grid">
+<div class="ap-row ap-head"><span></span><span>Dinheiro</span><span>Diesel</span></div>
+<div class="ap-row ap-sub"><span></span><span><small>Aportou</small><small>Saldo</small></span><span><small>Aportou</small><small>Saldo</small></span></div>
+<div class="ap-row"><span class="ap-lbl">AUPA</span><span class="ap-pair"><div class="csv ap-pos" id="cs-ap-da">&#x2014;</div><div class="csv" id="cs-ap-ds-a">&#x2014;</div></span><span class="ap-pair"><div class="csv ap-pos" id="cs-ap-xa">&#x2014;</div><div class="csv" id="cs-ap-xs-a">&#x2014;</div></span></div>
+<div class="ap-row"><span class="ap-lbl">ABS</span><span class="ap-pair"><div class="csv ap-pos" id="cs-ap-db">&#x2014;</div><div class="csv" id="cs-ap-ds-b">&#x2014;</div></span><span class="ap-pair"><div class="csv ap-pos" id="cs-ap-xb">&#x2014;</div><div class="csv" id="cs-ap-xs-b">&#x2014;</div></span></div>
+</div>
+<div class="card-arrow">&#x203A;</div>
+</div>
+
+
+<div class="loading-bar" id="ldBar"><div class="spin"></div>Carregando dados...</div>
+</div>
+<button class="cfg-toggle" onclick="toggleCfg()">&#x2699;</button>
+<div class="cfg-panel" id="cfgPanel">
+<h4>&#x1F517; Links Dropbox</h4>
+<label>LOG&#xCD;STICA 2026 AUPA</label>
+<input type="text" id="cfgAupa" placeholder="https://www.dropbox.com/...?dl=1">
+<label>LOG&#xCD;STICA 2026 ABS</label>
+<input type="text" id="cfgAbs" placeholder="https://www.dropbox.com/...?dl=1">
+<label>APORTE E RETIRADA 2026</label>
+<input type="text" id="cfgAp" placeholder="https://www.dropbox.com/...?dl=1">
+<div class="cfg-btns">
+<button class="cfg-save" onclick="saveLinks()">Salvar</button>
+<button class="cfg-cancel" onclick="toggleCfg()">Cancelar</button>
+</div>
+</div>
+<div id="empresaScreen">
+<header class="site-header" style="position:sticky;top:0;z-index:10">
+<button class="back-btn" onclick="showHome()">&#x2190; Voltar</button>
+<h1 id="empNome"></h1>
+<div class="auto-bar"><button id="autoBtn" onclick="toggleAuto()">&#x25B6; Auto</button></div>
+<div class="hinfo"><b id="hUpd2">&#x2014;</b><span id="hRec2"></span></div>
+</header>
+<div class="det-kpis">
+<div class="k"><div class="kl">Faturamento Total</div><div class="kv cb" id="kFat">&#x2014;</div></div>
+<div class="k"><div class="kl">Viagens</div><div class="kv cg" id="kViag">&#x2014;</div></div>
+<div class="k"><div class="kl">Motoristas</div><div class="kv cy" id="kMot">&#x2014;</div></div>
+<div class="k"><div class="kl">Clientes</div><div class="kv cc" id="kCli">&#x2014;</div></div>
+</div>
+<div class="det-kpis-3">
+<div class="k"><div class="kl">Ticket M&#xE9;dio</div><div class="kv cp" id="kTick">&#x2014;</div></div>
+<div class="k"><div class="kl">M&#xEA;s Atual</div><div class="kv cc" id="kMes">&#x2014;</div></div>
+<div class="k"><div class="kl">Pendentes</div><div class="kv cr" id="kPend">&#x2014;</div></div>
+</div>
+<div class="cgrid">
+<div class="cc-box"><h3>Faturamento por M&#xEA;s</h3><canvas id="cFat"></canvas></div>
+<div class="cc-box"><h3>Viagens por M&#xEA;s</h3><canvas id="cViag"></canvas></div>
+<div class="cc-box"><h3>Top Clientes</h3><canvas id="cCli"></canvas></div>
+<div class="cc-box"><h3>Produtos</h3><canvas id="cProd"></canvas></div>
+</div>
+<div class="tsec">
+<div class="ttop"><h3>Registros</h3><span id="tCount"></span></div>
+<table><thead><tr id="tHead"></tr></thead><tbody id="tBody"></tbody></table>
+</div>
+</div>
+<div class="modal-ov hide" id="apModal" onclick="if(event.target===this)closeAportes()">
+<div class="modal-bx">
+<button class="modal-x" onclick="closeAportes()">&#x2715;</button>
+<div class="modal-ttl">&#x1F4CA; Aportes &amp; Retiradas 2026 &#x2014; S&#xF3;cios</div>
+<div class="modal-sub">Resumo consolidado &#x2014; AUPA e ABS Transportes</div>
+<div id="apContent"><div class="ap-msg">&#x23F3; Carregando...</div></div>
+</div>
+</div>
+<div class="modal-ov hide" id="diModal" onclick="if(event.target===this)closeDiesel()">
+<div class="modal-bx">
+<button class="modal-x" onclick="closeDiesel()">&#x2715;</button>
+<div class="modal-ttl">&#x26FD; Consumo de Diesel 2026</div>
+<div class="modal-sub">Combust&#xED;vel &#x2014; AUPA e ABS Transportes</div>
+<div id="diContent"><div class="ap-msg">&#x23F3; Carregando...</div></div>
+</div>
+</div>
+<script>
+(function(){
+var URLS={AUPA:localStorage.getItem("dbxAupa")||"https://dl.dropboxusercontent.com/scl/fi/k0sohs0mwjz6z9l2141c7/LOGISTICO-2026-AUPA.xlsx?rlkey=mxqn0itczv7scf6kgsmqt3y4w&raw=1",ABS:localStorage.getItem("dbxAbs")||"https://dl.dropboxusercontent.com/scl/fi/gnwwx4722tmrnj3ztl2ik/LOGISTICA-2026-ABS.xlsx?rlkey=0aavwu14hh8ly182vjylnsdy8&raw=1",AP:localStorage.getItem("dbxAp")||"https://dl.dropboxusercontent.com/scl/fi/m82w5f3ois2c6frvg1olr/APORTE-E-RETIRADA-2026.xlsx?rlkey=265b8xscatoekp8xj0p7oouzf&raw=1"};
 // Normalize Dropbox URLs: use raw=1 to bypass CDN cache
 Object.keys(URLS).forEach(function(k){if(URLS[k])URLS[k]=URLS[k].replace(/[?&]dl=1/g,function(m){return m==='?dl=1'?'?raw=1':'&raw=1';});});
 var DATA={AUPA:[],ABS:[]};
@@ -519,7 +638,6 @@ async function loadAportesSummary(){
       var el=document.getElementById(id);
       if(!el)return;
       el.textContent=fmtK(Math.abs(val));
-      // aporte=red(negativo/saiu), saldo=blue(positivo)/red(negativo)
       el.className="csv"+(tipo==="aporte"?" ap-neg":val>0?" ap-pos":val<0?" ap-neg":"");
     }
     setEl("cs-ap-da",aupaDDev,"aporte");
@@ -562,7 +680,6 @@ function renderAportes(raw){
   if(!raw||raw.length===0){el.innerHTML='<div class="ap-msg">Nenhum dado encontrado.</div>';return;}
   function n(v){var x=typeof v==="number"?v:parseFloat(String(v||"").replace(/[^0-9.-]/g,""));return isNaN(x)?0:x;}
   function fv(v){return v===0?"&#x2014;":"R$ "+Math.abs(v).toLocaleString("pt-BR",{minimumFractionDigits:2});}
-  // Colors: Aportado=red(negativo/saiu), Retirado=blue(positivo/entrou), Saldo=blue(positivo)/red(negativo)
   function red(v){return v>0?'<td class="c-red">'+fv(v)+'</td>':'<td class="c-dim">&#x2014;</td>';}
   function blue(v){return v>0?'<td class="c-blue">'+fv(v)+'</td>':'<td class="c-dim">&#x2014;</td>';}
   function saldo(v){return v>0?'<td class="c-blue">'+fv(v)+'</td>':v<0?'<td class="c-red">'+fv(v)+'</td>':'<td class="c-dim">R$ 0,00</td>';}
@@ -571,7 +688,6 @@ function renderAportes(raw){
   var aupaSaldo=n(r18[1]);var absSaldo=n(r18[4]);var aupaXSaldo=n(r20[9]);var absXSaldo=n(r20[12]);
   var aupaRet=aupaDev-aupaSaldo;var absRet=absDev-absSaldo;
   var aupaXRet=aupaXDev-aupaXSaldo;var absXRet=absXDev-absXSaldo;
-  // Rows 6-17: retiradas history
   var retRows=[];
   for(var i=6;i<=17;i++){
     var row=raw[i]||[];
@@ -584,14 +700,12 @@ function renderAportes(raw){
   if(retRows.length){
     retHtml='<table class="ap-hist"><thead><tr><th>Per&#xED;odo</th><th>AUPA Dinh</th><th>ABS Dinh</th><th>AUPA Diesel</th><th>ABS Diesel</th><th>Obs</th></tr></thead><tbody>';
     retRows.forEach(function(rr){
-      retHtml+='<tr>';
-      retHtml+='<td>'+rr.lbl+'</td>';
+      retHtml+='<tr><td>'+rr.lbl+'</td>';
       retHtml+=rr.va>0?'<td class="c-blue">'+fv(rr.va)+'</td>':'<td class="c-dim">&#x2014;</td>';
       retHtml+=rr.vb>0?'<td class="c-blue">'+fv(rr.vb)+'</td>':'<td class="c-dim">&#x2014;</td>';
       retHtml+=rr.vxa>0?'<td class="c-blue">'+fv(rr.vxa)+'</td>':'<td class="c-dim">&#x2014;</td>';
       retHtml+=rr.vxb>0?'<td class="c-blue">'+fv(rr.vxb)+'</td>':'<td class="c-dim">&#x2014;</td>';
-      retHtml+='<td class="obs-td">'+rr.obs+'</td>';
-      retHtml+='</tr>';
+      retHtml+='<td class="obs-td">'+rr.obs+'</td></tr>';
     });
     retHtml+='</tbody></table>';
   }
