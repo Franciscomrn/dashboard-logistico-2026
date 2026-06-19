@@ -219,7 +219,9 @@ tbody td{padding:6px 11px;border-bottom:1px solid #0a0f1a;color:#94a3b8}
 </div>
 <script>
 (function(){
-var URLS={AUPA:localStorage.getItem("dbxAupa")||"https://dl.dropboxusercontent.com/scl/fi/k0sohs0mwjz6z9l2141c7/LOGISTICO-2026-AUPA.xlsx?rlkey=mxqn0itczv7scf6kgsmqt3y4w&dl=1",ABS:localStorage.getItem("dbxAbs")||"https://dl.dropboxusercontent.com/scl/fi/gnwwx4722tmrnj3ztl2ik/LOGISTICA-2026-ABS.xlsx?rlkey=0aavwu14hh8ly182vjylnsdy8&dl=1",AP:localStorage.getItem("dbxAp")||"https://dl.dropboxusercontent.com/scl/fi/m82w5f3ois2c6frvg1olr/APORTE-E-RETIRADA-2026.xlsx?rlkey=265b8xscatoekp8xj0p7oouzf&dl=1"};
+var URLS={AUPA:localStorage.getItem("dbxAupa")||"https://dl.dropboxusercontent.com/scl/fi/k0sohs0mwjz6z9l2141c7/LOGISTICO-2026-AUPA.xlsx?rlkey=mxqn0itczv7scf6kgsmqt3y4w&raw=1",ABS:localStorage.getItem("dbxAbs")||"https://dl.dropboxusercontent.com/scl/fi/gnwwx4722tmrnj3ztl2ik/LOGISTICA-2026-ABS.xlsx?rlkey=0aavwu14hh8ly182vjylnsdy8&raw=1",AP:localStorage.getItem("dbxAp")||"https://dl.dropboxusercontent.com/scl/fi/m82w5f3ois2c6frvg1olr/APORTE-E-RETIRADA-2026.xlsx?rlkey=265b8xscatoekp8xj0p7oouzf&raw=1"};
+// Normalize Dropbox URLs: use raw=1 to bypass CDN cache
+Object.keys(URLS).forEach(function(k){if(URLS[k])URLS[k]=URLS[k].replace(/[?&]dl=1/g,function(m){return m==='?dl=1'?'?raw=1':'&raw=1';});});
 var DATA={AUPA:[],ABS:[]};
 var empresa="";
 var charts={};
@@ -711,7 +713,7 @@ function renderAportes(rows){
 
 document.getElementById("cfgAupa").value=URLS.AUPA;
 document.getElementById("cfgAbs").value=URLS.ABS;
-document.getElementById("cfgAp").value=localStorage.getItem("dbxAp")||"https://dl.dropboxusercontent.com/scl/fi/m82w5f3ois2c6frvg1olr/APORTE-E-RETIRADA-2026.xlsx?rlkey=265b8xscatoekp8xj0p7oouzf&dl=1";
+document.getElementById("cfgAp").value=localStorage.getItem("dbxAp")||"https://dl.dropboxusercontent.com/scl/fi/m82w5f3ois2c6frvg1olr/APORTE-E-RETIRADA-2026.xlsx?rlkey=265b8xscatoekp8xj0p7oouzf&raw=1";
 loadAll();
 })();
 </script>
