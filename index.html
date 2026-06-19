@@ -425,8 +425,10 @@ async function loadOne(emp){
     var now=new Date();
     var curYear=now.getFullYear(), curMon=now.getMonth(); // 0-indexed
     // Excel serial for current month boundaries
-    var monStart=Math.floor((new Date(curYear,curMon,1)-new Date(1900,0,0))/86400000)+1;
-    var monEnd=Math.floor((new Date(curYear,curMon+1,0)-new Date(1900,0,0))/86400000)+1;
+    // Excel serial: days since Dec 30, 1899 (accounts for Excel's Lotus 1-2-3 leap year bug)
+    var excelEpoch=new Date(Date.UTC(1899,11,30));
+    var monStart=Math.floor((new Date(Date.UTC(curYear,curMon,1))-excelEpoch)/86400000);
+    var monEnd=Math.floor((new Date(Date.UTC(curYear,curMon+1,0))-excelEpoch)/86400000);
     var rows=allRows.filter(function(rw){
       if(!dateKey)return true;
       var dv=rw[dateKey];
