@@ -641,13 +641,13 @@ async function loadAportesSummary(){
       el.className="csv"+(tipo==="aporte"?" ap-neg":val>0?" ap-pos":val<0?" ap-neg":"");
     }
     setEl("cs-ap-da",aupaDDev,"aporte");
-    setEl("cs-ap-ds-a",aupaDSaldo,"saldo");
+    setEl("cs-ap-ds-a",-aupaDSaldo,"saldo");
     setEl("cs-ap-db",absDDev,"aporte");
-    setEl("cs-ap-ds-b",absDSaldo,"saldo");
+    setEl("cs-ap-ds-b",-absDSaldo,"saldo");
     setEl("cs-ap-xa",aupaXDev,"aporte");
-    setEl("cs-ap-xs-a",aupaXSaldo,"saldo");
+    setEl("cs-ap-xs-a",-aupaXSaldo,"saldo");
     setEl("cs-ap-xb",absXDev,"aporte");
-    setEl("cs-ap-xs-b",absXSaldo,"saldo");
+    setEl("cs-ap-xs-b",-absXSaldo,"saldo");
   }catch(e){console.warn("Erro aportes",e.message);}
 }
 
