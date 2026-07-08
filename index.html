@@ -227,8 +227,6 @@ tbody td{padding:6px 11px;border-bottom:1px solid #0a0f1a;color:#94a3b8}
 <div class="cgrid">
 <div class="cc-box"><h3>Faturamento por M&#xEA;s</h3><canvas id="cFat"></canvas></div>
 <div class="cc-box"><h3>Viagens por M&#xEA;s</h3><canvas id="cViag"></canvas></div>
-<div class="cc-box"><h3>Top Clientes</h3><canvas id="cCli"></canvas></div>
-<div class="cc-box"><h3>Produtos</h3><canvas id="cProd"></canvas></div>
 </div>
 <div class="tsec">
 <div class="ttop"><h3>Registros</h3><span id="tCount"></span></div>
@@ -392,12 +390,12 @@ function renderDetalhe(){
   document.getElementById("kFat").textContent=fmt(fat);
   document.getElementById("kViag").textContent=viag;
   document.getElementById("kMot").textContent=mot||"&#x2014;";
-  document.getElementById("kCli").textContent=cli||"&#x2014;";
+    document.getElementById("kCli").textContent=cli||"—";
   document.getElementById("kTick").textContent=viag?fmt(fat/viag):"&#x2014;";
   document.getElementById("hRec2").textContent=rows.length+" registros";
   document.getElementById("hUpd2").textContent="Atualizado agora";
   document.getElementById("kMes").textContent=new Date().toLocaleString("pt-BR",{month:"long",year:"numeric"});
-  document.getElementById("kPend").textContent="&#x2014;";
+    document.getElementById("kPend").textContent="—";
   if(mesKey&&fatKey){
     var bm={};
     rows.forEach(function(r){var m=String(r[mesKey]).substring(0,7);if(!bm[m])bm[m]=0;bm[m]+=fmtN(r[fatKey]);});
@@ -409,21 +407,6 @@ function renderDetalhe(){
     rows.forEach(function(r){var m=String(r[mesKey]).substring(0,7);if(!bmv[m])bmv[m]=0;bmv[m]++;});
     var msv=Object.keys(bmv).sort().slice(-8);
     charts.viag=mkChart("cViag","line",msv,[{label:"Viagens",data:msv.map(function(m){return bmv[m];}),borderColor:"#10b981",backgroundColor:"#10b98120",tension:.4,fill:true}]);
-  }
-  if(cliKey){
-    var bc={};
-    rows.forEach(function(r){var c=r[cliKey]||"?";if(!bc[c])bc[c]=0;bc[c]++;});
-    var top=Object.entries(bc).sort(function(a,b){return b[1]-a[1];}).slice(0,6);
-    charts.cli=mkChart("cCli","doughnut",top.map(function(t){return String(t[0]).substring(0,15);}),
-      [{data:top.map(function(t){return t[1];}),backgroundColor:["#1d4ed8","#0891b2","#059669","#d97706","#7c3aed","#dc2626"]}]);
-  }
-  var prodKey=keys.find(function(k){return /prod|merca|tipo|item/i.test(k);});
-  if(prodKey){
-    var bp={};
-    rows.forEach(function(r){var p=r[prodKey]||"?";if(!bp[p])bp[p]=0;bp[p]++;});
-    var tp=Object.entries(bp).sort(function(a,b){return b[1]-a[1];}).slice(0,5);
-    charts.prod=mkChart("cProd","bar",tp.map(function(t){return String(t[0]).substring(0,12);}),
-      [{label:"Qtd",data:tp.map(function(t){return t[1];}),backgroundColor:"#7c3aed80",borderColor:"#7c3aed",borderWidth:2}]);
   }
   document.getElementById("tHead").innerHTML=keys.slice(0,8).map(function(k){return "<th>"+k+"</th>";}).join("");
   document.getElementById("tCount").textContent=rows.length+" registros";
