@@ -95,6 +95,9 @@ table{width:100%;border-collapse:collapse;font-size:.75rem}
 thead th{background:#070c18;color:#475569;padding:8px 11px;text-align:left;border-bottom:2px solid #0d1527;font-size:.62rem;text-transform:uppercase}
 tbody td{padding:6px 11px;border-bottom:1px solid #0a0f1a;color:#94a3b8}
 .det-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:24px 28px 0}
+  .sel-mes{background:#0d1527;border:1px solid #1e3050;color:#94a3b8;padding:4px 10px;border-radius:6px;font-size:.7rem}
+tfoot td{padding:8px 11px;border-top:2px solid #1e3050}
+.tot-row td{font-weight:700;color:#e2e8f0;background:#0d1527}
 .det-kpis-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:12px 28px 0}
 .auto-bar{display:flex;align-items:center;gap:10px;font-size:.73rem;color:#475569}
 .auto-bar button{background:#0d1527;border:1px solid #1e3050;color:#94a3b8;padding:4px 12px;border-radius:20px;cursor:pointer;font-size:.7rem}
@@ -224,10 +227,10 @@ tbody td{padding:6px 11px;border-bottom:1px solid #0a0f1a;color:#94a3b8}
 <div class="cc-box"><h3>Viagens por M&#xEA;s</h3><canvas id="cViag"></canvas></div>
 </div>
 <div class="tsec">
-<div class="ttop"><h3>Registros</h3><span id="tCount"></span></div>
-<table><thead><tr id="tHead"></tr></thead><tbody id="tBody"></tbody></table>
+<div class="ttop"><h3>Resumo por Motorista</h3><select id="motMesSel" class="sel-mes" onchange="renderMotoristaResumo()"></select></div>
+<div style="overflow-x:auto"><table id="motTable"></table></div>
 </div>
-</div>
+  </div>
 <div class="modal-ov hide" id="apModal" onclick="if(event.target===this)closeAportes()">
 <div class="modal-bx">
 <button class="modal-x" onclick="closeAportes()">&#x2715;</button>
@@ -374,12 +377,53 @@ function mesLabel(b){
   var mi=parseInt(p[1],10)-1;
   return (MES_ABREV[mi]||p[1])+"/"+String(p[0]).slice(2);
 }
+function renderMotoristaResumo(){
+  var rows=DATA[empresa];
+  var sel=document.getElementById("motMesSel");
+  if(!rows||!rows.length){document.getElementById("motTable").innerHTML="";sel.innerHTML="";return;}
+  var keys=Object.keys(rows[0]);
+  var motKey=keys.find(function(k){return /motor|driver|condu/i.test(k);});
+  var mesKey=keys.find(function(k){return /mes|month|data|emis/i.test(k);});
+  var fatKey=keys.find(function(k){return /^faturamento$/i.test(k);})||keys.find(function(k){return /^faturamento/i.test(k);})||keys.find(function(k){return /fat/i.test(k);})||keys.find(function(k){return /total|receita/i.test(k);});
+  var pesoKey=keys.find(function(k){return /^peso$/i.test(k);})||keys.find(function(k){return /peso/i.test(k);});
+  if(!motKey){document.getElementById("motTable").innerHTML="";sel.innerHTML="";return;}
+  var monthsSet={};
+  rows.forEach(function(r){if(!mesKey)return;var v=r[mesKey];if(v===undefined||v===null||v===""){return;}var m=mesBucket(v);if(/^\d{4}-\d{2}$/.test(m))monthsSet[m]=true;});
+  var months=Object.keys(monthsSet).sort();
+  var prevVal=sel.value;
+  sel.innerHTML=months.map(function(m){return "<option value=\""+m+"\">"+mesLabel(m)+"</option>";}).join("");
+  var now=new Date();
+  var curBucket=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0");
+  var chosen=(prevVal&&months.indexOf(prevVal)!==-1)?prevVal:(months.indexOf(curBucket)!==-1?curBucket:months[months.length-1]);
+  sel.value=chosen;
+  var filtered=mesKey?rows.filter(function(r){var v=r[mesKey];if(v===undefined||v===null||v===""){return false;}return mesBucket(v)===chosen;}):rows;
+  var drivers={};
+  var order=[];
+  filtered.forEach(function(r){
+    var d=(r[motKey]||"").toString().trim();
+    if(!d)return;
+    if(!drivers[d]){drivers[d]={viagens:0,peso:0,valor:0};order.push(d);}
+    drivers[d].viagens++;
+    drivers[d].peso+=pesoKey?fmtN(r[pesoKey]):0;
+    drivers[d].valor+=fatKey?fmtN(r[fatKey]):0;
+  });
+  order.sort(function(a,b){return drivers[b].valor-drivers[a].valor;});
+  var totalViagens=0,totalPeso=0,totalValor=0;
+  order.forEach(function(d){totalViagens+=drivers[d].viagens;totalPeso+=drivers[d].peso;totalValor+=drivers[d].valor;});
+  if(!order.length){document.getElementById("motTable").innerHTML='<tr><td style="text-align:center;padding:24px;color:#334155">Sem viagens neste m\u00eas</td></tr>';return;}
+  var html="<thead><tr><th>Motoristas</th>"+order.map(function(d){return "<th>"+d+"</th>";}).join("")+"<th>Total</th></tr></thead><tbody>";
+  html+="<tr><td>Viagens</td>"+order.map(function(d){return "<td>"+drivers[d].viagens+"</td>";}).join("")+"<td>"+totalViagens+"</td></tr>";
+  html+="<tr><td>Tonelada Total</td>"+order.map(function(d){return "<td>"+drivers[d].peso.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2})+"</td>";}).join("")+"<td>"+totalPeso.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2})+"</td></tr>";
+  html+="<tr><td>Valor</td>"+order.map(function(d){return "<td>"+fmt(drivers[d].valor)+"</td>";}).join("")+"<td>"+fmt(totalValor)+"</td></tr>";
+  html+="</tbody><tfoot><tr class=\"tot-row\"><td>Total Faturado</td>"+order.map(function(d){return "<td>"+fmt(drivers[d].valor)+"</td>";}).join("")+"<td>"+fmt(totalValor)+"</td></tr></tfoot>";
+  document.getElementById("motTable").innerHTML=html;
+}
 function renderDetalhe(){
   destroyCharts();
   var rows=DATA[empresa];
   if(!rows||!rows.length){
-    document.getElementById("tBody").innerHTML='<tr><td colspan="20" style="text-align:center;padding:24px;color:#334155">Sem dados &#x2014; configure os links no bot&#xE3;o &#x2699;</td></tr>';
-    document.getElementById("tHead").innerHTML="";
+        document.getElementById("motTable").innerHTML='<tr><td style="text-align:center;padding:24px;color:#334155">Sem dados — configure os links no botão ⚙</td></tr>';
+    document.getElementById("motMesSel").innerHTML="";
     ["kFat","kViag","kMot"].forEach(function(id){
       document.getElementById(id).textContent="&#x2014;";
     });
@@ -412,11 +456,7 @@ function renderDetalhe(){
     var msv=Object.keys(bmv).filter(function(k){return /^\d{4}-\d{2}$/.test(k);}).sort().slice(-8);
     charts.viag=mkChart("cViag","line",msv.map(mesLabel),[{label:"Viagens",data:msv.map(function(m){return bmv[m];}),borderColor:"#10b981",backgroundColor:"#10b98140",tension:.3,fill:true,pointRadius:4,pointBackgroundColor:"#10b981",pointHoverRadius:6}],{tooltipLabel:function(c){return c.parsed.y+" viagens";}});
   }
-  document.getElementById("tHead").innerHTML=keys.slice(0,8).map(function(k){return "<th>"+k+"</th>";}).join("");
-  document.getElementById("tCount").textContent=rows.length+" registros";
-  document.getElementById("tBody").innerHTML=rows.slice(0,100).map(function(r){
-    return "<tr>"+keys.slice(0,8).map(function(k){return "<td>"+(r[k]!==undefined&&r[k]!==""?r[k]:"&#x2014;")+"</td>";}).join("")+"</tr>";
-  }).join("");
+    renderMotoristaResumo();
 }
 async function loadOne(emp){
   var url=URLS[emp];
