@@ -348,22 +348,36 @@ function destroyCharts(){
   charts={};
 }
 
-function mkChart(id,type,labels,datasets){
+function mkChart(id,type,labels,datasets,extra){
   var ctx=document.getElementById(id);
   if(!ctx)return null;
   var isRound=(type==="doughnut"||type==="pie");
-  return new Chart(ctx,{
-    type:type,
-    data:{labels:labels,datasets:datasets},
-    options:{
-      responsive:true,
-      plugins:{legend:{labels:{color:"#475569",font:{size:10}}}},
-      scales:isRound?{}:{
-        x:{ticks:{color:"#334155",font:{size:9}},grid:{color:"#0d1527"}},
-        y:{ticks:{color:"#334155",font:{size:9}},grid:{color:"#0d1527"}}
-      }
+  var opts={
+    responsive:true,
+    plugins:{legend:{labels:{color:"#475569",font:{size:10}}},tooltip:{callbacks:{}}},
+    scales:isRound?{}:{
+      x:{ticks:{color:"#334155",font:{size:9}},grid:{color:"#0d1527"}},
+      y:{ticks:{color:"#334155",font:{size:9}},grid:{color:"#0d1527"}}
     }
-  });
+  };
+  if(extra&&extra.tooltipLabel){opts.plugins.tooltip.callbacks.label=extra.tooltipLabel;}
+  if(extra&&extra.yFormat&&!isRound){opts.scales.y.ticks.callback=extra.yFormat;}
+  return new Chart(ctx,{type:type,data:{labels:labels,datasets:datasets},options:opts});
+}
+function excelSerialToDate(n){return new Date(Date.UTC(1899,11,30)+n*86400000);}
+var MES_ABREV=["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+function mesBucket(v){
+  var n=Number(v);
+  if(!isNaN(n)&&n>1000){
+    var d=excelSerialToDate(n);
+    return d.getUTCFullYear()+"-"+String(d.getUTCMonth()+1).padStart(2,"0");
+  }
+  return String(v).substring(0,7);
+}
+function mesLabel(b){
+  var p=b.split("-");
+  var mi=parseInt(p[1],10)-1;
+  return (MES_ABREV[mi]||p[1])+"/"+String(p[0]).slice(2);
 }
 function renderDetalhe(){
   destroyCharts();
@@ -396,17 +410,17 @@ function renderDetalhe(){
   document.getElementById("hUpd2").textContent="Atualizado agora";
   document.getElementById("kMes").textContent=new Date().toLocaleString("pt-BR",{month:"long",year:"numeric"});
     document.getElementById("kPend").textContent="—";
-  if(mesKey&&fatKey){
+    if(mesKey&&fatKey){
     var bm={};
-    rows.forEach(function(r){var m=String(r[mesKey]).substring(0,7);if(!bm[m])bm[m]=0;bm[m]+=fmtN(r[fatKey]);});
+    rows.forEach(function(r){var m=mesBucket(r[mesKey]);if(!bm[m])bm[m]=0;bm[m]+=fmtN(r[fatKey]);});
     var ms=Object.keys(bm).sort().slice(-8);
-    charts.fat=mkChart("cFat","bar",ms,[{label:"Fat.",data:ms.map(function(m){return bm[m];}),backgroundColor:"#1d4ed860",borderColor:"#3b82f6",borderWidth:2}]);
+    charts.fat=mkChart("cFat","bar",ms.map(mesLabel),[{label:"Faturamento",data:ms.map(function(m){return bm[m];}),backgroundColor:"#3b82f6",borderColor:"#1d4ed8",borderWidth:2,borderRadius:6,maxBarThickness:48}],{tooltipLabel:function(c){return "R$ "+c.parsed.y.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});},yFormat:function(v){return v>=1000?"R$ "+(v/1000).toFixed(0)+"k":"R$ "+v;}});
   }
   if(mesKey){
     var bmv={};
-    rows.forEach(function(r){var m=String(r[mesKey]).substring(0,7);if(!bmv[m])bmv[m]=0;bmv[m]++;});
+    rows.forEach(function(r){var m=mesBucket(r[mesKey]);if(!bmv[m])bmv[m]=0;bmv[m]++;});
     var msv=Object.keys(bmv).sort().slice(-8);
-    charts.viag=mkChart("cViag","line",msv,[{label:"Viagens",data:msv.map(function(m){return bmv[m];}),borderColor:"#10b981",backgroundColor:"#10b98120",tension:.4,fill:true}]);
+    charts.viag=mkChart("cViag","line",msv.map(mesLabel),[{label:"Viagens",data:msv.map(function(m){return bmv[m];}),borderColor:"#10b981",backgroundColor:"#10b98140",tension:.3,fill:true,pointRadius:4,pointBackgroundColor:"#10b981",pointHoverRadius:6}],{tooltipLabel:function(c){return c.parsed.y+" viagens";}});
   }
   document.getElementById("tHead").innerHTML=keys.slice(0,8).map(function(k){return "<th>"+k+"</th>";}).join("");
   document.getElementById("tCount").textContent=rows.length+" registros";
