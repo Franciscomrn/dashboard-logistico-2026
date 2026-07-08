@@ -217,14 +217,9 @@ tbody td{padding:6px 11px;border-bottom:1px solid #0a0f1a;color:#94a3b8}
 <div class="k"><div class="kl">Faturamento Total</div><div class="kv cb" id="kFat">&#x2014;</div></div>
 <div class="k"><div class="kl">Viagens</div><div class="kv cg" id="kViag">&#x2014;</div></div>
 <div class="k"><div class="kl">Motoristas</div><div class="kv cy" id="kMot">&#x2014;</div></div>
-<div class="k"><div class="kl">Clientes</div><div class="kv cc" id="kCli">&#x2014;</div></div>
-</div>
-<div class="det-kpis-3">
-<div class="k"><div class="kl">Ticket M&#xE9;dio</div><div class="kv cp" id="kTick">&#x2014;</div></div>
 <div class="k"><div class="kl">M&#xEA;s Atual</div><div class="kv cc" id="kMes">&#x2014;</div></div>
-<div class="k"><div class="kl">Pendentes</div><div class="kv cr" id="kPend">&#x2014;</div></div>
 </div>
-<div class="cgrid">
+    <div class="cgrid">
 <div class="cc-box"><h3>Faturamento por M&#xEA;s</h3><canvas id="cFat"></canvas></div>
 <div class="cc-box"><h3>Viagens por M&#xEA;s</h3><canvas id="cViag"></canvas></div>
 </div>
@@ -385,7 +380,7 @@ function renderDetalhe(){
   if(!rows||!rows.length){
     document.getElementById("tBody").innerHTML='<tr><td colspan="20" style="text-align:center;padding:24px;color:#334155">Sem dados &#x2014; configure os links no bot&#xE3;o &#x2699;</td></tr>';
     document.getElementById("tHead").innerHTML="";
-    ["kFat","kViag","kMot","kCli","kTick","kPend"].forEach(function(id){
+    ["kFat","kViag","kMot"].forEach(function(id){
       document.getElementById(id).textContent="&#x2014;";
     });
     document.getElementById("kMes").textContent=new Date().toLocaleString("pt-BR",{month:"long",year:"numeric"});
@@ -395,21 +390,16 @@ function renderDetalhe(){
   var fatKey=keys.find(function(k){return /^faturamento$/i.test(k);})||keys.find(function(k){return /^faturamento/i.test(k);})||keys.find(function(k){return /fat/i.test(k);})||keys.find(function(k){return /total|receita/i.test(k);});
   var viKey=keys.find(function(k){return /viag|nf|nota|cte|carga/i.test(k);});
   var motKey=keys.find(function(k){return /motor|driver|condu/i.test(k);});
-  var cliKey=keys.find(function(k){return /client|tomad|dest/i.test(k);});
   var mesKey=keys.find(function(k){return /mes|month|data|emis/i.test(k);});
   var fat=fatKey?rows.reduce(function(s,r){return s+fmtN(r[fatKey]);},0):0;
   var viag=viKey?new Set(rows.map(function(r){return r[viKey];})).size:rows.length;
   var mot=motKey?new Set(rows.map(function(r){return r[motKey];}).filter(Boolean)).size:0;
-  var cli=cliKey?new Set(rows.map(function(r){return r[cliKey];}).filter(Boolean)).size:0;
   document.getElementById("kFat").textContent=fmt(fat);
   document.getElementById("kViag").textContent=viag;
   document.getElementById("kMot").textContent=mot||"&#x2014;";
-    document.getElementById("kCli").textContent=cli||"—";
-  document.getElementById("kTick").textContent=viag?fmt(fat/viag):"&#x2014;";
   document.getElementById("hRec2").textContent=rows.length+" registros";
   document.getElementById("hUpd2").textContent="Atualizado agora";
   document.getElementById("kMes").textContent=new Date().toLocaleString("pt-BR",{month:"long",year:"numeric"});
-    document.getElementById("kPend").textContent="—";
       if(mesKey&&fatKey){
     var bm={};
     rows.forEach(function(r){var v=r[mesKey];if(v===undefined||v===null||v===""){return;}var m=mesBucket(v);if(!bm[m])bm[m]=0;bm[m]+=fmtN(r[fatKey]);});
