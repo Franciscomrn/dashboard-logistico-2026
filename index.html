@@ -400,7 +400,7 @@ function atualizaMes(forceDefault){
   sel.value=chosen;
   var filtered=mesKey?rows.filter(function(r){var v=r[mesKey];if(v===undefined||v===null||v===""){return false;}return mesBucket(v)===chosen;}):rows;
   var fat=fatKey?filtered.reduce(function(s,r){return s+fmtN(r[fatKey]);},0):0;
-  var viag=viKey?new Set(filtered.map(function(r){return r[viKey];})).size:filtered.length;
+    var viag=filtered.length;
   var motCount=new Set(filtered.map(function(r){return r[motKey];}).filter(Boolean)).size;
   document.getElementById("kFat").textContent=fmt(fat);
   document.getElementById("kViag").textContent=viag;
