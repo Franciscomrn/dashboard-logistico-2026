@@ -392,7 +392,7 @@ function renderDetalhe(){
     return;
   }
   var keys=Object.keys(rows[0]);
-  var fatKey=keys.find(function(k){return /fat|valor|total|receita/i.test(k);});
+  var fatKey=keys.find(function(k){return /^faturamento$/i.test(k);})||keys.find(function(k){return /^faturamento/i.test(k);})||keys.find(function(k){return /fat/i.test(k);})||keys.find(function(k){return /total|receita/i.test(k);});
   var viKey=keys.find(function(k){return /viag|nf|nota|cte|carga/i.test(k);});
   var motKey=keys.find(function(k){return /motor|driver|condu/i.test(k);});
   var cliKey=keys.find(function(k){return /client|tomad|dest/i.test(k);});
