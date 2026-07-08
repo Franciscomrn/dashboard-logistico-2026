@@ -103,47 +103,48 @@ tfoot td{padding:8px 11px;border-top:2px solid #1e3050}
 .auto-bar button{background:#0d1527;border:1px solid #1e3050;color:#94a3b8;padding:4px 12px;border-radius:20px;cursor:pointer;font-size:.7rem}
 .auto-bar button.on{background:#1d4ed820;border-color:#3b82f6;color:#60a5fa}
 
-.aporte-grid{display:grid;grid-template-columns:auto 1fr 1fr;gap:3px 6px;width:100%;margin-top:4px;}
-.ap-row{display:contents;}
-.ap-row span{display:flex;align-items:center;font-size:0.75rem;padding:1px 0;}
-.ap-lbl{font-weight:600;color:var(--text2);justify-content:flex-start;}
-.ap-head span{font-size:0.72rem;font-weight:600;color:var(--text2);opacity:0.8;justify-content:center;}
-.ap-sub span{display:flex;justify-content:space-around;font-size:0.65rem;color:var(--text2);opacity:0.7;}
-.ap-sub small{flex:1;text-align:center;}
-.ap-pair{display:flex;justify-content:space-around;align-items:center;gap:2px;}
-.ap-pair .csv{font-size:0.78rem;font-weight:700;flex:1;text-align:center;}
-.ap-pos{color:#2196F3!important;}
-.ap-neg{color:#e53935!important;}
+.ap-summary{display:grid;grid-template-columns:auto 1fr 1fr 1fr;gap:4px 8px;width:100%;margin-top:6px;}
+.ap-srow{display:contents;}
+.ap-srow span{display:flex;align-items:center;justify-content:center;font-size:0.8rem;padding:2px 0;}
+.ap-slbl{font-weight:700;color:#e2e8f0;justify-content:flex-start!important;}
+.ap-shead span{font-size:0.66rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.03em;}
+.ap-shead .ap-slbl{visibility:hidden;}
+.ap-in{color:#34d399!important;font-weight:700;}
+.ap-out{color:#f59e0b!important;font-weight:700;}
+.ap-bal{color:#60a5fa!important;font-weight:700;}
 
 .ap-resumo{padding:4px 0;}
 .ap-section{margin-bottom:18px;}
-.ap-section h3{font-size:1rem;font-weight:700;color:var(--accent);margin-bottom:8px;}
+.ap-section h3{font-size:1rem;font-weight:700;color:#60a5fa;margin-bottom:8px;}
 .ap-table{width:100%;border-collapse:collapse;font-size:0.85rem;}
-.ap-table th{text-align:left;padding:5px 8px;border-bottom:1px solid var(--border);color:var(--text2);font-weight:600;font-size:0.78rem;}
+.ap-table th{text-align:left;padding:5px 8px;border-bottom:1px solid #334155;color:#94a3b8;font-weight:600;font-size:0.78rem;}
 .ap-table td{padding:5px 8px;border-bottom:1px solid rgba(255,255,255,0.05);}
-.ap-table tr.tot td{font-weight:700;border-top:2px solid var(--border);background:rgba(255,255,255,0.03);}
+.ap-table tr.tot td{font-weight:700;border-top:2px solid #334155;background:rgba(255,255,255,0.03);}
 .ap-table .val{font-weight:600;}
 .ap-table .val.g{color:#2196F3;}
 .ap-table .val.r{color:#e53935;}
 .ap-table td:not(:first-child){text-align:right;}
-.ap-table .obs{text-align:left;font-size:0.75rem;color:var(--text2);}
+.ap-table .obs{text-align:left;font-size:0.75rem;color:#94a3b8;}
 
 .ap-table{table-layout:fixed;}
 .ap-table th:first-child{text-align:left;width:18%;}
 .ap-table th:not(:first-child){text-align:right;width:27%;}
 .ap-table td:first-child{text-align:left;}
 .ap-table td:not(:first-child){text-align:right;}
-.ap-table .c-red{color:#e53935;}
-.ap-table .c-blue{color:#2196F3;}
-.ap-table .c-dim{color:var(--text2);opacity:0.6;}
+.ap-table .c-in{color:#34d399;font-weight:700;}
+.ap-table .c-out{color:#f59e0b;font-weight:700;}
+.ap-table .c-bal{color:#60a5fa;font-weight:700;}
+.ap-table .c-neg{color:#ef4444;font-weight:700;}
+.ap-table .c-dim{color:#94a3b8;opacity:0.6;}
 .ap-hist{width:100%;border-collapse:collapse;font-size:0.82rem;table-layout:auto;}
-.ap-hist th{padding:5px 8px;border-bottom:2px solid var(--border);color:var(--text2);font-weight:700;font-size:0.75rem;text-transform:uppercase;white-space:nowrap;}
+.ap-hist th{padding:5px 8px;border-bottom:2px solid #334155;color:#94a3b8;font-weight:700;font-size:0.75rem;text-transform:uppercase;white-space:nowrap;}
 .ap-hist th:first-child{text-align:left;}
 .ap-hist th:not(:first-child){text-align:right;}
 .ap-hist td{padding:4px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.8rem;}
-.ap-hist td:first-child{text-align:left;color:var(--text2);}
+.ap-hist td:first-child{text-align:left;color:#94a3b8;}
 .ap-hist td:not(:first-child){text-align:right;}
-.ap-hist td.obs-td{text-align:left;font-size:0.73rem;color:var(--text2);opacity:0.75;}
+.ap-hist td.obs-td{text-align:left;font-size:0.73rem;color:#94a3b8;opacity:0.75;}
+.ap-hist td.c-out{color:#f59e0b;}
 </style>
 </head>
 <body>
@@ -179,14 +180,13 @@ tfoot td{padding:8px 11px;border-top:2px solid #1e3050}
 <div class="card-arrow">&#x203A;</div>
 </div>
 <div class="card aportes" onclick="openAportes()">
-<div class="card-ico">&#x1F4B0;</div>
+<div class="card-ico">&#x1F3E6;</div>
 <div class="card-nm">Aportes</div>
-<p class="card-desc">Dinheiro + Diesel<br>AUPA &#xB7; ABS</p>
-<div class="card-stats aporte-grid">
-<div class="ap-row ap-head"><span></span><span>Dinheiro</span><span>Diesel</span></div>
-<div class="ap-row ap-sub"><span></span><span><small>Aportou</small><small>Saldo</small></span><span><small>Aportou</small><small>Saldo</small></span></div>
-<div class="ap-row"><span class="ap-lbl">AUPA</span><span class="ap-pair"><div class="csv ap-pos" id="cs-ap-da">&#x2014;</div><div class="csv" id="cs-ap-ds-a">&#x2014;</div></span><span class="ap-pair"><div class="csv ap-pos" id="cs-ap-xa">&#x2014;</div><div class="csv" id="cs-ap-xs-a">&#x2014;</div></span></div>
-<div class="ap-row"><span class="ap-lbl">ABS</span><span class="ap-pair"><div class="csv ap-pos" id="cs-ap-db">&#x2014;</div><div class="csv" id="cs-ap-ds-b">&#x2014;</div></span><span class="ap-pair"><div class="csv ap-pos" id="cs-ap-xb">&#x2014;</div><div class="csv" id="cs-ap-xs-b">&#x2014;</div></span></div>
+<p class="card-desc">Capital dos s&#xF3;cios &#x2014; Dinheiro + Diesel<br>AUPA &#xB7; ABS</p>
+<div class="card-stats ap-summary">
+<div class="ap-srow ap-shead"><span></span><span>Aportado</span><span>Retirado</span><span>Saldo</span></div>
+<div class="ap-srow"><span class="ap-slbl">AUPA</span><span class="csv ap-in" id="cs-ap-aupa-in">&#x2014;</span><span class="csv ap-out" id="cs-ap-aupa-out">&#x2014;</span><span class="csv ap-bal" id="cs-ap-aupa-bal">&#x2014;</span></div>
+<div class="ap-srow"><span class="ap-slbl">ABS</span><span class="csv ap-in" id="cs-ap-abs-in">&#x2014;</span><span class="csv ap-out" id="cs-ap-abs-out">&#x2014;</span><span class="csv ap-bal" id="cs-ap-abs-bal">&#x2014;</span></div>
 </div>
 <div class="card-arrow">&#x203A;</div>
 </div>
@@ -664,20 +664,20 @@ async function loadAportesSummary(){
     var absDSaldo=n(row18[4]);
     var aupaXSaldo=n(row20[9]);
     var absXSaldo=n(row20[12]);
-    function setEl(id,val,tipo){
+    function setVal(id,val){
       var el=document.getElementById(id);
       if(!el)return;
       el.textContent=fmtK(Math.abs(val));
-      el.className="csv"+(tipo==="aporte"?" ap-neg":val>0?" ap-pos":val<0?" ap-neg":"");
     }
-    setEl("cs-ap-da",aupaDDev,"aporte");
-    setEl("cs-ap-ds-a",-aupaDSaldo,"saldo");
-    setEl("cs-ap-db",absDDev,"aporte");
-    setEl("cs-ap-ds-b",-absDSaldo,"saldo");
-    setEl("cs-ap-xa",aupaXDev,"aporte");
-    setEl("cs-ap-xs-a",-aupaXSaldo,"saldo");
-    setEl("cs-ap-xb",absXDev,"aporte");
-    setEl("cs-ap-xs-b",-absXSaldo,"saldo");
+    var aupaAportado=aupaDDev+aupaXDev, absAportado=absDDev+absXDev;
+    var aupaSaldoTot=aupaDSaldo+aupaXSaldo, absSaldoTot=absDSaldo+absXSaldo;
+    var aupaRetirado=aupaAportado-aupaSaldoTot, absRetirado=absAportado-absSaldoTot;
+    setVal("cs-ap-aupa-in",aupaAportado);
+    setVal("cs-ap-aupa-out",aupaRetirado);
+    setVal("cs-ap-aupa-bal",aupaSaldoTot);
+    setVal("cs-ap-abs-in",absAportado);
+    setVal("cs-ap-abs-out",absRetirado);
+    setVal("cs-ap-abs-bal",absSaldoTot);
   }catch(e){console.warn("Erro aportes",e.message);}
 }
 
@@ -708,11 +708,11 @@ function renderAportes(raw){
   apCharts.forEach(function(c){if(c)c.destroy();});apCharts=[];
   var el=document.getElementById("apContent");
   if(!raw||raw.length===0){el.innerHTML='<div class="ap-msg">Nenhum dado encontrado.</div>';return;}
-  function n(v){var x=typeof v==="number"?v:parseFloat(String(v||"").replace(/[^0-9.-]/g,""));return isNaN(x)?0:x;}
-  function fv(v){return v===0?"&#x2014;":"R$ "+Math.abs(v).toLocaleString("pt-BR",{minimumFractionDigits:2});}
-  function red(v){return v>0?'<td class="c-red">'+fv(v)+'</td>':'<td class="c-dim">&#x2014;</td>';}
-  function blue(v){return v>0?'<td class="c-blue">'+fv(v)+'</td>':'<td class="c-dim">&#x2014;</td>';}
-  function saldo(v){return v>0?'<td class="c-blue">'+fv(v)+'</td>':v<0?'<td class="c-red">'+fv(v)+'</td>':'<td class="c-dim">R$ 0,00</td>';}
+    function n(v){var x=typeof v==="number"?v:parseFloat(String(v||"").replace(/[^0-9.-]/g,""));return isNaN(x)?0:x;}
+  function fv(v){return v===0?"&#x2014;":"R$ "+Math.abs(v).toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});}
+  function red(v){return v>0?'<td class="c-in">'+fv(v)+'</td>':'<td class="c-dim">&#x2014;</td>';}
+  function blue(v){return v>0?'<td class="c-out">'+fv(v)+'</td>':'<td class="c-dim">&#x2014;</td>';}
+  function saldo(v){return v>0?'<td class="c-bal">'+fv(v)+'</td>':v<0?'<td class="c-neg">'+fv(v)+'</td>':'<td class="c-dim">R$ 0,00</td>';}
   var r4=raw[4]||[];var r18=raw[18]||[];var r20=raw[20]||[];
   var aupaDev=n(r4[1]);var absDev=n(r4[4]);var aupaXDev=n(r4[9]);var absXDev=n(r4[12]);
   var aupaSaldo=n(r18[1]);var absSaldo=n(r18[4]);var aupaXSaldo=n(r20[9]);var absXSaldo=n(r20[12]);
@@ -731,10 +731,10 @@ function renderAportes(raw){
     retHtml='<table class="ap-hist"><thead><tr><th>Per&#xED;odo</th><th>AUPA Dinh</th><th>ABS Dinh</th><th>AUPA Diesel</th><th>ABS Diesel</th><th>Obs</th></tr></thead><tbody>';
     retRows.forEach(function(rr){
       retHtml+='<tr><td>'+rr.lbl+'</td>';
-      retHtml+=rr.va>0?'<td class="c-blue">'+fv(rr.va)+'</td>':'<td class="c-dim">&#x2014;</td>';
-      retHtml+=rr.vb>0?'<td class="c-blue">'+fv(rr.vb)+'</td>':'<td class="c-dim">&#x2014;</td>';
-      retHtml+=rr.vxa>0?'<td class="c-blue">'+fv(rr.vxa)+'</td>':'<td class="c-dim">&#x2014;</td>';
-      retHtml+=rr.vxb>0?'<td class="c-blue">'+fv(rr.vxb)+'</td>':'<td class="c-dim">&#x2014;</td>';
+      retHtml+=rr.va>0?'<td class="c-out">'+fv(rr.va)+'</td>':'<td class="c-dim">&#x2014;</td>';
+      retHtml+=rr.vb>0?'<td class="c-out">'+fv(rr.vb)+'</td>':'<td class="c-dim">&#x2014;</td>';
+      retHtml+=rr.vxa>0?'<td class="c-out">'+fv(rr.vxa)+'</td>':'<td class="c-dim">&#x2014;</td>';
+      retHtml+=rr.vxb>0?'<td class="c-out">'+fv(rr.vxb)+'</td>':'<td class="c-dim">&#x2014;</td>';
       retHtml+='<td class="obs-td">'+rr.obs+'</td></tr>';
     });
     retHtml+='</tbody></table>';
