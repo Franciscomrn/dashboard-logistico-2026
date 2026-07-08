@@ -33,6 +33,10 @@ body{background:#0a0f1e;color:#e2e8f0;min-height:100vh}
 .card.diesel:hover{border-color:#fbbf24;box-shadow:0 16px 50px rgba(251,191,36,.25)}
 .card.diesel .card-nm{color:#fbbf24}
 .card.diesel .csv{color:#fde68a}
+.card.fechamento{background:linear-gradient(150deg,#170a2e,#1a0d33);border-color:#7c3aed}
+.card.fechamento:hover{border-color:#a78bfa;box-shadow:0 16px 50px rgba(167,139,250,.25)}
+.card.fechamento .card-nm{color:#a78bfa}
+.card.fechamento .csv{color:#c4b5fd}
 .card-ico{font-size:2.4rem;margin-bottom:14px}
 .card-nm{font-size:1.65rem;font-weight:800;margin-bottom:6px}
 .card.aupa .card-nm{color:#60a5fa}.card.abs .card-nm{color:#34d399}
@@ -192,6 +196,17 @@ tfoot td{padding:8px 11px;border-top:2px solid #1e3050}
 </div>
 
 
+<div class="card fechamento" onclick="openFechamento()">
+<div class="card-ico">&#x1F4CB;</div>
+<div class="card-nm">Fechamento</div>
+<p class="card-desc">Fechamento mensal &#x2014; AUPA e ABS<br>Resultado por categoria</p>
+<div class="card-stats" style="grid-template-columns:repeat(2,1fr)">
+<div class="cs"><div class="csv" id="cs-fe-aupa">&#x2014;</div><div class="csl">Saldo AUPA</div></div>
+<div class="cs"><div class="csv" id="cs-fe-abs">&#x2014;</div><div class="csl">Saldo ABS</div></div>
+</div>
+<div class="card-arrow">&#x203A;</div>
+</div>
+
 <div class="loading-bar" id="ldBar"><div class="spin"></div>Carregando dados...</div>
 </div>
 <button class="cfg-toggle" onclick="toggleCfg()">&#x2699;</button>
@@ -203,6 +218,10 @@ tfoot td{padding:8px 11px;border-top:2px solid #1e3050}
 <input type="text" id="cfgAbs" placeholder="https://www.dropbox.com/...?dl=1">
 <label>APORTE E RETIRADA 2026</label>
 <input type="text" id="cfgAp" placeholder="https://www.dropbox.com/...?dl=1">
+<label>FECHAMENTO 2026 AUPA</label>
+<input type="text" id="cfgFeAupa" placeholder="https://www.dropbox.com/...?dl=1">
+<label>FECHAMENTO 2026 ABS</label>
+<input type="text" id="cfgFeAbs" placeholder="https://www.dropbox.com/...?dl=1">
 <div class="cfg-btns">
 <button class="cfg-save" onclick="saveLinks()">Salvar</button>
 <button class="cfg-cancel" onclick="toggleCfg()">Cancelar</button>
@@ -247,9 +266,18 @@ tfoot td{padding:8px 11px;border-top:2px solid #1e3050}
 <div id="diContent"><div class="ap-msg">&#x23F3; Carregando...</div></div>
 </div>
 </div>
+<div class="modal-ov hide" id="feModal" onclick="if(event.target===this)closeFechamento()">
+<div class="modal-bx">
+<button class="modal-x" onclick="closeFechamento()">&#x2715;</button>
+<div class="modal-ttl">&#x1F4CB; Fechamento 2026 &#x2014; AUPA e ABS</div>
+<div class="modal-sub">Resultado mensal por categoria</div>
+<div style="margin-bottom:14px"><select id="feMesSel" class="sel-mes" onchange="loadFechamento(this.value)"></select></div>
+<div id="feContent"><div class="ap-msg">&#x23F3; Carregando...</div></div>
+</div>
+</div>
 <script>
 (function(){
-var URLS={AUPA:localStorage.getItem("dbxAupa")||"https://dl.dropboxusercontent.com/scl/fi/k0sohs0mwjz6z9l2141c7/LOGISTICO-2026-AUPA.xlsx?rlkey=mxqn0itczv7scf6kgsmqt3y4w&raw=1",ABS:localStorage.getItem("dbxAbs")||"https://dl.dropboxusercontent.com/scl/fi/gnwwx4722tmrnj3ztl2ik/LOGISTICA-2026-ABS.xlsx?rlkey=0aavwu14hh8ly182vjylnsdy8&raw=1",AP:localStorage.getItem("dbxAp")||"https://dl.dropboxusercontent.com/scl/fi/m82w5f3ois2c6frvg1olr/APORTE-E-RETIRADA-2026.xlsx?rlkey=265b8xscatoekp8xj0p7oouzf&raw=1"};
+var URLS={AUPA:localStorage.getItem("dbxAupa")||"https://dl.dropboxusercontent.com/scl/fi/k0sohs0mwjz6z9l2141c7/LOGISTICO-2026-AUPA.xlsx?rlkey=mxqn0itczv7scf6kgsmqt3y4w&raw=1",ABS:localStorage.getItem("dbxAbs")||"https://dl.dropboxusercontent.com/scl/fi/gnwwx4722tmrnj3ztl2ik/LOGISTICA-2026-ABS.xlsx?rlkey=0aavwu14hh8ly182vjylnsdy8&raw=1",AP:localStorage.getItem("dbxAp")||"https://dl.dropboxusercontent.com/scl/fi/m82w5f3ois2c6frvg1olr/APORTE-E-RETIRADA-2026.xlsx?rlkey=265b8xscatoekp8xj0p7oouzf&raw=1",FeAupa:localStorage.getItem("dbxFeAupa")||"https://dl.dropboxusercontent.com/scl/fi/am5clt45xtsczwvoai9ur/FECHAMENTO-2026-AUPA.xlsx?rlkey=y2y3p0fyuv7svjttf3qi0h0gk&st=4zbb0p9p&raw=1",FeAbs:localStorage.getItem("dbxFeAbs")||"https://dl.dropboxusercontent.com/scl/fi/f046xvtyjpauu5dccq0fx/FECHAMENTO-2026-ABS.xlsx?rlkey=bwiq1sawnzq7l2e9yrnuun8jc&st=qoxu2l88&raw=1"};
 // Normalize Dropbox URLs: use raw=1 to bypass CDN cache
 Object.keys(URLS).forEach(function(k){if(URLS[k])URLS[k]=URLS[k].replace(/[?&]dl=1/g,function(m){return m==='?dl=1'?'?raw=1':'&raw=1';});});
 var DATA={AUPA:[],ABS:[]};
@@ -312,8 +340,13 @@ window.saveLinks=function(){
   localStorage.setItem("dbxAupa",document.getElementById("cfgAupa").value.trim());
   localStorage.setItem("dbxAbs",document.getElementById("cfgAbs").value.trim());
   localStorage.setItem("dbxAp",document.getElementById("cfgAp").value.trim());
+  localStorage.setItem("dbxFeAupa",document.getElementById("cfgFeAupa").value.trim());
+  localStorage.setItem("dbxFeAbs",document.getElementById("cfgFeAbs").value.trim());
   URLS.AUPA=localStorage.getItem("dbxAupa");
   URLS.ABS=localStorage.getItem("dbxAbs");
+  URLS.FeAupa=localStorage.getItem("dbxFeAupa");
+  URLS.FeAbs=localStorage.getItem("dbxFeAbs");
+  feWorkbooks.AUPA=null;feWorkbooks.ABS=null;
   document.getElementById("cfgPanel").classList.remove("open");
   loadAll();
 };
@@ -521,7 +554,7 @@ async function loadOne(emp){
 
 async function loadAll(){
   document.getElementById("ldBar").style.display="flex";
-  await Promise.all([loadOne("AUPA"),loadOne("ABS"),loadAportesSummary()]);
+  await Promise.all([loadOne("AUPA"),loadOne("ABS"),loadAportesSummary(),loadFechamentoSummary()]);
   var tot=(DATA.AUPA?DATA.AUPA.length:0)+(DATA.ABS?DATA.ABS.length:0);
   document.getElementById("hRec").textContent=tot+" registros";
   var now=new Date();
@@ -637,6 +670,132 @@ async function loadDiesel(){
 }
 
 
+var MESES_ORDEM=["JAN","FEV","MAR","MAR\u00c7","ABR","MAIO","MAI","JUN","JUL","AGO","SET","OUT","NOV","DEZ"];
+var feWorkbooks={AUPA:null,ABS:null};
+async function ensureFeWorkbooks(){
+if(!feWorkbooks.AUPA&&URLS.FeAupa){
+var u=URLS.FeAupa.replace("www.dropbox.com","dl.dropboxusercontent.com");
+var r=await fetch(u);var b=await r.arrayBuffer();
+feWorkbooks.AUPA=XLSX.read(b,{type:"array"});
+}
+if(!feWorkbooks.ABS&&URLS.FeAbs){
+var u2=URLS.FeAbs.replace("www.dropbox.com","dl.dropboxusercontent.com");
+var r2=await fetch(u2);var b2=await r2.arrayBuffer();
+feWorkbooks.ABS=XLSX.read(b2,{type:"array"});
+}
+}
+function parseFechamentoSheet(raw){
+var result={rows:[],saldo:null,base:{}};
+for(var i=0;i<raw.length;i++){
+var r=raw[i];
+var col0=String(r[0]||"").trim();
+var label=String(r[1]||"").trim();
+var val=r[2];
+if(label.toLowerCase()==="saldo total"){
+result.saldo=val;
+}else if(/^[A-Z]$/.test(col0)&&label){
+result.rows.push({label:label,total:val,pct:r[3]});
+}else if(col0===""&&/km rodado/i.test(label)){
+result.base.km=val;
+}else if(col0===""&&/^litros/i.test(label)){
+result.base.litros=val;
+}else if(col0===""&&/m.dia/i.test(label)){
+result.base.media=val;
+}else if(col0===""&&/combust.vel/i.test(label)){
+result.base.precoComb=val;
+}
+}
+return result;
+}
+function renderFeTable(companyLabel,parsed){
+var html='<div class="ap-section"><h3>'+companyLabel+'</h3>';
+html+='<table class="ap-table"><thead><tr><th>Categoria</th><th>Total</th><th>%</th></tr></thead><tbody>';
+parsed.rows.forEach(function(r){
+var vn=fmtN(r.total);
+var cls=vn<0?"c-neg":"";
+var pct=(typeof r.pct==="number")?(r.pct*100).toFixed(1)+"%":"";
+html+='<tr><td>'+r.label+'</td><td class="val '+cls+'">'+fmt(r.total)+'</td><td class="obs">'+pct+'</td></tr>';
+});
+var saldoCls=fmtN(parsed.saldo)<0?"c-neg":"c-bal";
+html+='<tr class="tot"><td>Saldo Total</td><td class="val '+saldoCls+'">'+fmt(parsed.saldo)+'</td><td></td></tr>';
+html+='</tbody></table>';
+if(parsed.base&&(parsed.base.km||parsed.base.litros)){
+html+='<div class="ap-kpis" style="margin-top:10px">';
+html+='<div class="ap-kpi"><div class="val c">'+fmtN(parsed.base.km).toLocaleString("pt-BR")+' Km</div><div class="lbl">Km Rodado</div></div>';
+html+='<div class="ap-kpi"><div class="val c">'+fmtN(parsed.base.litros).toFixed(0)+' L</div><div class="lbl">Litros</div></div>';
+html+='<div class="ap-kpi"><div class="val y">'+fmtN(parsed.base.media).toFixed(2)+'</div><div class="lbl">M\u00e9dia Km/L</div></div>';
+html+='<div class="ap-kpi"><div class="val g">R$'+fmtN(parsed.base.precoComb).toFixed(2)+'</div><div class="lbl">Combust\u00edvel</div></div>';
+html+='</div>';
+}
+html+='</div>';
+return html;
+}
+window.openFechamento=function(){
+document.getElementById("feModal").classList.remove("hide");
+initFechamento();
+};
+window.closeFechamento=function(){
+document.getElementById("feModal").classList.add("hide");
+};
+async function initFechamento(){
+var el=document.getElementById("feContent");
+if(!URLS.FeAupa&&!URLS.FeAbs){
+el.innerHTML='<div class="ap-msg">\u26A0\uFE0F Configure os links de <strong>FECHAMENTO 2026 AUPA/ABS</strong> no bot\u00e3o \u2699\uFE0F</div>';
+return;
+}
+el.innerHTML='<div class="ap-msg">\u23F3 Carregando...</div>';
+try{
+await ensureFeWorkbooks();
+var sheetsSrc=(feWorkbooks.AUPA?feWorkbooks.AUPA.SheetNames:[]).concat(feWorkbooks.ABS?feWorkbooks.ABS.SheetNames:[]);
+var uniq=[];sheetsSrc.forEach(function(s){if(uniq.indexOf(s)===-1)uniq.push(s);});
+uniq.sort(function(a,b){return MESES_ORDEM.indexOf(a)-MESES_ORDEM.indexOf(b);});
+var sel=document.getElementById("feMesSel");
+var prev=sel.value;
+sel.innerHTML=uniq.map(function(m){return "<option value=\""+m+"\">"+m+"</option>";}).join("");
+var chosen=(prev&&uniq.indexOf(prev)!==-1)?prev:uniq[uniq.length-1];
+sel.value=chosen;
+loadFechamento(chosen);
+}catch(e){
+el.innerHTML='<div class="ap-msg">\u274C Erro: '+e.message+'</div>';
+}
+}
+window.loadFechamento=async function(month){
+var el=document.getElementById("feContent");
+el.innerHTML='<div class="ap-msg">\u23F3 Carregando...</div>';
+try{
+await ensureFeWorkbooks();
+var html="";
+if(feWorkbooks.AUPA&&feWorkbooks.AUPA.Sheets[month]){
+var rawA=XLSX.utils.sheet_to_json(feWorkbooks.AUPA.Sheets[month],{header:1,defval:""});
+html+=renderFeTable("AUPA",parseFechamentoSheet(rawA));
+}
+if(feWorkbooks.ABS&&feWorkbooks.ABS.Sheets[month]){
+var rawB=XLSX.utils.sheet_to_json(feWorkbooks.ABS.Sheets[month],{header:1,defval:""});
+html+=renderFeTable("ABS",parseFechamentoSheet(rawB));
+}
+el.innerHTML=html||'<div class="ap-msg">Nenhum dado para este m\u00eas.</div>';
+}catch(e){
+el.innerHTML='<div class="ap-msg">\u274C Erro: '+e.message+'</div>';
+}
+};
+async function loadFechamentoSummary(){
+try{
+if(!URLS.FeAupa&&!URLS.FeAbs)return;
+await ensureFeWorkbooks();
+function latestSaldo(wb){
+if(!wb)return null;
+var names=wb.SheetNames.slice().sort(function(a,b){return MESES_ORDEM.indexOf(a)-MESES_ORDEM.indexOf(b);});
+var last=names[names.length-1];
+var raw=XLSX.utils.sheet_to_json(wb.Sheets[last],{header:1,defval:""});
+return parseFechamentoSheet(raw).saldo;
+}
+var sa=latestSaldo(feWorkbooks.AUPA);
+var sb=latestSaldo(feWorkbooks.ABS);
+var elA=document.getElementById("cs-fe-aupa"),elB=document.getElementById("cs-fe-abs");
+if(elA){elA.textContent=sa!=null?fmtK(sa):"\u2014";elA.style.color=fmtN(sa)<0?"#f87171":"#34d399";}
+if(elB){elB.textContent=sb!=null?fmtK(sb):"\u2014";elB.style.color=fmtN(sb)<0?"#f87171":"#34d399";}
+}catch(e){console.warn("Erro fechamento summary",e.message);}
+}
 async function loadAportesSummary(){
   try{
     var url=URLS.AP;
@@ -760,6 +919,8 @@ function renderAportes(raw){
 document.getElementById("cfgAupa").value=URLS.AUPA;
 document.getElementById("cfgAbs").value=URLS.ABS;
 document.getElementById("cfgAp").value=localStorage.getItem("dbxAp")||"https://dl.dropboxusercontent.com/scl/fi/m82w5f3ois2c6frvg1olr/APORTE-E-RETIRADA-2026.xlsx?rlkey=265b8xscatoekp8xj0p7oouzf&raw=1";
+document.getElementById("cfgFeAupa").value=URLS.FeAupa;
+document.getElementById("cfgFeAbs").value=URLS.FeAbs;
 loadAll();
 })();
 </script>
