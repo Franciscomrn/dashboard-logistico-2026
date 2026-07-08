@@ -410,16 +410,16 @@ function renderDetalhe(){
   document.getElementById("hUpd2").textContent="Atualizado agora";
   document.getElementById("kMes").textContent=new Date().toLocaleString("pt-BR",{month:"long",year:"numeric"});
     document.getElementById("kPend").textContent="—";
-    if(mesKey&&fatKey){
+      if(mesKey&&fatKey){
     var bm={};
-    rows.forEach(function(r){var m=mesBucket(r[mesKey]);if(!bm[m])bm[m]=0;bm[m]+=fmtN(r[fatKey]);});
-    var ms=Object.keys(bm).sort().slice(-8);
+    rows.forEach(function(r){var v=r[mesKey];if(v===undefined||v===null||v===""){return;}var m=mesBucket(v);if(!bm[m])bm[m]=0;bm[m]+=fmtN(r[fatKey]);});
+    var ms=Object.keys(bm).filter(function(k){return /^\d{4}-\d{2}$/.test(k);}).sort().slice(-8);
     charts.fat=mkChart("cFat","bar",ms.map(mesLabel),[{label:"Faturamento",data:ms.map(function(m){return bm[m];}),backgroundColor:"#3b82f6",borderColor:"#1d4ed8",borderWidth:2,borderRadius:6,maxBarThickness:48}],{tooltipLabel:function(c){return "R$ "+c.parsed.y.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});},yFormat:function(v){return v>=1000?"R$ "+(v/1000).toFixed(0)+"k":"R$ "+v;}});
   }
   if(mesKey){
     var bmv={};
-    rows.forEach(function(r){var m=mesBucket(r[mesKey]);if(!bmv[m])bmv[m]=0;bmv[m]++;});
-    var msv=Object.keys(bmv).sort().slice(-8);
+    rows.forEach(function(r){var v=r[mesKey];if(v===undefined||v===null||v===""){return;}var m=mesBucket(v);if(!bmv[m])bmv[m]=0;bmv[m]++;});
+    var msv=Object.keys(bmv).filter(function(k){return /^\d{4}-\d{2}$/.test(k);}).sort().slice(-8);
     charts.viag=mkChart("cViag","line",msv.map(mesLabel),[{label:"Viagens",data:msv.map(function(m){return bmv[m];}),borderColor:"#10b981",backgroundColor:"#10b98140",tension:.3,fill:true,pointRadius:4,pointBackgroundColor:"#10b981",pointHoverRadius:6}],{tooltipLabel:function(c){return c.parsed.y+" viagens";}});
   }
   document.getElementById("tHead").innerHTML=keys.slice(0,8).map(function(k){return "<th>"+k+"</th>";}).join("");
