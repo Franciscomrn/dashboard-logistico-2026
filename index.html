@@ -37,6 +37,10 @@ body{background:#0a0f1e;color:#e2e8f0;min-height:100vh}
 .card.fechamento:hover{border-color:#a78bfa;box-shadow:0 16px 50px rgba(167,139,250,.25)}
 .card.fechamento .card-nm{color:#a78bfa}
 .card.fechamento .csv{color:#c4b5fd}
+.card.frete{background:linear-gradient(150deg,#1a1405,#1c1605);border-color:#eab308}
+.card.frete:hover{border-color:#fde047;box-shadow:0 16px 50px rgba(234,179,8,.25)}
+.card.frete .card-nm{color:#eab308}
+.card.frete .csv{color:#fde047}
 .fe-months{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
 .fe-mbtn{background:#0d1527;border:1px solid #1e3050;color:#94a3b8;padding:7px 16px;border-radius:20px;cursor:pointer;font-size:.78rem;font-weight:600;transition:.15s}
 .fe-mbtn:hover{border-color:#7c3aed;color:#c4b5fd}
@@ -231,6 +235,17 @@ tfoot td{padding:8px 11px;border-top:2px solid #1e3050}
 <div class="card-arrow">&#x203A;</div>
 </div>
 
+<div class="card frete" onclick="openFretes()">
+<div class="card-ico">💰</div>
+<div class="card-nm">Fretes a Receber</div>
+<p class="card-desc">Saldo a receber — AUPA e ABS<br>Por cliente</p>
+<div class="card-stats" style="grid-template-columns:repeat(2,1fr)">
+<div class="cs"><div class="csv" id="cs-fr-aupa">—</div><div class="csl">AUPA</div></div>
+<div class="cs"><div class="csv" id="cs-fr-abs">—</div><div class="csl">ABS</div></div>
+</div>
+<div class="card-arrow">›</div>
+</div>
+
 <div class="loading-bar" id="ldBar"><div class="spin"></div>Carregando dados...</div>
 </div>
 <button class="cfg-toggle" onclick="toggleCfg()">&#x2699;</button>
@@ -246,6 +261,8 @@ tfoot td{padding:8px 11px;border-top:2px solid #1e3050}
 <input type="text" id="cfgFeAupa" placeholder="https://www.dropbox.com/...?dl=1">
 <label>FECHAMENTO 2026 ABS</label>
 <input type="text" id="cfgFeAbs" placeholder="https://www.dropbox.com/...?dl=1">
+<label>FRETES A RECEBER (SALDOS)</label>
+<input type="text" id="cfgFr" placeholder="https://www.dropbox.com/...?dl=1">
 <div class="cfg-btns">
 <button class="cfg-save" onclick="saveLinks()">Salvar</button>
 <button class="cfg-cancel" onclick="toggleCfg()">Cancelar</button>
@@ -299,9 +316,17 @@ tfoot td{padding:8px 11px;border-top:2px solid #1e3050}
 <div id="feContent" class="fe-grid"><div class="ap-msg">&#x23F3; Carregando...</div></div>
 </div>
 </div>
+<div class="modal-ov hide" id="frModal" onclick="if(event.target===this)closeFretes()">
+<div class="modal-bx">
+<button class="modal-x" onclick="closeFretes()">✕</button>
+<div class="modal-ttl">💰 Fretes a Receber — AUPA e ABS</div>
+<div class="modal-sub">Saldo a receber por cliente/transportadora</div>
+<div id="frContent" class="fe-grid"><div class="ap-msg">⏳ Carregando...</div></div>
+</div>
+</div>
 <script>
 (function(){
-var URLS={AUPA:localStorage.getItem("dbxAupa")||"https://dl.dropboxusercontent.com/scl/fi/k0sohs0mwjz6z9l2141c7/LOGISTICO-2026-AUPA.xlsx?rlkey=mxqn0itczv7scf6kgsmqt3y4w&raw=1",ABS:localStorage.getItem("dbxAbs")||"https://dl.dropboxusercontent.com/scl/fi/gnwwx4722tmrnj3ztl2ik/LOGISTICA-2026-ABS.xlsx?rlkey=0aavwu14hh8ly182vjylnsdy8&raw=1",AP:localStorage.getItem("dbxAp")||"https://dl.dropboxusercontent.com/scl/fi/m82w5f3ois2c6frvg1olr/APORTE-E-RETIRADA-2026.xlsx?rlkey=265b8xscatoekp8xj0p7oouzf&raw=1",FeAupa:localStorage.getItem("dbxFeAupa")||"https://dl.dropboxusercontent.com/scl/fi/am5clt45xtsczwvoai9ur/FECHAMENTO-2026-AUPA.xlsx?rlkey=y2y3p0fyuv7svjttf3qi0h0gk&st=4zbb0p9p&raw=1",FeAbs:localStorage.getItem("dbxFeAbs")||"https://dl.dropboxusercontent.com/scl/fi/f046xvtyjpauu5dccq0fx/FECHAMENTO-2026-ABS.xlsx?rlkey=bwiq1sawnzq7l2e9yrnuun8jc&st=qoxu2l88&raw=1"};
+var URLS={AUPA:localStorage.getItem("dbxAupa")||"https://dl.dropboxusercontent.com/scl/fi/k0sohs0mwjz6z9l2141c7/LOGISTICO-2026-AUPA.xlsx?rlkey=mxqn0itczv7scf6kgsmqt3y4w&raw=1",ABS:localStorage.getItem("dbxAbs")||"https://dl.dropboxusercontent.com/scl/fi/gnwwx4722tmrnj3ztl2ik/LOGISTICA-2026-ABS.xlsx?rlkey=0aavwu14hh8ly182vjylnsdy8&raw=1",AP:localStorage.getItem("dbxAp")||"https://dl.dropboxusercontent.com/scl/fi/m82w5f3ois2c6frvg1olr/APORTE-E-RETIRADA-2026.xlsx?rlkey=265b8xscatoekp8xj0p7oouzf&raw=1",FeAupa:localStorage.getItem("dbxFeAupa")||"https://dl.dropboxusercontent.com/scl/fi/am5clt45xtsczwvoai9ur/FECHAMENTO-2026-AUPA.xlsx?rlkey=y2y3p0fyuv7svjttf3qi0h0gk&st=4zbb0p9p&raw=1",FeAbs:localStorage.getItem("dbxFeAbs")||"https://dl.dropboxusercontent.com/scl/fi/f046xvtyjpauu5dccq0fx/FECHAMENTO-2026-ABS.xlsx?rlkey=bwiq1sawnzq7l2e9yrnuun8jc&st=qoxu2l88&raw=1",FR:localStorage.getItem("dbxFr")||"https://dl.dropboxusercontent.com/scl/fi/l5bnxv964akvm97ogkr4g/SALDOS-ATUALIZADOS.xlsx?rlkey=4a2yz6taia9stfk7vae7d8xkl&st=dsyd961b&raw=1"};
 // Normalize Dropbox URLs: use raw=1 to bypass CDN cache
 Object.keys(URLS).forEach(function(k){if(URLS[k])URLS[k]=URLS[k].replace(/[?&]dl=1/g,function(m){return m==='?dl=1'?'?raw=1':'&raw=1';});});
 var DATA={AUPA:[],ABS:[]};
@@ -370,6 +395,9 @@ window.saveLinks=function(){
   URLS.ABS=localStorage.getItem("dbxAbs");
   URLS.FeAupa=localStorage.getItem("dbxFeAupa");
   URLS.FeAbs=localStorage.getItem("dbxFeAbs");
+  localStorage.setItem("dbxFr",document.getElementById("cfgFr").value.trim());
+  URLS.FR=localStorage.getItem("dbxFr");
+  frWorkbook=null;
   feWorkbooks.AUPA=null;feWorkbooks.ABS=null;
   document.getElementById("cfgPanel").classList.remove("open");
   loadAll();
@@ -578,7 +606,7 @@ async function loadOne(emp){
 
 async function loadAll(){
   document.getElementById("ldBar").style.display="flex";
-  await Promise.all([loadOne("AUPA"),loadOne("ABS"),loadAportesSummary(),loadFechamentoSummary()]);
+  await Promise.all([loadOne("AUPA"),loadOne("ABS"),loadAportesSummary(),loadFechamentoSummary(),loadFretesSummary()]);
   var tot=(DATA.AUPA?DATA.AUPA.length:0)+(DATA.ABS?DATA.ABS.length:0);
   document.getElementById("hRec").textContent=tot+" registros";
   var now=new Date();
@@ -696,6 +724,7 @@ async function loadDiesel(){
 
 var MESES_ORDEM=["JAN","FEV","MAR","MAR\u00c7","ABR","MAIO","MAI","JUN","JUL","AGO","SET","OUT","NOV","DEZ"];
 var feWorkbooks={AUPA:null,ABS:null};
+var frWorkbook=null;
 async function ensureFeWorkbooks(){
 if(!feWorkbooks.AUPA&&URLS.FeAupa){
 var u=URLS.FeAupa.replace("www.dropbox.com","dl.dropboxusercontent.com");
@@ -810,6 +839,68 @@ el.innerHTML=html||'<div class="ap-msg">Nenhum dado para este m\u00eas.</div>';
 el.innerHTML='<div class="ap-msg">\u274C Erro: '+e.message+'</div>';
 }
 };
+async function ensureFrWorkbook(){
+  if(frWorkbook) return frWorkbook;
+  if(!URLS.FR) return null;
+  var u=URLS.FR.replace("www.dropbox.com","dl.dropboxusercontent.com");
+  var r=await fetch(u);
+  var ab=await r.arrayBuffer();
+  frWorkbook=XLSX.read(ab,{type:"array"});
+  return frWorkbook;
+}
+function parseFretesSheet(rows){
+  var result={AUPA:{rows:[],saldo:0},ABS:{rows:[],saldo:0}};
+  var current=null;
+  rows.forEach(function(r){
+    var a=(r[0]||"").toString().trim();
+    var b=r[1];
+    if(!a)return;
+    var up=a.toUpperCase();
+    if(up==="AUPA"||up==="ABS"){ current=up; return; }
+    if(current&&result[current]){
+      var val=fmtN(b);
+      result[current].rows.push({label:a,total:val});
+      result[current].saldo+=val;
+    }
+  });
+  return result;
+}
+async function initFretes(){
+  var el=document.getElementById("frContent");
+  if(!URLS.FR){
+    el.innerHTML='<div class="ap-msg">⚠️ Configure o link de <strong>SALDOS ATUALIZADOS (Fretes a Receber)</strong> no botão ⚙️</div>';
+    return;
+  }
+  el.innerHTML='<div class="ap-msg">⏳ Carregando...</div>';
+  try{
+    var wb=await ensureFrWorkbook();
+    var sheetName=wb.SheetNames.find(function(n){return /transport/i.test(n);})||wb.SheetNames[0];
+    var raw=XLSX.utils.sheet_to_json(wb.Sheets[sheetName],{header:1,defval:""});
+    var parsed=parseFretesSheet(raw);
+    var html=renderFeCol("AUPA",parsed.AUPA,"fe-aupa")+renderFeCol("ABS",parsed.ABS,"fe-abs");
+    el.innerHTML=html||'<div class="ap-msg">Nenhum dado encontrado.</div>';
+  }catch(e){
+    el.innerHTML='<div class="ap-msg">❌ Erro: '+e.message+'</div>';
+  }
+}
+window.openFretes=function(){
+  document.getElementById("frModal").classList.remove("hide");
+  initFretes();
+};
+window.closeFretes=function(){
+  document.getElementById("frModal").classList.add("hide");
+};
+async function loadFretesSummary(){
+  try{
+    if(!URLS.FR)return;
+    var wb=await ensureFrWorkbook();
+    var sheetName=wb.SheetNames.find(function(n){return /transport/i.test(n);})||wb.SheetNames[0];
+    var raw=XLSX.utils.sheet_to_json(wb.Sheets[sheetName],{header:1,defval:""});
+    var parsed=parseFretesSheet(raw);
+    document.getElementById("cs-fr-aupa").textContent=fmt(parsed.AUPA.saldo);
+    document.getElementById("cs-fr-abs").textContent=fmt(parsed.ABS.saldo);
+  }catch(e){}
+}
 async function loadFechamentoSummary(){
 try{
 if(!URLS.FeAupa&&!URLS.FeAbs)return;
@@ -953,6 +1044,7 @@ document.getElementById("cfgAbs").value=URLS.ABS;
 document.getElementById("cfgAp").value=localStorage.getItem("dbxAp")||"https://dl.dropboxusercontent.com/scl/fi/m82w5f3ois2c6frvg1olr/APORTE-E-RETIRADA-2026.xlsx?rlkey=265b8xscatoekp8xj0p7oouzf&raw=1";
 document.getElementById("cfgFeAupa").value=URLS.FeAupa;
 document.getElementById("cfgFeAbs").value=URLS.FeAbs;
+  document.getElementById("cfgFr").value=URLS.FR||"";
 loadAll();
 })();
 </script>
