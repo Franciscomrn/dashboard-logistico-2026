@@ -18,7 +18,9 @@ body{background:#0a0f1e;color:#e2e8f0;min-height:100vh}
 .home-eyebrow{font-size:.8rem;color:#64748b;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
 .home-title{font-size:1.65rem;font-weight:800;margin-bottom:12px}
 .home-sub{font-size:.85rem;color:#475569;margin-bottom:40px}
-.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;width:100%;max-width:560px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;width:100%;max-width:980px}
+@media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr);max-width:640px}}
+@media(max-width:560px){.cards{grid-template-columns:1fr;max-width:400px}}
 .card{background:#0d1527;border:1px solid #1e3050;border-radius:16px;padding:22px 20px;width:100%;cursor:pointer;position:relative;transition:.2s}
 .card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,.4)}
 .card.aupa{background:linear-gradient(150deg,#0a1f18,#0b2016);border-color:#059669}
@@ -189,6 +191,17 @@ tfoot td{padding:8px 11px;border-top:2px solid #1e3050}
 <h2 class="home-title">Transportadoras</h2>
 <p class="home-sub">Clique num card para ver o dashboard detalhado</p>
 <div class="cards">
+<div class="card frete" onclick="openFretes()">
+<div class="card-ico">💰</div>
+<div class="card-nm">Fretes a Receber</div>
+<p class="card-desc">Saldo a receber — AUPA e ABS<br>Por cliente</p>
+<div class="card-stats" style="grid-template-columns:repeat(2,1fr)">
+<div class="cs"><div class="csv" id="cs-fr-aupa">—</div><div class="csl">AUPA</div></div>
+<div class="cs"><div class="csv" id="cs-fr-abs">—</div><div class="csl">ABS</div></div>
+</div>
+<div class="card-arrow">›</div>
+</div>
+
 <div class="card aupa" onclick="showEmpresa('AUPA')">
 <div class="card-ico">&#x1F69C;</div>
 <div class="card-nm">Logistica Aupa</div>
@@ -200,6 +213,7 @@ tfoot td{padding:8px 11px;border-top:2px solid #1e3050}
 </div>
 <div class="card-arrow">&#x203A;</div>
 </div>
+
 <div class="card abs" onclick="showEmpresa('ABS')">
 <div class="card-ico">&#x1F68C;</div>
 <div class="card-nm">Logistica ABS</div>
@@ -211,6 +225,7 @@ tfoot td{padding:8px 11px;border-top:2px solid #1e3050}
 </div>
 <div class="card-arrow">&#x203A;</div>
 </div>
+
 <div class="card aportes" onclick="openAportes()">
 <div class="card-ico">&#x1F3E6;</div>
 <div class="card-nm">Aportes</div>
@@ -223,7 +238,6 @@ tfoot td{padding:8px 11px;border-top:2px solid #1e3050}
 <div class="card-arrow">&#x203A;</div>
 </div>
 
-
 <div class="card fechamento" onclick="openFechamento()">
 <div class="card-ico">&#x1F4CB;</div>
 <div class="card-nm">Fechamento</div>
@@ -233,17 +247,6 @@ tfoot td{padding:8px 11px;border-top:2px solid #1e3050}
 <div class="cs"><div class="csv" id="cs-fe-abs">&#x2014;</div><div class="csl">Saldo ABS</div></div>
 </div>
 <div class="card-arrow">&#x203A;</div>
-</div>
-
-<div class="card frete" onclick="openFretes()">
-<div class="card-ico">💰</div>
-<div class="card-nm">Fretes a Receber</div>
-<p class="card-desc">Saldo a receber — AUPA e ABS<br>Por cliente</p>
-<div class="card-stats" style="grid-template-columns:repeat(2,1fr)">
-<div class="cs"><div class="csv" id="cs-fr-aupa">—</div><div class="csl">AUPA</div></div>
-<div class="cs"><div class="csv" id="cs-fr-abs">—</div><div class="csl">ABS</div></div>
-</div>
-<div class="card-arrow">›</div>
 </div>
 
 <div class="loading-bar" id="ldBar"><div class="spin"></div>Carregando dados...</div>
