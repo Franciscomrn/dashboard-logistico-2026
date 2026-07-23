@@ -50,6 +50,16 @@ body{background:#0a0f1e;color:#e2e8f0;min-height:100vh}
 .st-rodando{background:#05966930;color:#34d399}
 .st-manutencao{background:#d9770630;color:#fbbf24}
 .st-parado{background:#dc262630;color:#f87171}
+.frota-summary{margin-top:8px;display:flex;flex-direction:column;gap:5px}
+.frota-sum-row{font-size:.72rem;color:#94a3b8;line-height:1.4}
+.frota-sum-row b{color:#67e8f9;font-size:.74rem;margin-right:4px}
+.st-r{color:#34d399;font-weight:700}
+.st-m{color:#fbbf24;font-weight:700}
+.st-p{color:#f87171;font-weight:700}
+.frota-table{table-layout:fixed}
+.frota-table td{word-wrap:break-word;overflow-wrap:break-word}
+.frota-table td.obs-cell{cursor:pointer;text-decoration:underline dotted;text-decoration-color:#334155}
+.frota-table td.obs-cell:hover{color:#e2e8f0}
 .card.frete{background:linear-gradient(150deg,#1a1405,#1c1605);border-color:#eab308}
 .card.frete:hover{border-color:#fde047;box-shadow:0 16px 50px rgba(234,179,8,.25)}
 .card.frete .card-nm{color:#eab308}
@@ -205,9 +215,9 @@ tfoot td{padding:8px 11px;border-top:2px solid #1e3050}
 <div class="card-ico">🚚</div>
 <div class="card-nm">Frota em Tempo Real</div>
 <p class="card-desc">Status da frota — AUPA e ABS<br>Motoristas, veículos e situação</p>
-<div class="card-stats" style="grid-template-columns:repeat(2,1fr)">
-<div class="cs"><div class="csv" id="cs-frota-abs">—</div><div class="csl">ABS Rodando</div></div>
-<div class="cs"><div class="csv" id="cs-frota-aupa">—</div><div class="csl">AUPA Rodando</div></div>
+<div class="frota-summary">
+<div class="frota-sum-row"><b>ABS</b><span id="fs-abs">Rodando <span class="st-r">—</span> · Manut <span class="st-m">—</span> · Parado <span class="st-p">—</span></span></div>
+<div class="frota-sum-row"><b>AUPA</b><span id="fs-aupa">Rodando <span class="st-r">—</span> · Manut <span class="st-m">—</span> · Parado <span class="st-p">—</span></span></div>
 </div>
 <div class="card-arrow">›</div>
 </div>
@@ -357,6 +367,13 @@ tfoot td{padding:8px 11px;border-top:2px solid #1e3050}
 <div class="modal-ttl">🚚 Frota em Tempo Real — AUPA e ABS</div>
 <div class="modal-sub">Status atual de motoristas e veículos</div>
 <div id="frotaContent" class="fe-grid"><div class="ap-msg">⏳ Carregando...</div></div>
+</div>
+</div>
+<div class="modal-ov hide" id="obsModal" onclick="if(event.target===this)closeObs()">
+<div class="modal-bx" style="width:min(480px,92vw);padding:22px 24px">
+<button class="modal-x" onclick="closeObs()">✕</button>
+<div class="modal-ttl" id="obsTtl" style="font-size:1rem"></div>
+<div class="modal-sub" id="obsSub" style="font-size:.85rem;color:#e2e8f0;white-space:pre-wrap;line-height:1.55;margin-top:6px"></div>
 </div>
 </div>
 <script>
@@ -969,18 +986,24 @@ function parseFrotaSheet(rows){
 }
 function renderFrotaCol(label,items,cls){
   var html='<div class="fe-col '+cls+'"><h3>'+label+'</h3>';
-  html+='<table class="frota-table"><tbody>';
+  html+='<table class="frota-table"><colgroup><col style="width:20%"><col style="width:16%"><col style="width:15%"><col style="width:11%"><col style="width:38%"></colgroup><tbody>';
   html+='<tr class="ft-top"><td>Motorista</td><td>Veículo</td><td>Status</td><td>Prazo</td><td>Obs</td></tr>';
   items.forEach(function(it){
     var c2=statusClass(it.status);
-    html+='<tr><td>'+it.motorista+'</td><td>'+it.veiculo+'</td><td><span class="st-badge '+c2+'">'+it.status+'</span></td><td>'+it.prazo+'</td><td>'+it.obs+'</td></tr>';
+    var obsText=it.obs||'—';
+    function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+    html+='<tr><td>'+it.motorista+'</td><td>'+it.veiculo+'</td><td><span class="st-badge '+c2+'">'+it.status+'</span></td><td>'+it.prazo+'</td><td class="obs-cell" data-obs="'+esc(obsText)+'" data-mot="'+esc(it.motorista)+'" data-vec="'+esc(it.veiculo)+'" title="Clique para ver observação completa">'+obsText+'</td></tr>';
   });
   html+='</tbody></table></div>';
   return html;
 }
 async function initFrota(){
   var el=document.getElementById("frotaContent");
-  if(!URLS.FROTA){
+el.onclick=function(e){
+    var td=e.target.closest('.obs-cell');
+    if(td){ openObs(td.getAttribute('data-mot'),td.getAttribute('data-vec'),td.getAttribute('data-obs')); }
+  };
+    if(!URLS.FROTA){
     el.innerHTML='<div class="ap-msg">⚠️ Configure o link de <strong>ANDAMENTO DA FROTA</strong> no botão ⚙️</div>';
     return;
   }
@@ -1011,14 +1034,27 @@ async function loadFrotaSummary(){
     var raw=XLSX.utils.sheet_to_json(wb.Sheets[sheetName],{header:1,defval:""});
     var parsed=parseFrotaSheet(raw);
     function summary(items){
-      var total=items.length;
-      var rodando=items.filter(function(it){return statusClass(it.status)==="st-rodando";}).length;
-      return rodando+"/"+total;
+      var rodando=0,manut=0,parado=0;
+      items.forEach(function(it){
+        var c=statusClass(it.status);
+        if(c==="st-rodando")rodando++;
+        else if(c==="st-manutencao")manut++;
+        else if(c==="st-parado")parado++;
+      });
+      return 'Rodando <span class="st-r">'+rodando+'</span> · Manut <span class="st-m">'+manut+'</span> · Parado <span class="st-p">'+parado+'</span>';
     }
-    document.getElementById("cs-frota-abs").textContent=summary(parsed.ABS);
-    document.getElementById("cs-frota-aupa").textContent=summary(parsed.AUPA);
+    document.getElementById("fs-abs").innerHTML=summary(parsed.ABS);
+    document.getElementById("fs-aupa").innerHTML=summary(parsed.AUPA);
   }catch(e){}
+}function openObs(mot,vec,obs){
+  document.getElementById("obsTtl").textContent=(mot||'')+' — '+(vec||'');
+  document.getElementById("obsSub").textContent=(obs&&obs!=='—')?obs:'(sem observação registrada)';
+  document.getElementById("obsModal").classList.remove("hide");
 }
+function closeObs(){
+  document.getElementById("obsModal").classList.add("hide");
+}
+
 async function loadFretesSummary(){
   try{
     if(!URLS.FR)return;
